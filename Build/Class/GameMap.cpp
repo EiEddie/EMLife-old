@@ -44,8 +44,7 @@ void GameMap::MovePoint(
 		int newPoint[2],
 		const int oldPoint[2],
 		const int dir,
-		int
-		stepLength
+		int stepLength
 ) const {
 	/*移动点*/
 	const int step[4][2] = {
@@ -54,8 +53,8 @@ void GameMap::MovePoint(
 			{0,  -1},//左
 			{0,  1}    //右
 	};
-	newPoint[0] = oldPoint[0] + step[dir][0] * 2;
-	newPoint[1] = oldPoint[1] + step[dir][1] * 2;
+	newPoint[0] = oldPoint[0] + step[dir][0] * stepLength;
+	newPoint[1] = oldPoint[1] + step[dir][1] * stepLength;
 	if(
 			newPoint[0] > 0 && newPoint[0] < yLength
 			&& newPoint[1] > 0 && newPoint[1] < xLength
