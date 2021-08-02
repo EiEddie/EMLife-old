@@ -115,6 +115,7 @@ SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface *font, SDL_Rect *cod) {
 	 * 将94个基本可见ASCII字符(\u0021: '!' 到 \u007e: '~', 不包括Space(空格))
 	 * 从外部加载的Font图片中剪裁为16*16的单元
 	 */
+	
 	//被裁剪下来的单个字符
 	SDL_Surface *chara = SDL_CreateRGBSurface(
 			SDL_SWSURFACE,

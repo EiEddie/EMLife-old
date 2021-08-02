@@ -44,9 +44,9 @@ bool Game::CheckKeyEvent(const SDL_Keycode &key) {
 }
 
 void Game::EventLoop() {
-	/*是否退出*/
+	//是否退出
 	bool ifQuit = false;
-	/*事件*/
+	//事件
 	SDL_Event drawEvent;
 	
 	while(!ifQuit) {

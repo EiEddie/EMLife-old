@@ -22,6 +22,7 @@ GameMap::~GameMap() {
 
 void GameMap::JoinVector(std::vector<Cod> &vectorName, const int point[2]) {
 	/*将数组point加入vectorName中*/
+	
 	Cod k{};
 	k.y = point[0];
 	k.x = point[1];
@@ -30,7 +31,8 @@ void GameMap::JoinVector(std::vector<Cod> &vectorName, const int point[2]) {
 
 bool GameMap::SelectVector(const std::vector<Cod> &vectorName, const int point[2]) {
 	/*检测数组point是否存在于vectorName中*/
-	for(auto i : vectorName) {
+	
+	for(auto i: vectorName) {
 		if(
 				i.y == point[0]
 				&& i.x == point[1]
@@ -48,10 +50,10 @@ void GameMap::MovePoint(
 ) const {
 	/*移动点*/
 	const int step[4][2] = {
-			{-1, 0},//上
-			{1,  0},    //下
-			{0,  -1},//左
-			{0,  1}    //右
+			{-1, 0 },//上
+			{1 , 0 },//下
+			{0 , -1},//左
+			{0 , 1 } //右
 	};
 	newPoint[0] = oldPoint[0] + step[dir][0] * stepLength;
 	newPoint[1] = oldPoint[1] + step[dir][1] * stepLength;
@@ -66,12 +68,13 @@ void GameMap::MovePoint(
 
 void GameMap::GetMaze(int *maze[]) {
 	/*生成迷宫*/
+	
+	//初始化迷宫, 将迷宫每个点设置为0且加入起点, 起点恒为(1, 1)
 	std::vector<Cod> wallPoint;
 	std::vector<Cod> roadPoint;
 	maze[1][1] = 1;
 	int cdBegin[2] = {1, 1};
 	JoinVector(wallPoint, cdBegin);
-	/*初始化迷宫, 将迷宫每个点设置为0且加入起点, 起点恒为(1, 1)*/
 	
 	const int order[24][4] = {
 			{0, 1, 2, 3},
@@ -100,6 +103,7 @@ void GameMap::GetMaze(int *maze[]) {
 			{3, 2, 0, 1}
 	};
 	
+	//在wallPoint中随随机选取一点作为cd1, 并删除
 	int cd1[2];
 	int cd2[2];
 	int temp[2];
@@ -109,8 +113,8 @@ void GameMap::GetMaze(int *maze[]) {
 		cd1[0] = wallPoint[numRandom].y;
 		cd1[1] = wallPoint[numRandom].x;
 		wallPoint.erase(wallPoint.begin() + numRandom);
-		//在wallPoint中随随机选取一点作为cd1, 并删除
 		
+		//将cd1与其四周随机一个路点cd2打通
 		maze[cd1[0]][cd1[1]] = 1;
 		numRandom = std::rand() % 24;
 		for(int i = 0; i < 4; i++) {
@@ -121,8 +125,8 @@ void GameMap::GetMaze(int *maze[]) {
 			}
 		}
 		JoinVector(roadPoint, cd1);
-		//将cd1与其四周随机一个路点cd2打通
 		
+		//加入cd1周围不在wallPoint中的墙点
 		for(int i = 0; i < 4; i++) {
 			MovePoint(temp, cd1, i);
 			if(
@@ -132,12 +136,13 @@ void GameMap::GetMaze(int *maze[]) {
 				JoinVector(wallPoint, temp);
 			}
 		}
-		//加入cd1周围不在wallPoint中的墙点
 	}
 }
 
 void GameMap::RetouchMaze(int mazeEnd[2], int *maze[]) {
 	/*修饰迷宫, 添加coin,star并指定终点*/
+	
+	//添加除入口外所有路点至roadPoint
 	std::vector<Cod> roadPoint;
 	int temp[2];
 	for(int i = 0; i < yLength; i++) {
@@ -148,8 +153,9 @@ void GameMap::RetouchMaze(int mazeEnd[2], int *maze[]) {
 				JoinVector(roadPoint, temp);
 			}
 		}
-	} /*添加除入口外所有路点至roadPoint*/
+	}
 	
+	//添加指定数目的coin与star, 设定终点
 	std::srand(time(nullptr));
 	for(int i = 0; i <= mapCoin + mapStar + mapDemon; i++) {
 		int numRand = std::rand() % roadPoint.size();
@@ -165,5 +171,5 @@ void GameMap::RetouchMaze(int mazeEnd[2], int *maze[]) {
 			maze[roadPoint[numRand].y][roadPoint[numRand].x] = 4;
 		}
 		roadPoint.erase(roadPoint.begin() + numRand);
-	} /*添加指定数目的coin与star, 设定终点*/
+	}
 }

@@ -8,6 +8,7 @@ GameFge::GameFge() :
 
 void GameFge::FgeMove(SDL_Keycode dir) {
 	/*移动人物*/
+	
 	switch(dir) {
 		case SDLK_UP:
 			if(mapMaze[fgeCod.y - 1][fgeCod.x] != 0) {
@@ -34,6 +35,7 @@ void GameFge::FgeMove(SDL_Keycode dir) {
 
 void GameFge::FgeEat() {
 	/*获取战利品*/
+	
 	switch(mapMaze[fgeCod.y][fgeCod.x]) {
 		case 2:
 			mapMaze[fgeCod.y][fgeCod.x] = 1;
@@ -47,6 +49,7 @@ void GameFge::FgeEat() {
 
 void GameFge::FgeAttack() {
 	/*人物攻击*/
+	
 	bool n = false;
 	if(fgeCoin >= 5) {
 		for(int i = fgeCod.y - 2; i <= fgeCod.y + 2; i++) {
@@ -65,6 +68,7 @@ void GameFge::FgeAttack() {
 
 void GameFge::FgeBehave(SDL_Keycode dir) {
 	/*人物行为*/
+	
 	if(dir == SDLK_e) {
 		FgeAttack();
 		return;
