@@ -24,16 +24,16 @@ link_directories(Lib/SDL2_image/lib)
 #添加编译文件
 add_executable(EMLife
 		#图标
-		Build/Icon/icon.o
+		Src/Icon/icon.o
 
-		Build/headEML.h
-		Build/main.cpp
-		Build/Class/GameFge.cpp
-		Build/Class/GameMap.cpp
-		Build/Class/GameDrawSet.cpp
-		Build/Class/GameDrawWord.cpp
-		Build/Class/GameDraw.cpp
-		Build/Class/Game.cpp)
+		Src/headEML.h
+		Src/main.cpp
+		Src/Class/GameFge.cpp
+		Src/Class/GameMap.cpp
+		Src/Class/GameDrawSet.cpp
+		Src/Class/GameDrawWord.cpp
+		Src/Class/GameDraw.cpp
+		Src/Class/Game.cpp)
 
 #将第三方库链接在一起
 target_link_libraries(EMLife
