@@ -16,27 +16,26 @@ struct Cod {
 class GameMap {
 private:
 	/*加入点*/
-	void JoinVector(std::vector<Cod> &vectorName, const int point[2]);
+	void JoinVector(std::vector<Cod> &vectorName, const Cod &point);
 	
 	/*查找点*/
-	bool SelectVector(const std::vector<Cod> &vectorName, const int point[2]);
+	bool SelectVector(const std::vector<Cod> &vectorName, const Cod &point);
 	
 	/*移动点*/
-	void MovePoint(
-			int newPoint[2],
-			const int oldPoint[2],
+	Cod MovePoint(
+			const Cod &oldPoint,
 			int dir,
 			int stepLength = 2
 	) const;
 	
 	/*生成迷宫*/
-	void GetMaze(int *maze[]);
+	void GetMaze(int **maze);
 	
 	/*
 	 * 修饰迷宫:
 	 * 添加元素(Coin, Star, Demon)并指定终点
 	 */
-	void RetouchMaze(int mazeEnd[2], int *maze[]);
+	void RetouchMaze(int **maze);
 
 protected:
 	/*金币数量*/
@@ -55,7 +54,7 @@ public:
 	/*迷宫地图*/
 	int **mapMaze;
 	/*迷宫终点*/
-	int mapEnd[2] = {0};
+	Cod mapEnd{};
 	
 	GameMap();
 	~GameMap();

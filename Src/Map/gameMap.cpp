@@ -12,7 +12,7 @@ GameMap::GameMap() :
 		for(int j = 0; j < xLength; j++) mapMaze[i][j] = 0;
 	}
 	GetMaze(mapMaze);
-	RetouchMaze(mapEnd, mapMaze);
+	RetouchMaze(mapMaze);
 }
 
 GameMap::~GameMap() {
@@ -20,31 +20,27 @@ GameMap::~GameMap() {
 	delete[] mapMaze;
 }
 
-void GameMap::JoinVector(std::vector<Cod> &vectorName, const int point[2]) {
+void GameMap::JoinVector(std::vector<Cod> &vectorName, const Cod &point) {
 	/*将数组point加入vectorName中*/
 	
-	Cod k{};
-	k.y = point[0];
-	k.x = point[1];
-	vectorName.push_back(k);
+	vectorName.push_back(point);
 }
 
-bool GameMap::SelectVector(const std::vector<Cod> &vectorName, const int point[2]) {
+bool GameMap::SelectVector(const std::vector<Cod> &vectorName, const Cod &point) {
 	/*检测数组point是否存在于vectorName中*/
 	
 	for(auto i: vectorName) {
 		if(
-				i.y == point[0]
-				&& i.x == point[1]
+				i.y == point.y
+				&& i.x == point.x
 				)
 			return true;
 	}
 	return false;
 }
 
-void GameMap::MovePoint(
-		int newPoint[2],
-		const int oldPoint[2],
+Cod GameMap::MovePoint(
+		const Cod &oldPoint,
 		const int dir,
 		int stepLength
 ) const {
@@ -55,15 +51,16 @@ void GameMap::MovePoint(
 			{0 , -1},//左
 			{0 , 1 } //右
 	};
-	newPoint[0] = oldPoint[0] + step[dir][0] * stepLength;
-	newPoint[1] = oldPoint[1] + step[dir][1] * stepLength;
+	Cod newPoint = {
+			oldPoint.y + step[dir][0] * stepLength,
+			oldPoint.x + step[dir][1] * stepLength
+	};
 	if(
-			newPoint[0] > 0 && newPoint[0] < yLength
-			&& newPoint[1] > 0 && newPoint[1] < xLength
+			newPoint.y > 0 && newPoint.y < yLength
+			&& newPoint.x > 0 && newPoint.x < xLength
 			)
-		return;
-	newPoint[0] = oldPoint[0];
-	newPoint[1] = oldPoint[1];
+		return newPoint;
+	else return oldPoint;
 }
 
 void GameMap::GetMaze(int *maze[]) {
@@ -73,7 +70,7 @@ void GameMap::GetMaze(int *maze[]) {
 	std::vector<Cod> wallPoint;
 	std::vector<Cod> roadPoint;
 	maze[1][1] = 1;
-	int cdBegin[2] = {1, 1};
+	Cod cdBegin = {1, 1};
 	JoinVector(wallPoint, cdBegin);
 	
 	const int order[24][4] = {
@@ -104,23 +101,22 @@ void GameMap::GetMaze(int *maze[]) {
 	};
 	
 	//在wallPoint中随随机选取一点作为cd1, 并删除
-	int cd1[2];
-	int cd2[2];
-	int temp[2];
+	Cod cd1{};
+	Cod cd2{};
+	Cod temp{};
 	std::srand(time(nullptr));
 	while(!wallPoint.empty()) {
 		int numRandom = std::rand() % (wallPoint.size());
-		cd1[0] = wallPoint[numRandom].y;
-		cd1[1] = wallPoint[numRandom].x;
+		cd1 = {wallPoint[numRandom].y, wallPoint[numRandom].x};
 		wallPoint.erase(wallPoint.begin() + numRandom);
 		
 		//将cd1与其四周随机一个路点cd2打通
-		maze[cd1[0]][cd1[1]] = 1;
+		maze[cd1.y][cd1.x] = 1;
 		numRandom = std::rand() % 24;
 		for(int i = 0; i < 4; i++) {
-			MovePoint(cd2, cd1, order[numRandom][i]);
+			cd2 = MovePoint(cd1, order[numRandom][i]);
 			if(SelectVector(roadPoint, cd2)) {
-				maze[(cd2[0] + cd1[0]) / 2][(cd2[1] + cd1[1]) / 2] = 1;
+				maze[(cd2.y + cd1.y) / 2][(cd2.x + cd1.x) / 2] = 1;
 				break;
 			}
 		}
@@ -128,9 +124,9 @@ void GameMap::GetMaze(int *maze[]) {
 		
 		//加入cd1周围不在wallPoint中的墙点
 		for(int i = 0; i < 4; i++) {
-			MovePoint(temp, cd1, i);
+			temp = MovePoint(cd1, i);
 			if(
-					maze[temp[0]][temp[1]] == 0
+					maze[temp.y][temp.x] == 0
 					&& !SelectVector(wallPoint, temp)
 					) {
 				JoinVector(wallPoint, temp);
@@ -139,17 +135,16 @@ void GameMap::GetMaze(int *maze[]) {
 	}
 }
 
-void GameMap::RetouchMaze(int mazeEnd[2], int *maze[]) {
+void GameMap::RetouchMaze(int **maze) {
 	/*修饰迷宫, 添加coin,star并指定终点*/
 	
 	//添加除入口外所有路点至roadPoint
 	std::vector<Cod> roadPoint;
-	int temp[2];
+	Cod temp;
 	for(int i = 0; i < yLength; i++) {
 		for(int j = 0; j < xLength; j++) {
 			if(maze[i][j] != 0 && i != 1 && j != 1) {
-				temp[0] = i;
-				temp[1] = j;
+				temp = {i, j};
 				JoinVector(roadPoint, temp);
 			}
 		}
@@ -160,8 +155,7 @@ void GameMap::RetouchMaze(int mazeEnd[2], int *maze[]) {
 	for(int i = 0; i <= mapCoin + mapStar + mapDemon; i++) {
 		int numRand = std::rand() % roadPoint.size();
 		if(!i) {
-			mazeEnd[0] = roadPoint[numRand].y;
-			mazeEnd[1] = roadPoint[numRand].x;
+			mapEnd = {roadPoint[numRand].y, roadPoint[numRand].x};
 			maze[roadPoint[numRand].y][roadPoint[numRand].x] = -2;
 		} else if(i <= mapCoin) {
 			maze[roadPoint[numRand].y][roadPoint[numRand].x] = 2;

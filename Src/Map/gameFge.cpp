@@ -77,8 +77,8 @@ void GameFge::FgeBehave(SDL_Keycode dir) {
 	FgeEat();
 	if(fgeStar == mapStar) ifGetAllStar = true;
 	if(
-			fgeCod.y == mapEnd[0]
-			&& fgeCod.x == mapEnd[1]
+			fgeCod.y == mapEnd.y
+			&& fgeCod.x == mapEnd.x
 			&& ifGetAllStar
 			)
 		ifWin = 1;
