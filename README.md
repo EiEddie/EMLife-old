@@ -7,6 +7,9 @@ A Simple Maze Game
 ![Fge](./Bin/GameImg/imgGameFge.png)
 移动
   
+- 尽可能多的收集 `Coin`
+![Coin](./Bin/GameImg/imgGameCoin.png)
+  
 - 要想获胜, 您必须先获得地图上所有的 `Star`
 ![Star](./Bin/GameImg/imgGameStar.png)
   
