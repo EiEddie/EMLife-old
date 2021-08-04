@@ -1,4 +1,4 @@
-#include"../headEML.h"
+#include"hMap.h"
 
 GameFge::GameFge() :
 		fgeCod({1, 1}),

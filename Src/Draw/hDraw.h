@@ -1,115 +1,7 @@
-#pragma once
-#include<vector>
-#include<map>
-#include<iostream>
-#include<ctime>
-extern "C" {
-#include<SDL.h>
-#include<SDL_image.h>
-}
+#include"../hEMLife.h"
 
-#define SCREEN_CENTER -1
-
-/*位置*/
-struct Cod {
-	/*纵坐标*/
-	int y;
-	/*横坐标*/
-	int x;
-};
-
-
-/*生成游戏地图*/
-class GameMap {
-private:
-	/*加入点*/
-	void JoinVector(std::vector<Cod> &vectorName, const int point[2]);
-	
-	/*查找点*/
-	bool SelectVector(const std::vector<Cod> &vectorName, const int point[2]);
-	
-	/*移动点*/
-	void MovePoint(
-			int newPoint[2],
-			const int oldPoint[2],
-			int dir,
-			int stepLength = 2
-	) const;
-	
-	/*生成迷宫*/
-	void GetMaze(int *maze[]);
-	
-	/*
-	 * 修饰迷宫:
-	 * 添加元素(Coin, Star, Demon)并指定终点
-	 */
-	void RetouchMaze(int mazeEnd[2], int *maze[]);
-
-protected:
-	/*金币数量*/
-	const int mapCoin;
-	/*星星数量*/
-	const int mapStar;
-	/*恶魔数量*/
-	const int mapDemon;
-
-public:
-	/*迷宫宽度*/
-	const int xLength;
-	/*迷宫长度*/
-	const int yLength;
-	
-	/*迷宫地图*/
-	int **mapMaze;
-	/*迷宫终点*/
-	int mapEnd[2] = {0};
-	
-	GameMap();
-	~GameMap();
-};
-
-
-/*创建游戏人物*/
-class GameFge: public GameMap {
-private:
-	/*移动人物*/
-	void FgeMove(SDL_Keycode dir);
-	
-	/*
-	 * 获取战利品:
-	 * Coin&Star
-	 */
-	void FgeEat();
-	
-	/*人物攻击*/
-	void FgeAttack();
-
-public:
-	/*人物位置*/
-	struct Cod fgeCod;
-	/*人物金币数量*/
-	int fgeCoin;
-	/*人物星星数量*/
-	int fgeStar;
-	/*
-	 * 是否获得足够星星:
-	 * 人物星星数量是否等于游戏星星数量
-	 */
-	bool ifGetAllStar = false;
-	/*
-	 * 是否获胜:
-	 * -1: 失败(触碰到Demon)
-	 * 0: 游戏中
-	 * 1: 胜利(已获得足够星星并触碰到终点)
-	 */
-	int ifWin = 0;
-	
-	/*人物行为*/
-	void FgeBehave(SDL_Keycode dir);
-	
-	GameFge();
-};
-
+#ifndef EMLIFE_HDRAW_H
+#define EMLIFE_HDRAW_H
 
 /*游戏渲染设置*/
 class GameDrawSet {
@@ -176,7 +68,7 @@ private:
 	 * 将字符从font.png中剪裁为16*16的单元
 	 */
 	SDL_Surface *CropCharaFirst(SDL_Surface* font, SDL_Rect *cod);
-
+	
 	/*
 	 * 二次裁剪:
 	 * 将字符按字面框从单元中剪裁出来
@@ -203,7 +95,7 @@ protected:
 public:
 	GameDrawWord(unsigned int fps, GameFge *gameFge);
 	~GameDrawWord();
-	};
+};
 
 
 /*显示游戏图像*/
@@ -272,29 +164,4 @@ public:
 	GameDraw(unsigned int fps, GameFge *gameFge);
 };
 
-
-class Game {
-private:
-	/*游戏人物*/
-	GameFge *gameFge;
-	/*显示游戏 刷新屏幕*/
-	GameDraw *gameDraw;
-	/*
-	 * 按键监视:
-	 * true: 继续显示(刷新屏幕)
-	 * false: 关闭窗口
-	 */
-	bool CheckKeyEvent(const SDL_Keycode& key);
-	/*
-	 * 更新地图:
-	 * 仅用于游戏结束时
-	 */
-	void UpdateMap();
-
-public:
-	/*事件循环*/
-	void EventLoop();
-	
-	Game(const unsigned int fps);
-	~Game();
-};
+#endif //EMLIFE_HDRAW_H

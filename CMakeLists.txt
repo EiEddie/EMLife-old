@@ -26,14 +26,21 @@ add_executable(EMLife
 		#图标
 		Src/Icon/icon.o
 
-		Src/headEML.h
+		Src/hEMLife.h
 		Src/main.cpp
-		Src/Class/GameFge.cpp
-		Src/Class/GameMap.cpp
-		Src/Class/GameDrawSet.cpp
-		Src/Class/GameDrawWord.cpp
-		Src/Class/GameDraw.cpp
-		Src/Class/Game.cpp)
+
+		Src/Map/hMap.h
+		Src/Map/gameFge.cpp
+		Src/Map/gameMap.cpp
+
+		Src/Draw/hDraw.h
+		Src/Draw/gameDrawSet.cpp
+		Src/Draw/gameDrawWord.cpp
+		Src/Draw/gameDraw.cpp
+
+		Src/Game/hGame.h
+		Src/Game/game.cpp
+		)
 
 #将第三方库链接在一起
 target_link_libraries(EMLife

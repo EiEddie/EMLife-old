@@ -1,4 +1,4 @@
-#include "../headEML.h"
+#include"hGame.h"
 
 Game::Game(const unsigned int fps) {
 	gameFge = new GameFge();

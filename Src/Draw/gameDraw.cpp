@@ -1,4 +1,4 @@
-#include"../headEML.h"
+#include"hDraw.h"
 
 GameDraw::GameDraw(unsigned int fps, GameFge *gameFge):
 		GameDrawWord(fps, gameFge),

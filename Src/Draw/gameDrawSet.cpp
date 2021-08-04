@@ -1,4 +1,4 @@
-#include"../headEML.h"
+#include"hDraw.h"
 
 GameDrawSet::GameDrawSet(unsigned int fps, GameFge *gameFge) :
 		stepFps(1000 / fps),

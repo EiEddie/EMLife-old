@@ -1,4 +1,4 @@
-#include"../headEML.h"
+#include"hMap.h"
 
 GameMap::GameMap() :
 		mapCoin(100),
