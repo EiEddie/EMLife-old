@@ -11,15 +11,21 @@ struct Cod {
 	int x;
 };
 
+typedef std::vector<Cod> CodList;
 
 /*生成游戏地图*/
 class GameMap {
 private:
+	/*所有路点*/
+	CodList roadPoint;
+	
 	/*加入点*/
-	void JoinVector(std::vector<Cod> &vectorName, const Cod &point);
+	void JoinVector(CodList &vectorName, const Cod &point);
+	
+	void JoinVector(CodList &vectorName, int point[2]);
 	
 	/*查找点*/
-	bool SelectVector(const std::vector<Cod> &vectorName, const Cod &point);
+	bool SelectVector(const CodList &vectorName, const Cod &point);
 	
 	/*移动点*/
 	Cod MovePoint(
@@ -31,17 +37,23 @@ private:
 	/*生成迷宫*/
 	void GetMaze();
 	
-	/*
-	 * 修饰迷宫:
-	 * 添加元素(Coin, Star, Demon)并指定终点
-	 */
-	void RetouchMaze();
+	/*指定终点*/
+	void SetEnd();
+	
+	/*添加元素Coin*/
+	void SetCoin();
+	
+	/*添加元素Star*/
+	void SetStar(CodList &pointStar);
+	
+	/*添加元素Demon*/
+	void SetDemon(int **maze, CodList &pointDemon);
 	
 	/*
 	 * 填充迷宫:
 	 * 为 ReFillMaze 方法做铺垫
 	 */
-	void FillMaze(Cod cdBegin, int num=-1);
+	void FillMaze(int **maze, const Cod &cdBegin, int num = -1);
 	
 	/*
 	 * 清理迷宫:
@@ -49,16 +61,24 @@ private:
 	 * num为迷宫内某点的数字
 	 * 当fun返回true时将此点更改为1
 	 */
-	void ClearMaze(bool (*fun)(int num));
+	void ClearMaze(int **maze, bool (*fun)(int num));
 	
 	/*
 	 * 二次填充:
 	 * 在一次填充的基础上反向进行以寻路
 	 */
-	void ReFillMaze(Cod cdBegin);
+	void ReFillMaze(int **maze, const Cod &cdBegin, CodList &way);
 	
 	/*寻路*/
-	std::vector<Cod> SearchWay(Cod cdBegin, Cod cdEnd);
+	void SearchWay(
+			int **maze,
+			CodList &way,
+			const Cod &cdBegin,
+			const CodList &cdEnd
+	);
+	
+	/*寻找demon行动路径*/
+	bool GetDemonPath(int **maze, const Cod &cd, CodList &path, int num);
 
 protected:
 	/*金币数量*/
@@ -69,6 +89,9 @@ protected:
 	const int mapDemon;
 
 public:
+	/*Demon活动点*/
+	CodList *demonPoint;
+	
 	/*迷宫宽度*/
 	const int xLength;
 	/*迷宫长度*/
@@ -80,12 +103,13 @@ public:
 	Cod mapEnd{};
 	
 	GameMap();
+	
 	~GameMap();
 };
 
 
 /*创建游戏人物*/
-class GameFge: public GameMap {
+class GameFge : public GameMap {
 private:
 	/*移动人物*/
 	void FgeMove(SDL_Keycode dir);

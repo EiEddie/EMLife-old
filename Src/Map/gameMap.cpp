@@ -6,34 +6,67 @@ GameMap::GameMap() :
 		mapDemon(3),
 		xLength(41),
 		yLength(33) {
-	mapMaze = new int *[yLength];
+	std::srand(time(nullptr));
+	
+	demonPoint = new CodList[mapDemon]();
+	
+	mapMaze = new int* [yLength];
 	for(int i = 0; i < yLength; i++) {
 		mapMaze[i] = new int[xLength];
 		for(int j = 0; j < xLength; j++) mapMaze[i][j] = 0;
 	}
 	GetMaze();
-//	RetouchMaze();
-	FillMaze({1, 1});
-	ReFillMaze({31, 39});
-	ReFillMaze({1, 39});
-	ClearMaze([](int num) {
-		return num != 0 && num != 2;
+	SetEnd();
+	CodList pointStar;
+	SetStar(pointStar);
+	SetCoin();
+	
+	//深拷贝mapMaze
+	int** maze = new int* [yLength];
+	for(int i = 0; i < yLength; i++) {
+		maze[i] = new int[xLength];
+		for(int j = 0; j < xLength; j++) {
+			int temp = mapMaze[i][j];
+			if(temp == 0) maze[i][j] = 0;
+			else maze[i][j] = 1;
+		}
+	}
+	
+	CodList way;
+	FillMaze(maze, {1, 1});
+	for(auto i: pointStar) ReFillMaze(maze, i, way);
+	ClearMaze(maze, [](int num) {
+		return (num < 0);
 	});
+	
+	SetDemon(maze, way);
+	
+	for(int i = 0; i < yLength; i++) delete[] maze[i];
+	delete[] maze;
+
 }
 
 GameMap::~GameMap() {
 	for(int i = 0; i < yLength; i++) delete[] mapMaze[i];
 	delete[] mapMaze;
+	
+	delete[] demonPoint;
 }
 
-void GameMap::JoinVector(std::vector<Cod> &vectorName, const Cod &point) {
-	/*将数组point加入vectorName中*/
+void GameMap::JoinVector(CodList& vectorName, const Cod& point) {
+	/*将坐标point加入vectorName中*/
 	
 	vectorName.push_back(point);
 }
 
-bool GameMap::SelectVector(const std::vector<Cod> &vectorName, const Cod &point) {
-	/*检测数组point是否存在于vectorName中*/
+void GameMap::JoinVector(CodList& vectorName, int point[2]) {
+	/*将数组point加入vectorName中*/
+	
+	vectorName.push_back({point[0], point[1]});
+}
+
+bool GameMap::SelectVector(const CodList& vectorName, const Cod& point) {
+	/*检测point是否存在于vectorName中*/
 	
 	for(auto i: vectorName) {
 		if(
@@ -46,20 +79,20 @@ bool GameMap::SelectVector(const std::vector<Cod> &vectorName, const Cod &point)
 }
 
 Cod GameMap::MovePoint(
-		const Cod &oldPoint,
+		const Cod& oldPoint,
 		const int dir,
 		int stepLength
 ) const {
 	/*移动点*/
 	const int step[4][2] = {
-			{-1, 0 },//上
-			{1 , 0 },//下
-			{0 , -1},//左
-			{0 , 1 } //右
+			{-1, 0},//上
+			{1,  0},//下
+			{0,  -1},//左
+			{0,  1} //右
 	};
 	Cod newPoint = {
-			oldPoint.y + step[dir][0] * stepLength,
-			oldPoint.x + step[dir][1] * stepLength
+			oldPoint.y + step[dir][0]*stepLength,
+			oldPoint.x + step[dir][1]*stepLength
 	};
 	if(
 			newPoint.y > 0 && newPoint.y < yLength
@@ -73,8 +106,7 @@ void GameMap::GetMaze() {
 	/*生成迷宫*/
 	
 	//初始化迷宫, 将迷宫每个点设置为0且加入起点, 起点恒为(1, 1)
-	std::vector<Cod> wallPoint;
-	std::vector<Cod> roadPoint;
+	CodList wallPoint;
 	mapMaze[1][1] = 1;
 	Cod cdBegin = {1, 1};
 	JoinVector(wallPoint, cdBegin);
@@ -110,19 +142,18 @@ void GameMap::GetMaze() {
 	Cod cd1{};
 	Cod cd2{};
 	Cod temp{};
-	std::srand(time(nullptr));
 	while(!wallPoint.empty()) {
-		int numRandom = std::rand() % (wallPoint.size());
+		int numRandom = std::rand()%(wallPoint.size());
 		cd1 = {wallPoint[numRandom].y, wallPoint[numRandom].x};
 		wallPoint.erase(wallPoint.begin() + numRandom);
 		
 		//将cd1与其四周随机一个路点cd2打通
 		mapMaze[cd1.y][cd1.x] = 1;
-		numRandom = std::rand() % 24;
+		numRandom = std::rand()%24;
 		for(int i = 0; i < 4; i++) {
 			cd2 = MovePoint(cd1, order[numRandom][i]);
 			if(SelectVector(roadPoint, cd2)) {
-				mapMaze[(cd2.y + cd1.y) / 2][(cd2.x + cd1.x) / 2] = 1;
+				mapMaze[(cd2.y + cd1.y)/2][(cd2.x + cd1.x)/2] = 1;
 				break;
 			}
 		}
@@ -141,62 +172,80 @@ void GameMap::GetMaze() {
 	}
 }
 
-void GameMap::RetouchMaze() {
-	/*修饰迷宫, 添加coin,star并指定终点*/
-	
-	//添加除入口外所有路点至roadPoint
-	std::vector<Cod> roadPoint;
-	Cod temp;
-	for(int i = 0; i < yLength; i++) {
-		for(int j = 0; j < xLength; j++) {
-			if(mapMaze[i][j] != 0 && i != 1 && j != 1) {
-				temp = {i, j};
-				JoinVector(roadPoint, temp);
-			}
-		}
-	}
-	
-	//添加指定数目的coin与star, 设定终点
-	std::srand(time(nullptr));
-	for(int i = 0; i <= mapCoin + mapStar + mapDemon; i++) {
-		int numRand = std::rand() % roadPoint.size();
-		if(!i) {
-			mapEnd = {roadPoint[numRand].y, roadPoint[numRand].x};
-			mapMaze[roadPoint[numRand].y][roadPoint[numRand].x] = -2;
-		} else if(i <= mapCoin) {
-			mapMaze[roadPoint[numRand].y][roadPoint[numRand].x] = 2;
-		} else if(i <= mapCoin + mapStar) {
-			mapMaze[roadPoint[numRand].y][roadPoint[numRand].x] = 3;
-		} else if(i <= mapCoin + mapStar + mapDemon) {
-			mapMaze[roadPoint[numRand].y][roadPoint[numRand].x] = 4;
-		}
-		roadPoint.erase(roadPoint.begin() + numRand);
+void GameMap::SetEnd() {
+	int num = std::rand()%roadPoint.size();
+	mapEnd = roadPoint[num];
+	mapMaze[mapEnd.y][mapEnd.x] = -2;
+	roadPoint.erase(roadPoint.begin() + num);
+}
+
+void GameMap::SetStar(CodList& pointStar) {
+	for(int i = 0; i < mapStar; i++) {
+		int num = std::rand()%roadPoint.size();
+		Cod temp = roadPoint[num];
+		pointStar.push_back(temp);
+		mapMaze[temp.y][temp.x] = 3;
+		roadPoint.erase(roadPoint.begin() + num);
 	}
 }
 
-void GameMap::FillMaze(Cod cdBegin, int num) {
-	if(mapMaze[cdBegin.y][cdBegin.x] != 1) return;
-	for(int i=0; i<4; i++) {
+void GameMap::SetCoin() {
+	for(int i = 0; i < mapCoin; i++) {
+		int num = std::rand()%roadPoint.size();
+		Cod temp = roadPoint[num];
+		mapMaze[temp.y][temp.x] = 2;
+		roadPoint.erase(roadPoint.begin() + num);
+	}
+}
+
+void GameMap::SetDemon(int** maze, CodList& pointDemon) {
+	for(int i=0; i<mapDemon;) {
+		if(pointDemon.empty()) return;
+		int num = std::rand()%pointDemon.size();
+		if(GetDemonPath(maze, pointDemon[num], demonPoint[i], 5)) i++;
+		pointDemon.erase(pointDemon.begin() + num);
+	}
+}
+
+void GameMap::FillMaze(int** maze, const Cod& cdBegin, int num) {
+	if(maze[cdBegin.y][cdBegin.x] != 1 || num == 2) return;
+	for(int i = 0; i < 4; i++) {
 		Cod cdTemp = MovePoint(cdBegin, i, 1);
-		mapMaze[cdBegin.y][cdBegin.x] = num;
-		FillMaze(cdTemp, num-1);
+		maze[cdBegin.y][cdBegin.x] = num;
+		FillMaze(maze, cdTemp, num - 1);
 	}
 }
 
-void GameMap::ReFillMaze(Cod cdBegin) {
-	int temp = mapMaze[cdBegin.y][cdBegin.x];
+void GameMap::ReFillMaze(int** maze, const Cod& cdBegin, CodList& way) {
+	int temp = maze[cdBegin.y][cdBegin.x];
 	if(temp == 0 || temp == 1 || temp == 2) return;
 	for(int i = 0; i < 4; i++) {
 		Cod cdTemp = MovePoint(cdBegin, i, 1);
-		if(temp + 1 == mapMaze[cdTemp.y][cdTemp.x]) ReFillMaze(cdTemp);
+		if(temp + 1 == maze[cdTemp.y][cdTemp.x]) ReFillMaze(maze, cdTemp, way);
 	}
-	mapMaze[cdBegin.y][cdBegin.x] = 2;
+	maze[cdBegin.y][cdBegin.x] = 2;
+	way.push_back(cdBegin);
 }
 
-void GameMap::ClearMaze(bool (*fun)(int)) {
+void GameMap::ClearMaze(int** maze, bool (* fun)(int)) {
 	for(int i = 0; i < yLength; i++) {
 		for(int j = 0; j < xLength; j++) {
-			if(fun(mapMaze[i][j])) mapMaze[i][j] = 1;
+			if(fun(maze[i][j])) maze[i][j] = 1;
 		}
 	}
+}
+
+bool GameMap::GetDemonPath(int** maze, const Cod& cd, CodList& path, int num) {
+	FillMaze(maze, cd, num);
+	CodList point;
+	int iMax = (cd.y + 5 < yLength)? (cd.y + 5): (yLength - 1);
+	int jMax = (cd.x + 5 < xLength)? (cd.x + 5): (xLength - 1);
+	for(int i = (cd.y - 5 > 0)? (cd.y - 5): 1; i < iMax; i++) {
+		for(int j = (cd.x - 5 > 0)? (cd.x - 5): 1; j < jMax; j++) {
+			if(maze[i][j] == 3) point.push_back({i, j});
+		}
+	}
+	if(point.empty()) return false;
+	ReFillMaze(maze, point[std::rand()%point.size()], path);
+	return true;
 }
