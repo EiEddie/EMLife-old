@@ -29,13 +29,36 @@ private:
 	) const;
 	
 	/*生成迷宫*/
-	void GetMaze(int **maze);
+	void GetMaze();
 	
 	/*
 	 * 修饰迷宫:
 	 * 添加元素(Coin, Star, Demon)并指定终点
 	 */
-	void RetouchMaze(int **maze);
+	void RetouchMaze();
+	
+	/*
+	 * 填充迷宫:
+	 * 为 ReFillMaze 方法做铺垫
+	 */
+	void FillMaze(Cod cdBegin, int num=-1);
+	
+	/*
+	 * 清理迷宫:
+	 * 去除 FillMaze 方法痕迹
+	 * num为迷宫内某点的数字
+	 * 当fun返回true时将此点更改为1
+	 */
+	void ClearMaze(bool (*fun)(int num));
+	
+	/*
+	 * 二次填充:
+	 * 在一次填充的基础上反向进行以寻路
+	 */
+	void ReFillMaze(Cod cdBegin);
+	
+	/*寻路*/
+	std::vector<Cod> SearchWay(Cod cdBegin, Cod cdEnd);
 
 protected:
 	/*金币数量*/
