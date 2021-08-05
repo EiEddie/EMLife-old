@@ -2,6 +2,7 @@
 
 #ifndef EMLIFE_HDRAW_H
 #define EMLIFE_HDRAW_H
+#define SCREEN_CENTER -1073741824
 
 /*游戏渲染设置*/
 class GameDrawSet {

@@ -1,7 +1,4 @@
 #pragma once
-
-#define SCREEN_CENTER -1
-
 #include<vector>
 #include<map>
 #include<iostream>

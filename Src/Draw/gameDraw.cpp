@@ -77,19 +77,17 @@ void GameDraw::SetScreenDarken(int r, int g, int b) {
 void GameDraw::ShowEnd(const std::string& str) {
 	ShowWord(
 			str, 4,
-			SCREEN_CENTER,
-			(int)((drawGameFge->yLength*16-GetStrWidth(str, 4))/2)-18*4
+			SCREEN_CENTER, SCREEN_CENTER-18*4
 	);
 	ShowWord(
 			"Y: Play Again",
 			2,
-			SCREEN_CENTER,SCREEN_CENTER
+			SCREEN_CENTER, SCREEN_CENTER
 	);
 	ShowWord(
 			"N: Quit",
 			2,
-			SCREEN_CENTER,
-			(int)((drawGameFge->yLength*16-GetStrWidth(str, 2))/2)+18*2
+			SCREEN_CENTER, SCREEN_CENTER+18*2
 	);
 }
 
