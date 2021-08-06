@@ -46,8 +46,11 @@ private:
 	/*添加元素Star*/
 	void SetStar(CodList &pointStar);
 	
-	/*添加元素Demon*/
-	void SetDemon(int **maze, CodList &pointDemon);
+	/*
+	 * 添加元素Demon
+	 * path: 可移动位置
+	 */
+	void SetDemon(int **maze, CodList &path);
 	
 	/*
 	 * 填充迷宫:
@@ -77,7 +80,12 @@ private:
 			const CodList &cdEnd
 	);
 	
-	/*寻找demon行动路径*/
+	/*
+	 * 寻找demon行动路径:
+	 * cd: 开始位置
+	 * path: 可移动位置
+	 * num: 步数
+	 */
 	bool GetDemonPath(int **maze, const Cod &cd, CodList &path, int num);
 
 protected:

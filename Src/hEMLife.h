@@ -3,6 +3,7 @@
 #include<map>
 #include<iostream>
 #include<ctime>
+#include<algorithm>
 extern "C" {
 #include<SDL.h>
 #include<SDL_image.h>
