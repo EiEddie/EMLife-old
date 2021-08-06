@@ -37,19 +37,10 @@ GameMap::GameMap() :
 	pointStar.push_back(mapEnd);
 	for(auto i: pointStar) ReFillMaze(maze, i, way);
 	
-//	S(maze);
-	
 	SetDemon(maze, way);
-	
-//	S(mapMaze);
 	
 	for(int i = 0; i < yLength; i++) delete[] maze[i];
 	delete[] maze;
-	
-	
-	for(int i=0; i<mapDemon; i++) {
-		for(auto j: demonPoint[i]) mapMaze[j.y][j.x] = 3;
-	}
 }
 
 GameMap::~GameMap() {
@@ -57,18 +48,6 @@ GameMap::~GameMap() {
 	delete[] mapMaze;
 	
 	delete[] demonPoint;
-}
-
-void GameMap::JoinVector(CodList& vectorName, const Cod& point) {
-	/*将坐标point加入vectorName中*/
-	
-	vectorName.push_back(point);
-}
-
-void GameMap::JoinVector(CodList& vectorName, int point[2]) {
-	/*将数组point加入vectorName中*/
-	
-	vectorName.push_back({point[0], point[1]});
 }
 
 bool GameMap::SelectVector(const CodList& vectorName, const Cod& point) {
@@ -86,10 +65,10 @@ Cod GameMap::MovePoint(
 ) const {
 	/*移动点*/
 	const int step[4][2] = {
-			{-1, 0},//上
-			{1,  0},//下
-			{0,  -1},//左
-			{0,  1} //右
+			{-1,  0},//上
+			{1 ,  0},//下
+			{0 , -1},//左
+			{0 ,  1} //右
 	};
 	Cod newPoint = {
 			oldPoint.y + step[dir][0]*stepLength,
@@ -110,33 +89,17 @@ void GameMap::GetMaze() {
 	CodList wallPoint;
 	mapMaze[1][1] = 1;
 	Cod cdBegin = {1, 1};
-	JoinVector(wallPoint, cdBegin);
+	wallPoint.push_back(cdBegin);
 	
 	const int order[24][4] = {
-			{0, 1, 2, 3},
-			{0, 1, 3, 2},
-			{0, 2, 1, 3},
-			{0, 2, 3, 1},
-			{0, 3, 2, 1},
-			{0, 3, 1, 2},
-			{1, 0, 2, 3},
-			{1, 0, 3, 2},
-			{1, 2, 3, 0},
-			{1, 2, 0, 3},
-			{1, 3, 0, 2},
-			{1, 3, 2, 0},
-			{2, 0, 1, 3},
-			{2, 0, 3, 1},
-			{2, 1, 3, 0},
-			{2, 1, 0, 3},
-			{2, 3, 1, 0},
-			{2, 3, 0, 1},
-			{3, 0, 1, 2},
-			{3, 0, 2, 1},
-			{3, 1, 2, 0},
-			{3, 1, 0, 2},
-			{3, 2, 1, 0},
-			{3, 2, 0, 1}
+			{0, 1, 2, 3}, {0, 1, 3, 2}, {0, 2, 1, 3},
+			{0, 2, 3, 1}, {0, 3, 2, 1}, {0, 3, 1, 2},
+			{1, 0, 2, 3}, {1, 0, 3, 2}, {1, 2, 3, 0},
+			{1, 2, 0, 3}, {1, 3, 0, 2}, {1, 3, 2, 0},
+			{2, 0, 1, 3}, {2, 0, 3, 1}, {2, 1, 3, 0},
+			{2, 1, 0, 3}, {2, 3, 1, 0}, {2, 3, 0, 1},
+			{3, 0, 1, 2}, {3, 0, 2, 1}, {3, 1, 2, 0},
+			{3, 1, 0, 2}, {3, 2, 1, 0}, {3, 2, 0, 1}
 	};
 	
 	//在wallPoint中随随机选取一点作为cd1, 并删除
@@ -158,7 +121,7 @@ void GameMap::GetMaze() {
 				break;
 			}
 		}
-		JoinVector(roadPoint, cd1);
+		roadPoint.push_back(cd1);
 		
 		//加入cd1周围不在wallPoint中的墙点
 		for(int i = 0; i < 4; i++) {
@@ -167,7 +130,7 @@ void GameMap::GetMaze() {
 					mapMaze[temp.y][temp.x] == 0
 					&& !SelectVector(wallPoint, temp)
 					) {
-				JoinVector(wallPoint, temp);
+				wallPoint.push_back(temp);
 			}
 		}
 	}
@@ -243,17 +206,13 @@ void GameMap::ClearMaze(int** maze, bool (* fun)(int)) {
 }
 
 bool GameMap::GetDemonPath(int** maze, const Cod& cd, CodList& path, int num) {
-	std::cout << "demon before fill maze\n";
-//	S(maze);
+	if(cd.x == 1 && cd.y == 1) return false;
 	
 	ClearMaze(maze, [](int num) {
 		return (num < 0 || num == 2);
 	});
 	
 	FillMaze(maze, cd, num+3);
-	
-	std::cout << "demon after fill maze\n";
-//	S(maze);
 	
 	CodList point;
 	int iMax = (cd.y + 5 < yLength)? (cd.y + 5): (yLength - 1);

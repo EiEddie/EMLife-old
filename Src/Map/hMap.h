@@ -19,11 +19,6 @@ private:
 	/*所有路点*/
 	CodList roadPoint;
 	
-	/*加入点*/
-	void JoinVector(CodList &vectorName, const Cod &point);
-	
-	void JoinVector(CodList &vectorName, int point[2]);
-	
 	/*查找点*/
 	bool SelectVector(const CodList &vectorName, const Cod &point);
 	
@@ -71,14 +66,6 @@ private:
 	 * 在一次填充的基础上反向进行以寻路
 	 */
 	void ReFillMaze(int **maze, const Cod &cdBegin, CodList &way);
-	
-	/*寻路*/
-	void SearchWay(
-			int **maze,
-			CodList &way,
-			const Cod &cdBegin,
-			const CodList &cdEnd
-	);
 	
 	/*
 	 * 寻找demon行动路径:
