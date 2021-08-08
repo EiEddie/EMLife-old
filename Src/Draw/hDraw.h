@@ -107,6 +107,7 @@ private:
 	 * 单帧开始时间
 	 */
 	Uint32 timeBegin{};
+	
 	/*
 	 * 屏幕绘制矩形:
 	 * 与窗口显示大小等长宽的矩形
@@ -117,7 +118,11 @@ private:
 	 * 绘制地图:
 	 * 绘制迷宫及其内部元素
 	 */
-	void SetMap();
+	void ShowMap();
+	
+	/*绘制怪物*/
+	void ShowDemon();
+	
 	/*
 	 * 使窗口变暗:
 	 * 令窗口以指定颜色半透明
@@ -135,6 +140,12 @@ private:
 	void ShowLose();
 
 public:
+	/*
+	 * 当前帧:
+	 * 当前帧的序号
+	 */
+	int fpsNum;
+	
 	/*
 	 * 帧率调节器:
 	 * 开始

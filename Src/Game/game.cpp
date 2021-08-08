@@ -50,14 +50,17 @@ void Game::EventLoop() {
 	SDL_Event drawEvent;
 	
 	while(!ifQuit) {
-		if(!SDL_PollEvent(&drawEvent)) continue;
 		gameDraw->FpsManagerBegin();
-		if(drawEvent.type == SDL_QUIT) {
-			ifQuit = true;
-		} else if(drawEvent.type == SDL_KEYDOWN) {
-			if(!CheckKeyEvent(drawEvent.key.keysym.sym)) return;
+		if(SDL_PollEvent(&drawEvent)) {
+			if(drawEvent.type == SDL_QUIT) {
+				ifQuit = true;
+			} else if(drawEvent.type == SDL_KEYDOWN) {
+				if(!CheckKeyEvent(drawEvent.key.keysym.sym)) return;
+			}
 		}
+		gameFge->FgeIfWin();
 		gameDraw->Show();
+		if(gameDraw->fpsNum%30 == 0) gameFge->DemonMove();
 		gameDraw->FpsManagerEnd();
 	}
 }

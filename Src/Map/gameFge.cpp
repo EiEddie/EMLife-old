@@ -76,13 +76,25 @@ void GameFge::FgeBehave(SDL_Keycode dir) {
 	FgeMove(dir);
 	FgeEat();
 	if(fgeStar == mapStar) ifGetAllStar = true;
+}
+
+void GameFge::DemonMove() {
+	for(int i=0; i<mapDemon; i++) {
+		if(demonPos[i] == 4) demonPos[i] = -4;
+		demonPos[i]++;
+	}
+}
+
+void GameFge::FgeIfWin() {
 	if(
 			fgeCod.y == mapEnd.y
 			&& fgeCod.x == mapEnd.x
 			&& ifGetAllStar
-			)
-		ifWin = 1;
-	if(mapMaze[fgeCod.y][fgeCod.x] == 4) {
-		ifWin = -1;
+			) ifWin = 1;
+	for(int i=0; i<mapDemon; i++) {
+		Cod demonCod = demonPoint[i][demonPos[i] < 0? -demonPos[i]: demonPos[i]];
+		if(			fgeCod.y == demonCod.y
+					   && fgeCod.x == demonCod.x
+				) ifWin = -1;
 	}
 }

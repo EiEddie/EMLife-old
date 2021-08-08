@@ -75,15 +75,13 @@ private:
 	 */
 	bool GetDemonPath(int **maze, const Cod &cd, CodList &path, int num);
 
-protected:
+public:
 	/*金币数量*/
 	const int mapCoin;
 	/*星星数量*/
 	const int mapStar;
 	/*恶魔数量*/
 	const int mapDemon;
-
-public:
 	/*Demon活动点*/
 	CodList *demonPoint;
 	
@@ -105,9 +103,6 @@ public:
 /*创建游戏人物*/
 class GameFge : public GameMap {
 private:
-	/*Demon位置*/
-	int *demonPos;
-	
 	/*移动人物*/
 	void FgeMove(SDL_Keycode dir);
 	
@@ -119,11 +114,15 @@ private:
 	
 	/*人物攻击*/
 	void FgeAttack();
-	
-	/*移动怪物*/
-	void DemonMove();
 
 public:
+	/*
+	 * Demon位置:
+	 * 长度为 mapDemon
+	 * 取值 -3~4, 若为负数则以相反数为准
+	 */
+	int *demonPos;
+	
 	/*人物位置*/
 	struct Cod fgeCod;
 	
@@ -147,8 +146,14 @@ public:
 	 */
 	int ifWin = 0;
 	
+	/*判断是否获胜*/
+	void FgeIfWin();
+	
 	/*人物行为*/
 	void FgeBehave(SDL_Keycode dir);
+	
+	/*移动怪物*/
+	void DemonMove();
 	
 	GameFge();
 	~GameFge();

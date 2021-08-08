@@ -2,6 +2,7 @@
 
 GameDraw::GameDraw(unsigned int fps, GameFge *gameFge):
 		GameDrawWord(fps, gameFge),
+		fpsNum(0),
 		drawScreenRect({
 			0, 0,
 			drawGameFge->xLength*16,
@@ -10,6 +11,8 @@ GameDraw::GameDraw(unsigned int fps, GameFge *gameFge):
 
 void GameDraw::FpsManagerBegin() {
 	timeBegin = SDL_GetTicks();
+	if(fpsNum > 60) fpsNum = 0;
+	fpsNum++;
 }
 
 void GameDraw::FpsManagerEnd() const {
@@ -19,7 +22,7 @@ void GameDraw::FpsManagerEnd() const {
 	}
 }
 
-void GameDraw::SetMap() {
+void GameDraw::ShowMap() {
 	SDL_Rect drawElementCod = {0, 0, 16, 16};
 	for(int i=0; i<drawGameFge->yLength; i++) {
 		for(int j = 0; j<drawGameFge->xLength; j++) {
@@ -33,6 +36,19 @@ void GameDraw::SetMap() {
 	}
 }
 
+void GameDraw::ShowDemon() {
+	for(int i=0; i<drawGameFge->mapDemon; i++) {
+		int drawDemonPos = drawGameFge->demonPos[i];
+		Cod drawDemonCod = drawGameFge->demonPoint[i][drawDemonPos<0? -drawDemonPos: drawDemonPos];
+		SDL_Rect drawDemon = {
+				drawDemonCod.x*16,
+				drawDemonCod.y*16,
+				16, 16
+		};
+		SDL_RenderCopy(drawRen, drawGameImg[4], nullptr, &drawDemon);
+	}
+}
+
 void GameDraw::Show() {
 	SDL_SetRenderDrawColor(
 			drawRen,
@@ -40,13 +56,16 @@ void GameDraw::Show() {
 			0xff, 0xff
 	);
 	SDL_RenderClear(drawRen);
-	SetMap();
-	SDL_Rect drawFgeCod = {drawGameFge->fgeCod.x*16, drawGameFge->fgeCod.y*16, 16, 16};
-	SDL_RenderCopy(drawRen, drawGameImg[-1], nullptr, &drawFgeCod);
+	//显示地图
+	ShowMap();
+	//显示人物
+	SDL_Rect drawFge = {drawGameFge->fgeCod.x*16, drawGameFge->fgeCod.y*16, 16, 16};
+	SDL_RenderCopy(drawRen, drawGameImg[-1], nullptr, &drawFge);
+	//显示怪物
+	ShowDemon();
 	if(drawGameFge->ifWin == 1) ShowWin();
 	else if(drawGameFge->ifWin == -1) ShowLose();
 	SDL_RenderPresent(drawRen);
-	
 }
 
 bool GameDraw::Ask(SDL_Keycode ifQuit) {
