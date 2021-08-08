@@ -98,7 +98,6 @@ public:
 	Cod mapEnd{};
 	
 	GameMap();
-	
 	~GameMap();
 };
 
@@ -106,6 +105,9 @@ public:
 /*创建游戏人物*/
 class GameFge : public GameMap {
 private:
+	/*Demon位置*/
+	int *demonPos;
+	
 	/*移动人物*/
 	void FgeMove(SDL_Keycode dir);
 	
@@ -117,19 +119,26 @@ private:
 	
 	/*人物攻击*/
 	void FgeAttack();
+	
+	/*移动怪物*/
+	void DemonMove();
 
 public:
 	/*人物位置*/
 	struct Cod fgeCod;
+	
 	/*人物金币数量*/
 	int fgeCoin;
+	
 	/*人物星星数量*/
 	int fgeStar;
+	
 	/*
 	 * 是否获得足够星星:
 	 * 人物星星数量是否等于游戏星星数量
 	 */
 	bool ifGetAllStar = false;
+	
 	/*
 	 * 是否获胜:
 	 * -1: 失败(触碰到Demon)
@@ -142,6 +151,7 @@ public:
 	void FgeBehave(SDL_Keycode dir);
 	
 	GameFge();
+	~GameFge();
 };
 
 #endif //EMLIFE_HMAP_H
