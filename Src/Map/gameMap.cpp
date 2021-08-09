@@ -16,6 +16,8 @@ GameMap::GameMap() :
 		for(int j = 0; j < xLength; j++) mapMaze[i][j] = 0;
 	}
 	GetMaze();
+	CodList roadPointTemp = roadPoint;
+	
 	SetEnd();
 	CodList pointStar;
 	SetStar(pointStar);
@@ -37,7 +39,13 @@ GameMap::GameMap() :
 	pointStar.push_back(mapEnd);
 	for(auto i: pointStar) ReFillMaze(maze, i, way);
 	
-	SetDemon(maze, way);
+	for(auto &i: way) {
+		roadPointTemp.erase(std::remove_if(
+				roadPointTemp.begin(), roadPointTemp.end(), [i](Cod point) {
+					return (point.x == i.x && point.y == i.y);
+				}), roadPointTemp.end());
+	}
+	SetDemon(maze, roadPointTemp);
 	
 	for(int i = 0; i < yLength; i++) delete[] maze[i];
 	delete[] maze;
