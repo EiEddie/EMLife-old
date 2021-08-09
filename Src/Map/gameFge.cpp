@@ -89,12 +89,13 @@ void GameFge::FgeIfWin() {
 	if(
 			fgeCod.y == mapEnd.y
 			&& fgeCod.x == mapEnd.x
-			&& ifGetAllStar
+			&& ifGetAllStar && ifWin == 0
 			) ifWin = 1;
 	for(int i=0; i<mapDemon; i++) {
 		Cod demonCod = demonPoint[i][demonPos[i] < 0? -demonPos[i]: demonPos[i]];
 		if(			fgeCod.y == demonCod.y
-					   && fgeCod.x == demonCod.x
+					&& fgeCod.x == demonCod.x
+					&& ifWin == 0
 				) ifWin = -1;
 	}
 }

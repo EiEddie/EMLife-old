@@ -1,11 +1,11 @@
 #include"hMap.h"
 
 GameMap::GameMap() :
-		mapCoin(50),
+		mapCoin(100),
 		mapStar(3),
 		mapDemon(3),
-		xLength(21),
-		yLength(21) {
+		xLength(41),
+		yLength(33) {
 	std::srand(time(nullptr));
 	
 	demonPoint = new CodList[mapDemon]();
@@ -52,10 +52,10 @@ GameMap::GameMap() :
 	
 	
 	for(int i=0; i<mapDemon; i++) {
-		std::cout << "\nnum: " << i << std::endl;
+//		std::cout << "\nnum: " << i << std::endl;
 		for(auto j: demonPoint[i]) {
 //			mapMaze[j.y][j.x] = 4;
-			std::cout << "  x: " << j.x << "\ty: " << j.y << std::endl;
+//			std::cout << "  x: " << j.x << "\ty: " << j.y << std::endl;
 		}
 	}
 }
@@ -223,13 +223,13 @@ void GameMap::ClearMaze(int** maze, bool (* fun)(int)) {
 }
 
 
-void S(int **maze) {
-	for(int i=0; i<21; i++) {
-		for(int j=0; j<21; j++) {
-			std::cout << maze[i][j] << '\t';
-		} std::cout << std::endl;
-	} std::cout << std::endl;
-}
+//void S(int **maze) {
+//	for(int i=0; i<21; i++) {
+//		for(int j=0; j<21; j++) {
+//			std::cout << maze[i][j] << '\t';
+//		} std::cout << std::endl;
+//	} std::cout << std::endl;
+//}
 
 
 bool GameMap::GetDemonPath(int** maze, const Cod& cd, CodList& path, int num) {
@@ -241,7 +241,7 @@ bool GameMap::GetDemonPath(int** maze, const Cod& cd, CodList& path, int num) {
 	
 	FillMaze(maze, cd, num+3);
 	
-	S(maze);
+//	S(maze);
 	
 	CodList point;
 	int iMax = (cd.y + 6 < yLength)? (cd.y + 6): (yLength - 1);
