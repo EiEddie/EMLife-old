@@ -1,11 +1,11 @@
 #include"hMap.h"
 
 GameMap::GameMap() :
-		mapCoin(100),
+		mapCoin(50),
 		mapStar(3),
 		mapDemon(3),
-		xLength(41),
-		yLength(33) {
+		xLength(21),
+		yLength(21) {
 	std::srand(time(nullptr));
 	
 	demonPoint = new CodList[mapDemon]();
@@ -41,6 +41,15 @@ GameMap::GameMap() :
 	
 	for(int i = 0; i < yLength; i++) delete[] maze[i];
 	delete[] maze;
+	
+	
+	for(int i=0; i<mapDemon; i++) {
+		std::cout << "\nnum: " << i << std::endl;
+		for(auto j: demonPoint[i]) {
+//			mapMaze[j.y][j.x] = 4;
+			std::cout << "  x: " << j.x << "\ty: " << j.y << std::endl;
+		}
+	}
 }
 
 GameMap::~GameMap() {
@@ -172,7 +181,7 @@ void GameMap::SetDemon(int** maze, CodList& path) {
 	for(int i=0; i<mapDemon;) {
 		if(path.empty()) return;
 		int num = std::rand()%path.size();
-		if(GetDemonPath(maze, path[num], demonPoint[i], 5)) i++;
+		if(GetDemonPath(maze, path[num], demonPoint[i], 6)) i++;
 		path.erase(path.begin() + num);
 	}
 }
@@ -205,20 +214,32 @@ void GameMap::ClearMaze(int** maze, bool (* fun)(int)) {
 	}
 }
 
+
+void S(int **maze) {
+	for(int i=0; i<21; i++) {
+		for(int j=0; j<21; j++) {
+			std::cout << maze[i][j] << '\t';
+		} std::cout << std::endl;
+	} std::cout << std::endl;
+}
+
+
 bool GameMap::GetDemonPath(int** maze, const Cod& cd, CodList& path, int num) {
 	if(cd.x == 1 && cd.y == 1) return false;
 	
 	ClearMaze(maze, [](int num) {
-		return (num < 0 || num == 2);
+		return (num != 0 && num != 1);
 	});
 	
 	FillMaze(maze, cd, num+3);
 	
+	S(maze);
+	
 	CodList point;
-	int iMax = (cd.y + 5 < yLength)? (cd.y + 5): (yLength - 1);
-	int jMax = (cd.x + 5 < xLength)? (cd.x + 5): (xLength - 1);
-	for(int i = (cd.y - 5 > 0)? (cd.y - 5): 1; i < iMax; i++) {
-		for(int j = (cd.x - 5 > 0)? (cd.x - 5): 1; j < jMax; j++) {
+	int iMax = (cd.y + 6 < yLength)? (cd.y + 6): (yLength - 1);
+	int jMax = (cd.x + 6 < xLength)? (cd.x + 6): (xLength - 1);
+	for(int i = (cd.y - 6 > 0)? (cd.y - 6): 1; i < iMax; i++) {
+		for(int j = (cd.x - 6 > 0)? (cd.x - 6): 1; j < jMax; j++) {
 			if(maze[i][j] == 4) point.push_back({i, j});
 		}
 	}

@@ -7,7 +7,7 @@ GameFge::GameFge() :
 		ifWin(0) {
 	std::srand(time(nullptr));
 	demonPos = new int[mapDemon]();
-	for(int i=0; i<mapDemon; i++) demonPos[i] = std::rand()%5;
+	for(int i=0; i<mapDemon; i++) demonPos[i] = std::rand()%6;
 }
 
 GameFge::~GameFge() {
@@ -80,7 +80,7 @@ void GameFge::FgeBehave(SDL_Keycode dir) {
 
 void GameFge::DemonMove() {
 	for(int i=0; i<mapDemon; i++) {
-		if(demonPos[i] == 4) demonPos[i] = -4;
+		if(demonPos[i] == 5) demonPos[i] = -5;
 		demonPos[i]++;
 	}
 }
