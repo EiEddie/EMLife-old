@@ -47,32 +47,9 @@ void GameFge::FgeEat() {
 	}
 }
 
-void GameFge::FgeAttack() {
-	/*人物攻击*/
-	
-	bool n = false;
-	if(fgeCoin >= 5) {
-		for(int i = fgeCod.y - 2; i <= fgeCod.y + 2; i++) {
-			for(int j = fgeCod.x - 2; j <= fgeCod.x + 2; j++) {
-				if(mapMaze[i][j] == 4) {
-					mapMaze[i][j] = 1;
-					n = true;
-				}
-			}
-		}
-	}
-	if(n) {
-		fgeCoin -= 5;
-	}
-}
-
 void GameFge::FgeBehave(SDL_Keycode dir) {
 	/*人物行为*/
 	
-	if(dir == SDLK_e) {
-		FgeAttack();
-		return;
-	}
 	FgeMove(dir);
 	FgeEat();
 	if(fgeStar == mapStar) ifGetAllStar = true;

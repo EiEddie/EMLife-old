@@ -111,9 +111,6 @@ private:
 	 * Coin&Star
 	 */
 	void FgeEat();
-	
-	/*人物攻击*/
-	void FgeAttack();
 
 public:
 	/*

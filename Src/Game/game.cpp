@@ -22,7 +22,6 @@ bool Game::CheckKeyEvent(const SDL_Keycode &key) {
 		case SDLK_RIGHT:
 		case SDLK_UP:
 		case SDLK_DOWN:
-		case SDLK_e:
 			if(gameFge->ifWin == 0) gameFge->FgeBehave(key);
 			//继续显示
 			return true;

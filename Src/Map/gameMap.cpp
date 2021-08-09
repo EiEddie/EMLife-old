@@ -49,15 +49,6 @@ GameMap::GameMap() :
 	
 	for(int i = 0; i < yLength; i++) delete[] maze[i];
 	delete[] maze;
-	
-	
-	for(int i=0; i<mapDemon; i++) {
-//		std::cout << "\nnum: " << i << std::endl;
-		for(auto j: demonPoint[i]) {
-//			mapMaze[j.y][j.x] = 4;
-//			std::cout << "  x: " << j.x << "\ty: " << j.y << std::endl;
-		}
-	}
 }
 
 GameMap::~GameMap() {
@@ -222,16 +213,6 @@ void GameMap::ClearMaze(int** maze, bool (* fun)(int)) {
 	}
 }
 
-
-//void S(int **maze) {
-//	for(int i=0; i<21; i++) {
-//		for(int j=0; j<21; j++) {
-//			std::cout << maze[i][j] << '\t';
-//		} std::cout << std::endl;
-//	} std::cout << std::endl;
-//}
-
-
 bool GameMap::GetDemonPath(int** maze, const Cod& cd, CodList& path, int num) {
 	if(cd.x == 1 && cd.y == 1) return false;
 	
@@ -240,9 +221,7 @@ bool GameMap::GetDemonPath(int** maze, const Cod& cd, CodList& path, int num) {
 	});
 	
 	FillMaze(maze, cd, num+3);
-	
-//	S(maze);
-	
+
 	CodList point;
 	int iMax = (cd.y + 6 < yLength)? (cd.y + 6): (yLength - 1);
 	int jMax = (cd.x + 6 < xLength)? (cd.x + 6): (xLength - 1);
