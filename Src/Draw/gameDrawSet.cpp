@@ -23,14 +23,14 @@ GameDrawSet::GameDrawSet(unsigned int fps, GameFge *gameFge) :
 	SDL_SetRenderDrawBlendMode(drawRen, SDL_BLENDMODE_BLEND);
 	
 	std::map<int, std::string> drawGameImgName = {
-			{-2, "End"},
-			{-1, "Fge"},
-			{0, 	"Wall"},
-			{2, 	"Coin"},
-			{3, 	"Star"},
-			{4, 	"Demon"}
+			{-2, "end"},
+			{-1, "fge"},
+			{0, 	"wall"},
+			{2, 	"coin"},
+			{3, 	"star"},
+			{4, 	"demon"}
 	};
-	std::string imgPath = "./GameImg/imgGame";
+	std::string imgPath = "./Img/";
 	for(int i = -2; i <= 4; i++) {
 		if(i == 1) continue;
 		SDL_Surface *drawGameTemp = IMG_Load((imgPath+drawGameImgName[i]+".png").c_str());

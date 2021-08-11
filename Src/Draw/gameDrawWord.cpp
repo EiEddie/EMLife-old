@@ -2,7 +2,7 @@
 
 GameDrawWord::GameDrawWord(unsigned int fps, GameFge *gameFge) :
 		GameDrawSet(fps, gameFge) {
-	SDL_Surface *font = IMG_Load("./GameImg/font.png");
+	SDL_Surface *font = IMG_Load("./Img/font.png");
 	
 	//开始符号: '!'
 	char charaNum = '!';
