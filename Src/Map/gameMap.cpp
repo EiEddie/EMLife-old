@@ -110,17 +110,17 @@ void GameMap::GetMaze() {
 			{3, 1, 0, 2}, {3, 2, 1, 0}, {3, 2, 0, 1}
 	};
 	
-	//在wallPoint中随随机选取一点作为cd1, 并删除
 	Cod cd1{};
 	Cod cd2{};
 	Cod temp{};
 	while(!wallPoint.empty()) {
+		//在wallPoint中随随机选取一点作为cd1, 并删除
 		int numRandom = std::rand()%(wallPoint.size());
 		cd1 = {wallPoint[numRandom].y, wallPoint[numRandom].x};
 		wallPoint.erase(wallPoint.begin() + numRandom);
+		mapMaze[cd1.y][cd1.x] = 1;
 		
 		//将cd1与其四周随机一个路点cd2打通
-		mapMaze[cd1.y][cd1.x] = 1;
 		numRandom = std::rand()%24;
 		for(int i = 0; i < 4; i++) {
 			cd2 = MovePoint(cd1, order[numRandom][i]);
