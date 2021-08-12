@@ -85,8 +85,7 @@ Cod GameMap::MovePoint(
 	if(
 			newPoint.y > 0 && newPoint.y < yLength
 			&& newPoint.x > 0 && newPoint.x < xLength
-			)
-		return newPoint;
+			) return newPoint;
 	else return oldPoint;
 }
 
@@ -116,7 +115,7 @@ void GameMap::GetMaze() {
 	while(!wallPoint.empty()) {
 		//在wallPoint中随随机选取一点作为cd1, 并删除
 		int numRandom = std::rand()%(wallPoint.size());
-		cd1 = {wallPoint[numRandom].y, wallPoint[numRandom].x};
+		cd1 = wallPoint[numRandom];
 		wallPoint.erase(wallPoint.begin() + numRandom);
 		mapMaze[cd1.y][cd1.x] = 1;
 		
@@ -139,9 +138,7 @@ void GameMap::GetMaze() {
 			if(
 					mapMaze[temp.y][temp.x] == 0
 					&& !SelectVector(wallPoint, temp)
-					) {
-				wallPoint.push_back(temp);
-			}
+					) wallPoint.push_back(temp);
 		}
 	}
 }
