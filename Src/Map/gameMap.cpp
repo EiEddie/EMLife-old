@@ -129,6 +129,8 @@ void GameMap::GetMaze() {
 				break;
 			}
 		}
+		
+		//将cd1加入roadPoint
 		roadPoint.push_back(cd1);
 		
 		//加入cd1周围不在wallPoint中的墙点
