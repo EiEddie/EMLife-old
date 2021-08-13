@@ -46,6 +46,7 @@ private:
 	 * path: 可移动位置
 	 */
 	void SetDemon(int **maze, CodList &path);
+	void SetDemon(const CodList& cdEnd, CodList path);
 	
 	/*
 	 * 填充迷宫:
