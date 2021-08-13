@@ -10,8 +10,8 @@ GameDrawSet::GameDrawSet(unsigned int fps, GameFge *gameFge) :
 			"EMLife!",
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
-			drawGameFge->xLength * 16,
-			drawGameFge->yLength * 16,
+			drawGameFge->xLength * 24,
+			drawGameFge->yLength * 24,
 			SDL_WINDOW_SHOWN
 	);
 	

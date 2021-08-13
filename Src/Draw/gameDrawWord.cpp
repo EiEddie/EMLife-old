@@ -40,8 +40,8 @@ GameDrawWord::~GameDrawWord() {
 }
 
 void GameDrawWord::ShowWord(const std::string &str, float amp, int x, int y) {
-	if(x < 0) x += (int)((drawGameFge->xLength*16-GetStrLength(str, amp))/2) - SCREEN_CENTER;
-	if(y < 0) y += (int)((drawGameFge->yLength*16-GetStrWidth(str, amp))/2) - SCREEN_CENTER;
+	if(x < 0) x += (int)((drawGameFge->xLength*24-GetStrLength(str, amp))/2) - SCREEN_CENTER;
+	if(y < 0) y += (int)((drawGameFge->yLength*24-GetStrWidth(str, amp))/2) - SCREEN_CENTER;
 	SDL_Rect drawCharaCod = {x, y, 0, (int)(16*amp)};
 	for(char i: str) {
 		if(i <= '~' && i >= '!') {

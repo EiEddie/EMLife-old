@@ -5,8 +5,8 @@ GameDraw::GameDraw(unsigned int fps, GameFge *gameFge):
 		fpsNum(0),
 		drawScreenRect({
 			0, 0,
-			drawGameFge->xLength*16,
-			drawGameFge->yLength*16
+			drawGameFge->xLength*24,
+			drawGameFge->yLength*24
 		}) {}
 
 void GameDraw::FpsManagerBegin() {
@@ -23,13 +23,13 @@ void GameDraw::FpsManagerEnd() const {
 }
 
 void GameDraw::ShowMap() {
-	SDL_Rect drawElementCod = {0, 0, 16, 16};
+	SDL_Rect drawElementCod = {0, 0, 24, 24};
 	for(int i=0; i<drawGameFge->yLength; i++) {
 		for(int j = 0; j<drawGameFge->xLength; j++) {
 			int temp = drawGameFge->mapMaze[i][j];
 			if((temp == -2 && drawGameFge->ifGetAllStar) || (temp != 1 && temp != -2)) {
-				drawElementCod.y = i*16;
-				drawElementCod.x = j*16;
+				drawElementCod.y = i*24;
+				drawElementCod.x = j*24;
 				SDL_RenderCopy(drawRen, drawGameImg[temp], nullptr, &drawElementCod);
 			}
 		}
@@ -41,9 +41,9 @@ void GameDraw::ShowDemon() {
 		int drawDemonPos = drawGameFge->demonPos[i];
 		Cod drawDemonCod = drawGameFge->demonPoint[i][drawDemonPos<0? -drawDemonPos: drawDemonPos];
 		SDL_Rect drawDemon = {
-				drawDemonCod.x*16,
-				drawDemonCod.y*16,
-				16, 16
+				drawDemonCod.x*24,
+				drawDemonCod.y*24,
+				24, 24
 		};
 		SDL_RenderCopy(drawRen, drawGameImg[4], nullptr, &drawDemon);
 	}
@@ -52,14 +52,14 @@ void GameDraw::ShowDemon() {
 void GameDraw::Show() {
 	SDL_SetRenderDrawColor(
 			drawRen,
-			0xff, 0xff,
-			0xff, 0xff
+			0xff, 0xfa,
+			0xf0, 0xff
 	);
 	SDL_RenderClear(drawRen);
 	//显示地图
 	ShowMap();
 	//显示人物
-	SDL_Rect drawFge = {drawGameFge->fgeCod.x*16, drawGameFge->fgeCod.y*16, 16, 16};
+	SDL_Rect drawFge = {drawGameFge->fgeCod.x*24, drawGameFge->fgeCod.y*24, 24, 24};
 	SDL_RenderCopy(drawRen, drawGameImg[-1], nullptr, &drawFge);
 	//显示怪物
 	ShowDemon();

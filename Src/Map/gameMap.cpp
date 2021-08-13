@@ -5,7 +5,7 @@ GameMap::GameMap() :
 		mapStar(3),
 		mapDemon(3),
 		xLength(41),
-		yLength(33) {
+		yLength(31) {
 	std::srand(time(nullptr));
 	
 	demonPoint = new CodList[mapDemon]();
@@ -168,7 +168,7 @@ void GameMap::SetCoin() {
 		int num = std::rand()%roadPoint.size();
 		Cod temp = roadPoint[num];
 		roadPoint.erase(roadPoint.begin() + num);
-		if(temp.x > 5 || temp.y > 5) {
+		if(temp.x > 2 || temp.y > 2) {
 			mapMaze[temp.y][temp.x] = 2;
 			i++;
 		}
