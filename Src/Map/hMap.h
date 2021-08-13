@@ -18,6 +18,8 @@ class GameMap {
 private:
 	/*所有路点*/
 	CodList roadPoint;
+	/*添加所有路点*/
+	void GetAllRoadPoint();
 	
 	/*查找点*/
 	bool SelectVector(const CodList &vectorName, const Cod &point);

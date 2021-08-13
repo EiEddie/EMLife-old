@@ -16,6 +16,7 @@ GameMap::GameMap() :
 		for(int j = 0; j < xLength; j++) mapMaze[i][j] = 0;
 	}
 	GetMaze();
+	GetAllRoadPoint();
 	CodList roadPointTemp = roadPoint;
 	
 	SetEnd();
@@ -114,6 +115,14 @@ void GameMap::GetMaze() {
 					mapMaze[temp.y][temp.x] == 0
 					&& !SelectVector(wallPoint, temp)
 					) wallPoint.push_back(temp);
+		}
+	}
+}
+
+void GameMap::GetAllRoadPoint() {
+	for(int i=1; i<yLength; i++) {
+		for(int j=i%2+1; j<xLength; j+=2) {
+			if(mapMaze[i][j] != 0) roadPoint.push_back({i, j});
 		}
 	}
 }
