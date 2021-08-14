@@ -159,8 +159,9 @@ public:
 	/*
 	 * 显示:
 	 * 显示游戏所有元素并刷新窗口
+	 * ifFlipFge: 是否水平翻转人物
 	 */
-	void Show();
+	void Show(bool ifFlipFge=false);
 	/*
 	 * 是否开始新一局:
 	 * Y以开始新一局

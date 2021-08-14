@@ -14,7 +14,7 @@ private:
 	 * true: 继续显示(刷新屏幕)
 	 * false: 关闭窗口
 	 */
-	bool CheckKeyEvent(const SDL_Keycode& key);
+	bool CheckKeyEvent(const SDL_Keycode& key, bool &ifFlipFge);
 	/*
 	 * 更新地图:
 	 * 仅用于游戏结束时

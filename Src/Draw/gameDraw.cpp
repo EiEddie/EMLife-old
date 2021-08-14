@@ -49,7 +49,7 @@ void GameDraw::ShowDemon() {
 	}
 }
 
-void GameDraw::Show() {
+void GameDraw::Show(bool ifFlipFge) {
 	SDL_SetRenderDrawColor(
 			drawRen,
 			0xff, 0xfa,
@@ -60,7 +60,14 @@ void GameDraw::Show() {
 	ShowMap();
 	//显示人物
 	SDL_Rect drawFge = {drawGameFge->fgeCod.x*24, drawGameFge->fgeCod.y*24, 24, 24};
-	SDL_RenderCopy(drawRen, drawGameImg[-1], nullptr, &drawFge);
+	SDL_RenderCopyEx(
+			drawRen,
+			drawGameImg[-1],
+			nullptr, &drawFge,
+			0, nullptr,
+			ifFlipFge? SDL_FLIP_HORIZONTAL: SDL_FLIP_NONE
+//			SDL_FLIP_HORIZONTAL
+	);
 	//显示怪物
 	ShowDemon();
 	if(drawGameFge->ifWin == 1) ShowWin();
