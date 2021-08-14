@@ -62,15 +62,7 @@ private:
 	 * width[1]为该字符字面框右边线在16*16单元格内距左边框距离(px)
 	 * width[1]-width[0]+1即为字符宽度
 	 */
-	void GetCharaWidth(SDL_Surface* chara, int width[2]);
-	
-	/*
-	 * 获取字符高度:
-	 * height[0]为该字符字面框上边线在16*16单元格内距上边框距离(px)
-	 * height[1]为该字符字面框下边线在16*16单元格内距下边框距离(px)
-	 * height[1]-height[0]+1即为字符高度
-	 */
-	void GetCharaHeight(SDL_Surface* chara, int height[2]);
+	void GetCharaSize(SDL_Surface* chara, int * width, int * height);
 	
 	/*
 	 * 一次裁剪:

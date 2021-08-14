@@ -93,36 +93,27 @@ unsigned int GameDrawWord::GetStrWidth(const std::string &str, float amp) {
 	return strWidth;
 }
 
-void GameDrawWord::GetCharaWidth(SDL_Surface *chara, int width[2]) {
-	int num = 0;
-	bool ifFirst = true;
+void GameDrawWord::GetCharaSize(SDL_Surface *chara, int * width, int * height) {
+	int widthNum = 0;
+	int heightNum = 0;
+	bool ifWidthFirst = true;
+	bool ifHeightFirst = true;
 	Uint32 *pixel = (Uint32 *)chara->pixels;
 	for(int i=0; i<16; i++) {
 		for(int j=0; j<16; j++) {
 			if(pixel[i+16*j] != 0x00000000) {
-				num = i;
-				if(ifFirst) width[0] = num;
-				ifFirst = false;
+				widthNum = i;
+				if(ifWidthFirst) width[0] = widthNum;
+				ifWidthFirst = false;
+			} if(pixel[j+16*i] != 0x00000000) {
+				heightNum = i;
+				if(ifHeightFirst) height[0] = heightNum;
+				ifHeightFirst = false;
 			}
 		}
 	}
-	width[1] = num;
-}
-
-void GameDrawWord::GetCharaHeight(SDL_Surface* chara, int height[2]) {
-	int num = 0;
-	bool ifFirst = true;
-	Uint32 *pixel = (Uint32 *)chara->pixels;
-	for(int i=0; i<16; i++) {
-		for(int j=0; j<16; j++) {
-			if(pixel[j+16*i] != 0x00000000) {
-				num = i;
-				if(ifFirst) height[0] = num;
-				ifFirst = false;
-			}
-		}
-	}
-	height[1] = num;
+	width[1] = widthNum;
+	height[1] = heightNum;
 }
 
 SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface *font, SDL_Rect *cod) {
@@ -160,9 +151,8 @@ Font GameDrawWord::CropCharaSecond(SDL_Surface *chara) {
 	//字符charaNum在Font图片中的位置
 	SDL_Rect charaCod = {0, 0, 16, 16};
 	
-	GetCharaWidth(chara, width);
+	GetCharaSize(chara, width, height);
 	charaTex.width = width[1] - width[0] + 1;
-	GetCharaHeight(chara, height);
 	charaTex.height = height[1] - height[0] + 1;
 	charaCod.x = width[0];
 	charaCod.w = width[1]-width[0]+1;
