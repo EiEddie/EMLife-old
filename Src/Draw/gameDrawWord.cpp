@@ -49,9 +49,9 @@ void GameDrawWord::ShowWord(const std::string &str, float amp, int x, int y) {
 			 * 如果是可见字符(\u0021: '!' 到 \u007e: '~', 不包括Space(空格)):
 			 * 后移 该字符宽度+2px
 			 */
-			drawCharaCod.w = (int)((float)drawChara[i].charaWidth*amp);
+			drawCharaCod.w = (int)((float)drawChara[i].width*amp);
 			SDL_RenderCopy(drawRen, drawChara[i].chara, nullptr, &drawCharaCod);
-			drawCharaCod.x += (int)((float)drawChara[i].charaWidth*amp);
+			drawCharaCod.x += (int)((float)drawChara[i].width*amp);
 			drawCharaCod.x += (int)(2*amp);
 		} else if(i == '\n') {
 			/*
@@ -74,7 +74,7 @@ unsigned int GameDrawWord::GetStrLength(const std::string &str, float amp) {
 	int length = 0;
 	for(char i: str) {
 		if(i <= '~' && i >= '!') {
-			length += (int)((float)(drawChara[i].charaWidth)*amp);
+			length += (int)((float)(drawChara[i].width)*amp);
 			length += (int)(2*amp);
 		}else if(i == ' ') {
 			length += (int)(6*amp);
@@ -109,6 +109,22 @@ void GameDrawWord::GetCharaWidth(SDL_Surface *chara, int width[2]) {
 	width[1] = num;
 }
 
+void GameDrawWord::GetCharaHeight(SDL_Surface* chara, int height[2]) {
+	int num = 0;
+	bool ifFirst = true;
+	Uint32 *pixel = (Uint32 *)chara->pixels;
+	for(int i=0; i<16; i++) {
+		for(int j=0; j<16; j++) {
+			if(pixel[j+16*i] != 0x00000000) {
+				num = i;
+				if(ifFirst) height[0] = num;
+				ifFirst = false;
+			}
+		}
+	}
+	height[1] = num;
+}
+
 SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface *font, SDL_Rect *cod) {
 	/*
 	 * 一次裁剪:
@@ -135,6 +151,8 @@ Font GameDrawWord::CropCharaSecond(SDL_Surface *chara) {
 	
 	//字符宽度信息
 	int width[2] = {0};
+	//字符高度信息
+	int height[2] = {0};
 	//裁剪后字符
 	Font charaTex = {nullptr, 16, 16};
 	//临时存放字符
@@ -143,7 +161,9 @@ Font GameDrawWord::CropCharaSecond(SDL_Surface *chara) {
 	SDL_Rect charaCod = {0, 0, 16, 16};
 	
 	GetCharaWidth(chara, width);
-	charaTex.charaWidth = width[1]-width[0]+1;
+	charaTex.width = width[1] - width[0] + 1;
+	GetCharaHeight(chara, height);
+	charaTex.height = height[1] - height[0] + 1;
 	charaCod.x = width[0];
 	charaCod.w = width[1]-width[0]+1;
 	
