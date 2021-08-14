@@ -4,8 +4,8 @@ GameMap::GameMap() :
 		mapCoin(100),
 		mapStar(3),
 		mapDemon(3),
-		xLength(41),
-		yLength(31) {
+		xLength(47),
+		yLength(29) {
 	std::srand(time(nullptr));
 	
 	demonPoint = new CodList[mapDemon]();
