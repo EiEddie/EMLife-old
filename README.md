@@ -98,6 +98,7 @@ _________
 目的: 将字符逐个自 `font.png` 文件中裁剪为 16*16 的单元
 
 [定义](Src/Draw/gameDrawWord.cpp)
+
 ```c++
 /*
  * 声明于 GameDrawWord 类中
@@ -123,20 +124,27 @@ SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface *font, SDL_Rect *cod) {
 
 ##### 获取字符大小
 
-1. 逐行遍历字符像素, 第一次发现该点非透明时记录此点纵坐标 `height1` *(图一动点第一次变为黄色时; 或图二).*  
+1. 逐行遍历字符像素, 第一次发现该点非透明时记录此点纵坐标 `height1` *(图一动点第一次变为黄色时; 或图二).*
 
-2. 最后一次发现该点非透明时记录此点纵坐标 `height2` *(图一动点第一次变为黄色时; 或图三)*  
+2. 最后一次发现该点非透明时记录此点纵坐标 `height2` *(图一动点第一次变为黄色时; 或图三)*
 
 3. **`height2` - `height1` + 1**即为字符高度
 
 ***图一: 遍历字符***  
-![size-1](Legend/getCharaSize.gif)  
+![size-1](Legend/getCharaSize.gif)
 
 ***图二:***  
-![size-2](Legend/size-2.png)  
+![size-2](Legend/size-2.png)
 
 ***图三:***  
-![size-3](Legend/size-3.png)  
+![size-3](Legend/size-3.png)
 
-同理, 逐列遍历字符像素并依次记录第一次与最后一次发现该点非透明时的横坐标 `width1` `width2`, 
-两者之差的绝对值加一即为字符宽度.  
+同理, 逐列遍历字符像素并依次记录第一次与最后一次发现该点非透明时的横坐标 `width1` `width2`, 两者之差的绝对值加一即为字符宽度.
+
+## 使用的库
+
+> **[SDL](https://www.libsdl.org)**  
+知名的跨平台多媒体开发库
+
+> **[SDL_image](https://www.libsdl.org/projects/SDL_image)**  
+SDL的附属库, 用于导入除 `.bmp`位图格式之外的其他图片格式
