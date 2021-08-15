@@ -119,6 +119,8 @@ private:
 	 * 绘制迷宫及其内部元素
 	 */
 	void ShowMap();
+	/*获取地图贴图上某点周围点信息*/
+	int GetPointInf(const Cod &point);
 	
 	/*绘制怪物*/
 	void ShowDemon();

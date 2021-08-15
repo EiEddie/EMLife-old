@@ -22,14 +22,66 @@ void GameDraw::FpsManagerEnd() const {
 	}
 }
 
+int GameDraw::GetPointInf(const Cod& point) {
+	int pointInf = 0;
+	for(int i=0; i<4; i++) {
+		Cod pointNew = drawGameFge->MovePoint(point, i, 1, true);
+		if(
+				pointNew != point
+				&& drawGameFge->mapMaze[pointNew.y][pointNew.x] == 0
+				) {
+			pointInf = pointInf | 0b1;
+		}
+		pointInf = pointInf<<1;
+	}
+	return pointInf>>1;
+}
+
+//void GameDraw::SetDrawMap() {
+//	drawMap = SDL_CreateTexture(
+//			drawRen,
+//			SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC,
+//			drawGameFge->xLength*24, drawGameFge->yLength*24
+//	);
+//	SDL_SetRenderTarget(drawRen, drawMap);
+//	std::map<int, SDL_Texture *> wall = {
+//
+//	};
+//
+//	//temp:
+//	SDL_Texture *temp = SDL_CreateTextureFromSurface(drawRen, IMG_Load("./Img/wall.png"));
+//
+//	SDL_Rect drawWallCod = {0, 0, 24, 24};
+//	for(int i=0; i<drawGameFge->yLength; i++) {
+//		for(int j = 0; j<drawGameFge->xLength; j++) {
+//			if(drawGameFge->mapMaze[i][j] == 0) {
+//				drawWallCod.y = i*24;
+//				drawWallCod.x = j*24;
+//				SDL_RenderCopyEx(drawRen, temp, nullptr, &drawWallCod, 0, nullptr, SDL_FLIP_NONE);
+//			}
+//		}
+//	}
+////	drawMap = SDL_CreateTextureFromSurface(drawRen, mapSurface);
+//
+//	//temp:
+//	SDL_DestroyTexture(temp);
+//
+//	SDL_SetRenderTarget(drawRen, nullptr);
+//}
+
 void GameDraw::ShowMap() {
 	SDL_Rect drawElementCod = {0, 0, 24, 24};
 	for(int i=0; i<drawGameFge->yLength; i++) {
 		for(int j = 0; j<drawGameFge->xLength; j++) {
 			int temp = drawGameFge->mapMaze[i][j];
-			if((temp == -2 && drawGameFge->ifGetAllStar) || (temp != 1 && temp != -2)) {
-				drawElementCod.y = i*24;
-				drawElementCod.x = j*24;
+			drawElementCod.y = i*24;
+			drawElementCod.x = j*24;
+			if(temp == 0) {
+//				switch(GetPointInf({i, j})) {
+//
+//				}
+				SDL_RenderCopy(drawRen, drawGameImg[0], nullptr, &drawElementCod);
+			} else if((temp == -2 && drawGameFge->ifGetAllStar) || (temp != 1 && temp != -2)) {
 				SDL_RenderCopy(drawRen, drawGameImg[temp], nullptr, &drawElementCod);
 			}
 		}
@@ -66,7 +118,6 @@ void GameDraw::Show(bool ifFlipFge) {
 			nullptr, &drawFge,
 			0, nullptr,
 			ifFlipFge? SDL_FLIP_HORIZONTAL: SDL_FLIP_NONE
-//			SDL_FLIP_HORIZONTAL
 	);
 	//显示怪物
 	ShowDemon();

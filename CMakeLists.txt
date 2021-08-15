@@ -7,9 +7,9 @@ set(CMAKE_CXX_STANDARD 11)
 project(EMLife)
 #可执行文件输出目录
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Bin)
-#不显示dos窗口
-set(CMAKE_CXX_FLAGS "-mwindows")
-message(STATUS "Dos-Window: Invisible")
+##不显示dos窗口
+#set(CMAKE_CXX_FLAGS "-mwindows")
+#message(STATUS "Dos-Window: Invisible")
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
 	#链接库

@@ -45,9 +45,21 @@ bool GameMap::SelectVector(const CodList& vectorName, const Cod& point) {
 Cod GameMap::MovePoint(
 		const Cod& oldPoint,
 		const int dir,
-		int stepLength
+		int stepLength,
+		bool ifSide
 ) const {
 	/*移动点*/
+	
+	Cod cdMin{};
+	Cod cdMax{};
+	
+	if(!ifSide) {
+		cdMin = {0, 0};
+		cdMax = {yLength, xLength};
+	} else {
+		cdMin = {-1, -1};
+		cdMax = {yLength+1, xLength+1};
+	}
 	const int step[4][2] = {
 			{-1,  0},//上
 			{1 ,  0},//下
@@ -59,8 +71,9 @@ Cod GameMap::MovePoint(
 			oldPoint.x + step[dir][1]*stepLength
 	};
 	if(
-			newPoint.y > 0 && newPoint.y < yLength
-			&& newPoint.x > 0 && newPoint.x < xLength
+//			newPoint.y > 0 && newPoint.y < yLength
+//			&& newPoint.x > 0 && newPoint.x < xLength
+			newPoint > cdMin && newPoint < cdMax
 			) return newPoint;
 	else return oldPoint;
 }

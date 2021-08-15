@@ -9,6 +9,32 @@ struct Cod {
 	int y;
 	/*横坐标*/
 	int x;
+	
+	bool operator==(const Cod& cd) {
+		if(cd.x == x && cd.y == y) return true;
+		else return false;
+	}
+	bool operator!=(const Cod& cd) {
+		return !(*this == cd);
+	}
+	
+	bool operator<=(const Cod& cd) {
+		if(x <= cd.x && y <= cd.y) return true;
+		else return false;
+	}
+	bool operator>=(const Cod& cd) {
+		if(x >= cd.x && y >= cd.y) return true;
+		else return false;
+	}
+	
+	bool operator<(const Cod& cd) {
+		if(x < cd.x && y < cd.y) return true;
+		else return false;
+	}
+	bool operator>(const Cod& cd) {
+		if(x > cd.x && y > cd.y) return true;
+		else return false;
+	}
 };
 
 typedef std::vector<Cod> CodList;
@@ -23,13 +49,6 @@ private:
 	
 	/*查找点*/
 	bool SelectVector(const CodList &vectorName, const Cod &point);
-	
-	/*移动点*/
-	Cod MovePoint(
-			const Cod &oldPoint,
-			int dir,
-			int stepLength = 2
-	) const;
 	
 	/*生成迷宫*/
 	void GetMaze();
@@ -79,6 +98,15 @@ private:
 	bool GetDemonPath(int **maze, const Cod &cd, CodList &path, int num);
 
 public:
+	/*移动点*/
+	Cod MovePoint(
+			const Cod &oldPoint,
+			int dir,
+			int stepLength=2,
+			bool ifSide=false
+	) const;
+	
+	
 	/*金币数量*/
 	const int mapCoin;
 	/*星星数量*/
