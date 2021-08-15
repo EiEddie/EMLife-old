@@ -29,6 +29,12 @@ protected:
 	 * Star: 3, Demon: 4
 	 */
 	std::map<int, SDL_Texture*> drawGameImg;
+	/*
+	 * 墙的各种状态图像:
+	 * 直: 0, 弯: 1
+	 * 末端: 2, 十字: 3, 三岔: 4
+	 */
+	std::map<int, SDL_Texture*> drawWallImg;
 
 public:
 	GameDrawSet(unsigned int fps, GameFge *gameFge);

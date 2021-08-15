@@ -22,6 +22,9 @@ GameDrawSet::GameDrawSet(unsigned int fps, GameFge *gameFge) :
 	);
 	SDL_SetRenderDrawBlendMode(drawRen, SDL_BLENDMODE_BLEND);
 	
+	std::string imgPath = "./Img/";
+	SDL_Surface *drawGameTemp;
+	
 	std::map<int, std::string> drawGameImgName = {
 			{-2, "end"},
 			{-1, "fge"},
@@ -30,15 +33,29 @@ GameDrawSet::GameDrawSet(unsigned int fps, GameFge *gameFge) :
 			{3, 	"star"},
 			{4, 	"demon"}
 	};
-	std::string imgPath = "./Img/";
 	for(int i = -2; i <= 4; i++) {
 		if(i == 1) continue;
-		SDL_Surface *drawGameTemp = IMG_Load((imgPath+drawGameImgName[i]+".png").c_str());
+		drawGameTemp = IMG_Load((imgPath+drawGameImgName[i]+".png").c_str());
 		drawGameImg.insert(std::pair<int, SDL_Texture *>(
-						i, SDL_CreateTextureFromSurface(drawRen, drawGameTemp)
-				));
-		SDL_FreeSurface(drawGameTemp);
+				i, SDL_CreateTextureFromSurface(drawRen, drawGameTemp)
+		));
 	}
+	
+	std::map<int, std::string> drawWallImgName = {
+			{0, 	"wallStr"},
+			{1, 	"wallCor"},
+			{2, 	"wallEnd"},
+			{3, 	"wallCros"},
+			{4, 	"wallTri"}
+	};
+	for(int i = 0; i <= 4; i++) {
+		drawGameTemp = IMG_Load((imgPath+drawWallImgName[i]+".png").c_str());
+		drawWallImg.insert(std::pair<int, SDL_Texture *>(
+				i, SDL_CreateTextureFromSurface(drawRen, drawGameTemp)
+		));
+	}
+	
+	SDL_FreeSurface(drawGameTemp);
 }
 
 GameDrawSet::~GameDrawSet() {

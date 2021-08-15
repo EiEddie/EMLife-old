@@ -58,7 +58,7 @@ Cod GameMap::MovePoint(
 		cdMax = {yLength, xLength};
 	} else {
 		cdMin = {-1, -1};
-		cdMax = {yLength+1, xLength+1};
+		cdMax = {yLength, xLength};
 	}
 	const int step[4][2] = {
 			{-1,  0},//上
