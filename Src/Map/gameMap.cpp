@@ -1,15 +1,10 @@
 #include"hMap.h"
 
-Cod MovePoint(
-		const Cod &oldPoint,
-		const int dir,
-		int xLength, int yLength,
-		int stepLength
-) {
+Cod MovePoint(const Cod& oldPoint, const int dir, int stepLength) {
 	/*移动点*/
 	
 	Cod cdMin = {0, 0};
-	Cod cdMax = {yLength, xLength};
+	Cod cdMax = {mazeInf.yLength, mazeInf.xLength};
 	
 	const int step[4][2] = {
 			{-1,  0},//上
@@ -26,20 +21,20 @@ Cod MovePoint(
 }
 
 
-GameMap::GameMap() :
+GameMap::GameMap()/* :
 		mapCoin(100),
 		mapStar(3),
 		mapDemon(3),
 		xLength(47),
-		yLength(29) {
+		yLength(29)*/ {
 	std::srand(time(nullptr));
 	
-	demonPoint = new CodList[mapDemon]();
+	demonPoint = new CodList[mazeInf.demon]();
 	
-	mapMaze = new int* [yLength];
-	for(int i = 0; i < yLength; i++) {
-		mapMaze[i] = new int[xLength];
-		for(int j = 0; j < xLength; j++) mapMaze[i][j] = 0;
+	mapMaze = new int* [mazeInf.yLength];
+	for(int i = 0; i < mazeInf.yLength; i++) {
+		mapMaze[i] = new int[mazeInf.xLength];
+		for(int j = 0; j < mazeInf.xLength; j++) mapMaze[i][j] = 0;
 	}
 	GetMaze();
 	GetAllRoadPoint();
@@ -54,7 +49,7 @@ GameMap::GameMap() :
 }
 
 GameMap::~GameMap() {
-	for(int i = 0; i < yLength; i++) delete[] mapMaze[i];
+	for(int i = 0; i < mazeInf.yLength; i++) delete[] mapMaze[i];
 	delete[] mapMaze;
 	
 	delete[] demonPoint;
@@ -73,12 +68,12 @@ Cod GameMap::MovePoint(
 		const int dir,
 		int stepLength
 ) const {
-	Cod cdNew = ::MovePoint(oldPoint, dir, xLength, yLength, stepLength);
+	Cod cdNew = ::MovePoint(oldPoint, dir, stepLength);
 	if(cdNew.x == 0) cdNew.x++;
-	else if(cdNew.x >= xLength) cdNew.x = xLength-1;
+	else if(cdNew.x >= mazeInf.xLength) cdNew.x = mazeInf.xLength-1;
 	
 	if(cdNew.y == 0) cdNew.y++;
-	else if(cdNew.y >= yLength) cdNew.y = yLength-1;
+	else if(cdNew.y >= mazeInf.yLength) cdNew.y = mazeInf.yLength-1;
 	
 	return cdNew;
 }
@@ -138,8 +133,8 @@ void GameMap::GetMaze() {
 }
 
 void GameMap::GetAllRoadPoint() {
-	for(int i=1; i<yLength; i++) {
-		for(int j=i%2+1; j<xLength; j+=2) {
+	for(int i=1; i<mazeInf.yLength; i++) {
+		for(int j=i%2+1; j<mazeInf.xLength; j+=2) {
 			if(mapMaze[i][j] != 0) roadPoint.push_back({i, j});
 		}
 	}
@@ -153,7 +148,7 @@ void GameMap::SetEnd() {
 }
 
 void GameMap::SetStar(CodList& pointStar) {
-	for(int i = 0; i < mapStar;) {
+	for(int i = 0; i < mazeInf.star;) {
 		int num = std::rand()%roadPoint.size();
 		Cod temp = roadPoint[num];
 		roadPoint.erase(roadPoint.begin() + num);
@@ -166,7 +161,7 @@ void GameMap::SetStar(CodList& pointStar) {
 }
 
 void GameMap::SetCoin() {
-	for(int i = 0; i < mapCoin;) {
+	for(int i = 0; i < mazeInf.coin;) {
 		int num = std::rand()%roadPoint.size();
 		Cod temp = roadPoint[num];
 		roadPoint.erase(roadPoint.begin() + num);
@@ -178,7 +173,7 @@ void GameMap::SetCoin() {
 }
 
 void GameMap::SetDemon(int** maze, CodList& path) {
-	for(int i=0; i<mapDemon;) {
+	for(int i=0; i<mazeInf.demon;) {
 		if(path.empty()) return;
 		int num = std::rand()%path.size();
 		if(GetDemonPath(maze, path[num], demonPoint[i], 6)) i++;
@@ -188,10 +183,10 @@ void GameMap::SetDemon(int** maze, CodList& path) {
 
 void GameMap::SetDemon(const CodList& cdEnd, CodList path) {
 	//深拷贝mapMaze
-	int** maze = new int* [yLength];
-	for(int i = 0; i < yLength; i++) {
-		maze[i] = new int[xLength];
-		for(int j = 0; j < xLength; j++) {
+	int** maze = new int* [mazeInf.yLength];
+	for(int i = 0; i < mazeInf.yLength; i++) {
+		maze[i] = new int[mazeInf.xLength];
+		for(int j = 0; j < mazeInf.xLength; j++) {
 			int temp = mapMaze[i][j];
 			if(temp == 0) maze[i][j] = 0;
 			else maze[i][j] = 1;
@@ -210,7 +205,7 @@ void GameMap::SetDemon(const CodList& cdEnd, CodList path) {
 	}
 	SetDemon(maze, path);
 	
-	for(int i = 0; i < yLength; i++) delete[] maze[i];
+	for(int i = 0; i < mazeInf.yLength; i++) delete[] maze[i];
 	delete[] maze;
 }
 
@@ -235,8 +230,8 @@ void GameMap::ReFillMaze(int** maze, const Cod& cdBegin, CodList& way) {
 }
 
 void GameMap::ClearMaze(int** maze, bool (* fun)(int)) {
-	for(int i = 0; i < yLength; i++) {
-		for(int j = 0; j < xLength; j++) {
+	for(int i = 0; i < mazeInf.yLength; i++) {
+		for(int j = 0; j < mazeInf.xLength; j++) {
 			if(fun(maze[i][j])) maze[i][j] = 1;
 		}
 	}
@@ -252,8 +247,8 @@ bool GameMap::GetDemonPath(int** maze, const Cod& cd, CodList& path, int num) {
 	FillMaze(maze, cd, num+3);
 
 	CodList point;
-	int iMax = (cd.y + 6 < yLength)? (cd.y + 6): (yLength - 1);
-	int jMax = (cd.x + 6 < xLength)? (cd.x + 6): (xLength - 1);
+	int iMax = (cd.y + 6 < mazeInf.yLength)? (cd.y + 6): (mazeInf.yLength - 1);
+	int jMax = (cd.x + 6 < mazeInf.xLength)? (cd.x + 6): (mazeInf.xLength - 1);
 	for(int i = (cd.y - 6 > 0)? (cd.y - 6): 1; i < iMax; i++) {
 		for(int j = (cd.x - 6 > 0)? (cd.x - 6): 1; j < jMax; j++) {
 			if(maze[i][j] == 4) point.push_back({i, j});

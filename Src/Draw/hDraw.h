@@ -19,10 +19,10 @@ struct WallDrawInf {
 	SDL_RendererFlip flip;
 	
 	/*获取地图贴图上某点编号*/
-	int GetPointNum(int xLength, int yLength, int **maze, const Cod &point);
+	int GetPointNum(int **maze, const Cod &point);
 	
 	/*设置地图贴图上某点周围点信息*/
-	void SetPointInf(int xLength, int yLength, int **maze, const Cod &point);
+	void SetPointInf(int **maze, const Cod &point);
 	
 	WallDrawInf(int num=0, double angle=0, SDL_RendererFlip flip=SDL_FLIP_NONE):
 			num(num),

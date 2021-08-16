@@ -6,8 +6,8 @@ GameFge::GameFge() :
 		fgeStar(0),
 		ifWin(0) {
 	std::srand(time(nullptr));
-	demonPos = new int[mapDemon]();
-	for(int i=0; i<mapDemon; i++) demonPos[i] = std::rand()%6;
+	demonPos = new int[mazeInf.demon]();
+	for(int i=0; i<mazeInf.demon; i++) demonPos[i] = std::rand()%6;
 }
 
 GameFge::~GameFge() {
@@ -52,11 +52,11 @@ void GameFge::FgeBehave(SDL_Keycode dir) {
 	
 	FgeMove(dir);
 	FgeEat();
-	if(fgeStar == mapStar) ifGetAllStar = true;
+	if(fgeStar == mazeInf.star) ifGetAllStar = true;
 }
 
 void GameFge::DemonMove() {
-	for(int i=0; i<mapDemon; i++) {
+	for(int i=0; i<mazeInf.demon; i++) {
 		if(demonPos[i] == 5) demonPos[i] = -5;
 		demonPos[i]++;
 	}
@@ -68,7 +68,7 @@ void GameFge::FgeIfWin() {
 			&& fgeCod.x == mapEnd.x
 			&& ifGetAllStar && ifWin == 0
 			) ifWin = 1;
-	for(int i=0; i<mapDemon; i++) {
+	for(int i=0; i<mazeInf.demon; i++) {
 		Cod demonCod = demonPoint[i][demonPos[i] < 0? -demonPos[i]: demonPos[i]];
 		if(			fgeCod.y == demonCod.y
 					&& fgeCod.x == demonCod.x

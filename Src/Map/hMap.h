@@ -37,16 +37,38 @@ struct Cod {
 	}
 };
 
+
+/*迷宫信息*/
+static struct MazeInf {
+	/*迷宫宽度*/
+	const int xLength;
+	/*迷宫长度*/
+	const int yLength;
+	
+	/*金币数量*/
+	const int coin;
+	/*星星数量*/
+	const int star;
+	/*恶魔数量*/
+	const int demon;
+	
+	MazeInf(
+			int xLength, int yLength,
+			int coinNum, int starNum, int demonNum
+	 ):
+	xLength(xLength),
+	yLength(yLength),
+	coin(coinNum),
+	star(starNum),
+	demon(demonNum) {}
+} mazeInf(47, 29, 100, 3, 3);
+
+
 typedef std::vector<Cod> CodList;
 
 
 /*移动点*/
-Cod MovePoint(
-		const Cod &oldPoint,
-		const int dir,
-		int xLength, int yLength,
-		int stepLength=1
-);
+Cod MovePoint(const Cod& oldPoint, const int dir, int stepLength);
 
 
 /*生成游戏地图*/
@@ -115,20 +137,8 @@ private:
 	bool GetDemonPath(int **maze, const Cod &cd, CodList &path, int num);
 
 public:
-	/*金币数量*/
-	const int mapCoin;
-	/*星星数量*/
-	const int mapStar;
-	/*恶魔数量*/
-	const int mapDemon;
 	/*Demon活动点*/
 	CodList *demonPoint;
-	
-	/*迷宫宽度*/
-	const int xLength;
-	/*迷宫长度*/
-	const int yLength;
-	
 	/*迷宫地图*/
 	int **mapMaze;
 	/*迷宫终点*/
