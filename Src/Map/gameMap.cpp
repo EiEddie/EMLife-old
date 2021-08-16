@@ -1,5 +1,31 @@
 #include"hMap.h"
 
+Cod MovePoint(
+		const Cod &oldPoint,
+		const int dir,
+		int xLength, int yLength,
+		int stepLength
+) {
+	/*移动点*/
+	
+	Cod cdMin = {0, 0};
+	Cod cdMax = {yLength, xLength};
+	
+	const int step[4][2] = {
+			{-1,  0},//上
+			{1 ,  0},//下
+			{0 , -1},//左
+			{0 ,  1} //右
+	};
+	Cod newPoint = {
+			oldPoint.y + step[dir][0]*stepLength,
+			oldPoint.x + step[dir][1]*stepLength
+	};
+	if(newPoint >= cdMin && newPoint < cdMax) return newPoint;
+	else return oldPoint;
+}
+
+
 GameMap::GameMap() :
 		mapCoin(100),
 		mapStar(3),
@@ -43,39 +69,18 @@ bool GameMap::SelectVector(const CodList& vectorName, const Cod& point) {
 }
 
 Cod GameMap::MovePoint(
-		const Cod& oldPoint,
+		const Cod &oldPoint,
 		const int dir,
-		int stepLength,
-		bool ifSide
+		int stepLength
 ) const {
-	/*移动点*/
+	Cod cdNew = ::MovePoint(oldPoint, dir, xLength, yLength, stepLength);
+	if(cdNew.x == 0) cdNew.x++;
+	else if(cdNew.x >= xLength) cdNew.x = xLength-1;
 	
-	Cod cdMin{};
-	Cod cdMax{};
+	if(cdNew.y == 0) cdNew.y++;
+	else if(cdNew.y >= yLength) cdNew.y = yLength-1;
 	
-	if(!ifSide) {
-		cdMin = {0, 0};
-		cdMax = {yLength, xLength};
-	} else {
-		cdMin = {-1, -1};
-		cdMax = {yLength, xLength};
-	}
-	const int step[4][2] = {
-			{-1,  0},//上
-			{1 ,  0},//下
-			{0 , -1},//左
-			{0 ,  1} //右
-	};
-	Cod newPoint = {
-			oldPoint.y + step[dir][0]*stepLength,
-			oldPoint.x + step[dir][1]*stepLength
-	};
-	if(
-//			newPoint.y > 0 && newPoint.y < yLength
-//			&& newPoint.x > 0 && newPoint.x < xLength
-			newPoint > cdMin && newPoint < cdMax
-			) return newPoint;
-	else return oldPoint;
+	return cdNew;
 }
 
 void GameMap::GetMaze() {
@@ -111,7 +116,7 @@ void GameMap::GetMaze() {
 		//将cd1与其四周随机一个路点cd2打通
 		numRandom = std::rand()%24;
 		for(int i = 0; i < 4; i++) {
-			cd2 = MovePoint(cd1, order[numRandom][i]);
+			cd2 = this->MovePoint(cd1, order[numRandom][i]);
 			if(SelectVector(roadPoint, cd2)) {
 				mapMaze[(cd2.y + cd1.y)/2][(cd2.x + cd1.x)/2] = 1;
 				break;
@@ -123,7 +128,7 @@ void GameMap::GetMaze() {
 		
 		//加入cd1周围不在wallPoint中的墙点
 		for(int i = 0; i < 4; i++) {
-			temp = MovePoint(cd1, i);
+			temp = this->MovePoint(cd1, i);
 			if(
 					mapMaze[temp.y][temp.x] == 0
 					&& !SelectVector(wallPoint, temp)
@@ -212,7 +217,7 @@ void GameMap::SetDemon(const CodList& cdEnd, CodList path) {
 void GameMap::FillMaze(int** maze, const Cod& cdBegin, int num) {
 	if(maze[cdBegin.y][cdBegin.x] != 1 || num == 3) return;
 	for(int i = 0; i < 4; i++) {
-		Cod cdTemp = MovePoint(cdBegin, i, 1);
+		Cod cdTemp = this->MovePoint(cdBegin, i, 1);
 		maze[cdBegin.y][cdBegin.x] = num;
 		FillMaze(maze, cdTemp, num - 1);
 	}
@@ -222,7 +227,7 @@ void GameMap::ReFillMaze(int** maze, const Cod& cdBegin, CodList& way) {
 	int temp = maze[cdBegin.y][cdBegin.x];
 	if(temp == 0 || temp == 1 || temp == 2) return;
 	for(int i = 0; i < 4; i++) {
-		Cod cdTemp = MovePoint(cdBegin, i, 1);
+		Cod cdTemp = this->MovePoint(cdBegin, i, 1);
 		if(temp + 1 == maze[cdTemp.y][cdTemp.x]) ReFillMaze(maze, cdTemp, way);
 	}
 	maze[cdBegin.y][cdBegin.x] = 2;

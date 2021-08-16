@@ -145,7 +145,7 @@ Font GameDrawWord::CropCharaSecond(SDL_Surface *chara) {
 	//字符高度信息
 	int height[2] = {0};
 	//裁剪后字符
-	Font charaTex = {nullptr, 16, 16};
+	Font charaTex{};
 	//临时存放字符
 	SDL_Surface *charaCrop = nullptr;
 	//字符charaNum在Font图片中的位置

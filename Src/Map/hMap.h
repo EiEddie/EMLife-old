@@ -39,6 +39,16 @@ struct Cod {
 
 typedef std::vector<Cod> CodList;
 
+
+/*移动点*/
+Cod MovePoint(
+		const Cod &oldPoint,
+		const int dir,
+		int xLength, int yLength,
+		int stepLength=1
+);
+
+
 /*生成游戏地图*/
 class GameMap {
 private:
@@ -49,6 +59,13 @@ private:
 	
 	/*查找点*/
 	bool SelectVector(const CodList &vectorName, const Cod &point);
+	
+	/*移动点*/
+	Cod MovePoint(
+			const Cod &oldPoint,
+			const int dir,
+			int stepLength=2
+	) const;
 	
 	/*生成迷宫*/
 	void GetMaze();
@@ -98,15 +115,6 @@ private:
 	bool GetDemonPath(int **maze, const Cod &cd, CodList &path, int num);
 
 public:
-	/*移动点*/
-	Cod MovePoint(
-			const Cod &oldPoint,
-			int dir,
-			int stepLength=2,
-			bool ifSide=false
-	) const;
-	
-	
 	/*金币数量*/
 	const int mapCoin;
 	/*星星数量*/

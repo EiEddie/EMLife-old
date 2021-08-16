@@ -4,6 +4,33 @@
 #define EMLIFE_HDRAW_H
 #define SCREEN_CENTER -1073741824
 
+
+/*绘制墙点信息*/
+struct WallDrawInf {
+	/*
+	 * 墙点种类:
+	 * 直: 0, 弯: 1
+	 * 末端: 2, 十字: 3, 三岔: 4
+	 */
+	int num;
+	/*旋转角度*/
+	double angle;
+	/*翻转状态*/
+	SDL_RendererFlip flip;
+	
+	/*获取地图贴图上某点编号*/
+	int GetPointNum(int xLength, int yLength, int **maze, const Cod &point);
+	
+	/*设置地图贴图上某点周围点信息*/
+	void SetPointInf(int xLength, int yLength, int **maze, const Cod &point);
+	
+	WallDrawInf(int num=0, double angle=0, SDL_RendererFlip flip=SDL_FLIP_NONE):
+			num(num),
+			angle(angle),
+			flip(flip) {};
+};
+
+
 /*游戏渲染设置*/
 class GameDrawSet {
 protected:
@@ -50,6 +77,11 @@ struct Font {
 	unsigned int width;
 	/*字符高度*/
 	unsigned int height;
+	
+	Font(SDL_Texture* chara=nullptr, unsigned int width=16, unsigned int height=16):
+	chara(chara),
+	width(width),
+	height(height) {}
 };
 
 
@@ -125,8 +157,6 @@ private:
 	 * 绘制迷宫及其内部元素
 	 */
 	void ShowMap();
-	/*获取地图贴图上某点周围点信息*/
-	int GetPointInf(const Cod &point);
 	
 	/*绘制怪物*/
 	void ShowDemon();

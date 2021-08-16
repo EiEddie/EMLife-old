@@ -1,5 +1,47 @@
 #include"hDraw.h"
 
+void WallDrawInf::SetPointInf(int xLength ,int yLength, int **maze, const Cod& point) {
+	std::map<int, WallDrawInf> wallInf = {
+			{0b0001, {2, 0}},
+			{0b0010, {2, 180}},
+			{0b0011, {0, 0}},
+			{0b0100, {2, -90}},
+			{0b0101, {1, 0}},
+			{0b0110, {1, -90}},
+			{0b0111, {4, -90}},
+			{0b1000, {2, 90}},
+			{0b1001, {1, 90}},
+			{0b1010, {1, 180}},
+			{0b1011, {4, 90}},
+			{0b1100, {0, 90}},
+			{0b1101, {4, 0}},
+			{0b1110, {4, 180}},
+			{0b1111, {3, 0}}
+	};
+	
+	WallDrawInf temp = wallInf[GetPointNum(xLength, yLength, maze, point)];
+	this->num = temp.num;
+	this->angle = temp.angle;
+}
+
+
+int WallDrawInf::GetPointNum(int xLength, int yLength, int **maze, const Cod& point) {
+	int pointInf = 0;
+	for(int i=3; i>=0; i--) {
+		Cod pointNew = MovePoint(point, i, xLength, yLength, 1);
+		if(
+				pointNew != point
+				&& maze[pointNew.y][pointNew.x] == 0
+				) {
+			pointInf = pointInf | 0b1;
+		}
+		pointInf = pointInf<<1;
+	}
+	
+	return pointInf>>1;
+}
+
+
 GameDraw::GameDraw(unsigned int fps, GameFge *gameFge):
 		GameDrawWord(fps, gameFge),
 		fpsNum(0),
@@ -20,38 +62,6 @@ void GameDraw::FpsManagerEnd() const {
 	if(timeDelta < stepFps) {
 		SDL_Delay(stepFps - timeDelta);
 	}
-}
-
-int GameDraw::GetPointInf(const Cod& point) {
-	int pointInf = 0;
-	for(int i=0; i<4; i++) {
-		Cod pointNew = drawGameFge->MovePoint(point, i, 1, true);
-		if(
-				pointNew != point
-				&& drawGameFge->mapMaze[pointNew.y][pointNew.x] == 0
-				) {
-			pointInf = pointInf | 0b1;
-		}
-		pointInf = pointInf<<1;
-	}
-	
-	pointInf = pointInf>>1;
-//	int temp = 0;
-//	for(int i=0; i<4; i++) {
-//		int a = 0b1000>>i;
-//		int b = pointInf & a;
-//		b = b>>(3-i);
-//		temp = temp | b;
-//		temp = temp<<1;
-//	}
-	int res = 0;
-	for (int i = 0; i < 4; i++) {
-		// 获取 n 的最低位加到 res 上
-		res = (res << 1) + (pointInf & 1);
-		// n 右移一位
-		pointInf >>= 1;
-	}
-	return res;
 }
 
 //void GameDraw::SetDrawMap() {
@@ -94,71 +104,13 @@ void GameDraw::ShowMap() {
 			drawElementCod.y = i*24;
 			drawElementCod.x = j*24;
 			if(temp == 0) {
-				double angle = 0;
-				auto flip = SDL_FLIP_NONE;
-				int wallNum = 0;
-				
-				switch(GetPointInf({i, j})) {
-					case 0b0001:
-						wallNum = 2;
-						break;
-					case 0b0010:
-						wallNum = 2;
-						angle = 180;
-						break;
-					case 0b0011:
-						wallNum = 0;
-						break;
-					case 0b0100:
-						wallNum = 2;
-						angle = -90;
-						break;
-					case 0b0101:
-						wallNum = 1;
-						break;
-					case 0b0110:
-						wallNum = 1;
-						angle = -90;
-						break;
-					case 0b0111:
-						wallNum = 4;
-						angle = -90;
-						break;
-					case 0b1000:
-						wallNum = 2;
-						angle = 90;
-						break;
-					case 0b1001:
-						wallNum = 1;
-						angle = 90;
-						break;
-					case 0b1010:
-						wallNum = 1;
-						angle = 180;
-						break;
-					case 0b1011:
-						wallNum = 4;
-						angle = 90;
-						break;
-					case 0b1100:
-						angle = 90;
-						break;
-					case 0b1101:
-						wallNum = 4;
-						break;
-					case 0b1110:
-						wallNum = 4;
-						angle = 180;
-						break;
-					case 0b1111:
-						wallNum = 3;
-						break;
-				}
+				WallDrawInf wallInf;
+				wallInf.SetPointInf(drawGameFge->xLength, drawGameFge->yLength, drawGameFge->mapMaze, {i, j});
 				
 				SDL_RenderCopyEx(
-						drawRen, drawWallImg[wallNum],
+						drawRen, drawWallImg[wallInf.num],
 						nullptr, &drawElementCod,
-						angle, nullptr, flip
+						wallInf.angle, nullptr, wallInf.flip
 				);
 			} else if((temp == -2 && drawGameFge->ifGetAllStar) || (temp != 1 && temp != -2)) {
 				SDL_RenderCopy(drawRen, drawGameImg[temp], nullptr, &drawElementCod);
