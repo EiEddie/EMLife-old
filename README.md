@@ -31,7 +31,11 @@ A Simple Maze Game
   最后一行最后一个留空.
 
 - 更改 `Bin/Img` 文件夹内
-  > `wall.png`  
+  > `wallStr.png`  
+  `wallEnd.png`  
+  `wallCor.png`  
+  `wallTri.png`  
+  `wallCros.png`  
   `fge.png`  
   `end.png`  
   `coin.png`  
@@ -39,7 +43,11 @@ A Simple Maze Game
   `demon.png`
 
   以分别更改下列图标
-  > 围墙 ![Wall](Bin/Img/wall.png)  
+  > 围墙(直) ![Wall](Bin/Img/wallStr.png)  
+  围墙(弯) ![Wall](Bin/Img/wallCor.png)  
+  围墙(末端) ![Wall](Bin/Img/wallEnd.png)  
+  围墙(三岔) ![Wall](Bin/Img/wallTri.png)  
+  围墙(十字) ![Wall](Bin/Img/wallCros.png)  
   人物 ![Fge](Bin/Img/fge.png)  
   终点 ![End](Bin/Img/end.png)  
   `coin` ![Coin](Bin/Img/coin.png)  
