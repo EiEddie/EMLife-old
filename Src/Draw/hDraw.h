@@ -4,31 +4,55 @@
 #define EMLIFE_HDRAW_H
 #define SCREEN_CENTER -1073741824
 
-
-/*绘制墙点信息*/
-struct WallDrawInf {
+struct WallInf {
 	/*
-	 * 墙点种类:
-	 * 直: 0, 弯: 1
-	 * 末端: 2, 十字: 3, 三岔: 4
-	 */
+ * 墙点种类:
+ * 直: 0, 弯: 1
+ * 末端: 2, 十字: 3, 三岔: 4
+ */
 	int num;
 	/*旋转角度*/
 	double angle;
 	/*翻转状态*/
 	SDL_RendererFlip flip;
 	
+	WallInf(int num=0, double angle=0, SDL_RendererFlip flip=SDL_FLIP_NONE):
+			num(num),
+			angle(angle),
+			flip(flip) {}
+};
+
+/*绘制墙点信息*/
+static struct WallDrawInf: public WallInf {
+private:
 	/*获取地图贴图上某点编号*/
 	int GetPointNum(int **maze, const Cod &point);
 	
+	std::map<int, WallInf> wallInf = {
+			{0b0001, {2, 0}},
+			{0b0010, {2, 180}},
+			{0b0011, {0, 0}},
+			{0b0100, {2, -90}},
+			{0b0101, {1, 0}},
+			{0b0110, {1, -90}},
+			{0b0111, {4, -90}},
+			{0b1000, {2, 90}},
+			{0b1001, {1, 90}},
+			{0b1010, {1, 180}},
+			{0b1011, {4, 90}},
+			{0b1100, {0, 90}},
+			{0b1101, {4, 0}},
+			{0b1110, {4, 180}},
+			{0b1111, {3, 0}}
+	};
+
+public:
 	/*设置地图贴图上某点周围点信息*/
 	void SetPointInf(int **maze, const Cod &point);
 	
 	WallDrawInf(int num=0, double angle=0, SDL_RendererFlip flip=SDL_FLIP_NONE):
-			num(num),
-			angle(angle),
-			flip(flip) {};
-};
+			WallInf(num, angle, flip) {}
+} wallDrawInf;
 
 
 /*游戏渲染设置*/
