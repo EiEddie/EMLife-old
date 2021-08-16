@@ -28,13 +28,12 @@ GameDrawSet::GameDrawSet(unsigned int fps, GameFge *gameFge) :
 	std::map<int, std::string> drawGameImgName = {
 			{-2, "end"},
 			{-1, "fge"},
-			{0, 	"wall"},
 			{2, 	"coin"},
 			{3, 	"star"},
 			{4, 	"demon"}
 	};
 	for(int i = -2; i <= 4; i++) {
-		if(i == 1) continue;
+		if(i == 1 || i == 0) continue;
 		drawGameTemp = IMG_Load((imgPath+drawGameImgName[i]+".png").c_str());
 		drawGameImg.insert(std::pair<int, SDL_Texture *>(
 				i, SDL_CreateTextureFromSurface(drawRen, drawGameTemp)

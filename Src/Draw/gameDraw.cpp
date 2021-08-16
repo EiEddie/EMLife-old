@@ -1,25 +1,7 @@
 #include"hDraw.h"
 
 void WallDrawInf::SetPointInf(int **maze, const Cod& point) {
-	std::map<int, WallDrawInf> wallInf = {
-			{0b0001, {2, 0}},
-			{0b0010, {2, 180}},
-			{0b0011, {0, 0}},
-			{0b0100, {2, -90}},
-			{0b0101, {1, 0}},
-			{0b0110, {1, -90}},
-			{0b0111, {4, -90}},
-			{0b1000, {2, 90}},
-			{0b1001, {1, 90}},
-			{0b1010, {1, 180}},
-			{0b1011, {4, 90}},
-			{0b1100, {0, 90}},
-			{0b1101, {4, 0}},
-			{0b1110, {4, 180}},
-			{0b1111, {3, 0}}
-	};
-	
-	WallDrawInf temp = wallInf[GetPointNum(maze, point)];
+	WallInf temp = wallInf[GetPointNum(maze, point)];
 	this->num = temp.num;
 	this->angle = temp.angle;
 }
@@ -72,13 +54,12 @@ void GameDraw::ShowMap() {
 			drawElementCod.y = i*24;
 			drawElementCod.x = j*24;
 			if(temp == 0) {
-				WallDrawInf wallInf;
-				wallInf.SetPointInf(drawGameFge->mapMaze, {i, j});
+				wallDrawInf.SetPointInf(drawGameFge->mapMaze, {i, j});
 				
 				SDL_RenderCopyEx(
-						drawRen, drawWallImg[wallInf.num],
+						drawRen, drawWallImg[wallDrawInf.num],
 						nullptr, &drawElementCod,
-						wallInf.angle, nullptr, wallInf.flip
+						wallDrawInf.angle, nullptr, wallDrawInf.flip
 				);
 			} else if((temp == -2 && drawGameFge->ifGetAllStar) || (temp != 1 && temp != -2)) {
 				SDL_RenderCopy(drawRen, drawGameImg[temp], nullptr, &drawElementCod);
