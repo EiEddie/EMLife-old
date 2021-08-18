@@ -9,6 +9,8 @@ A Simple Maze Game
   ![Fge](Bin/Img/fge.png)
   移动.
 
+- 在尽可能短的时间内完成游戏!
+
 - 尽可能多的收集 `Coin`
   ![Coin](Bin/Img/coin.png).
 
@@ -22,6 +24,8 @@ A Simple Maze Game
 - 当心坏蛋! `demon`
   ![Demon](Bin/Img/demon.png)
   会使您输掉游戏.
+
+- 要重置游戏记录, 您可以尝试删除 `gameData.db` 文件.
 
 ## 自定义
 
