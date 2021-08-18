@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 11)
 project(EMLife)
 #可执行文件输出目录
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Bin)
+
 if(CMAKE_BUILD_TYPE MATCHES "Release")
 	#不显示dos窗口
 	set(CMAKE_CXX_FLAGS "-mwindows")
@@ -36,11 +37,8 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	)
 endif(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
-#添加编译文件
-add_executable(EMLife
-		#图标
-		Src/Icon/icon.o
 
+set(FILE
 		Src/hEMLife.h
 		Src/main.cpp
 
@@ -56,6 +54,14 @@ add_executable(EMLife
 		Src/Game/hGame.h
 		Src/Game/game.cpp
 )
+
+if(CMAKE_BUILD_TYPE MATCHES "Release")
+	#图标
+	list(APPEND FILE Src/Icon/icon.o)
+endif()
+
+#添加编译文件
+add_executable(EMLife ${FILE})
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	#将第三方库链接在一起
