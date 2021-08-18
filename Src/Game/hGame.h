@@ -5,6 +5,9 @@
 
 class Game {
 private:
+	/*记录游戏数据*/
+	GameRecord gameRecord;
+	
 	/*游戏人物*/
 	GameFge *gameFge;
 	/*显示游戏 刷新屏幕*/

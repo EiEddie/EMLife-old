@@ -3,6 +3,7 @@
 Game::Game(const unsigned int fps) {
 	gameFge = new GameFge();
 	gameDraw = new GameDraw(fps, gameFge);
+	gameRecord.SetTimeBegin();
 }
 
 Game::~Game() {
@@ -14,6 +15,8 @@ void Game::UpdateMap() {
 	delete gameFge;
 	gameFge = new GameFge();
 	gameDraw->ChangeFge(gameFge);
+	gameRecord.ResetRecord();
+	gameRecord.SetTimeBegin();
 }
 
 bool Game::CheckKeyEvent(const SDL_Keycode &key, bool &ifFlipFge) {
@@ -54,6 +57,10 @@ void Game::EventLoop() {
 	
 	while(!ifQuit) {
 		gameDraw->FpsManagerBegin();
+		if(gameFge->ifWin != 0) {
+			gameRecord.SetTimeEnd();
+			gameRecord.RecordGame(gameFge->ifWin == 1, gameFge->fgeCoin);
+		}
 		if(SDL_PollEvent(&drawEvent)) {
 			if(drawEvent.type == SDL_QUIT) {
 				ifQuit = true;

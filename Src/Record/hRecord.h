@@ -35,13 +35,21 @@ private:
 	int numTotal;
 	/*获取胜负数目*/
 	void SetResultNum();
+	
+	/*
+	 * 是否记录:
+	 * 游戏结果是否已被记录
+	 */
+	bool ifRecordGame;
+
 
 public:
 	void SetTimeBegin();
 	void SetTimeEnd();
 	
 	/*记录一条游戏信息*/
-	void RecordGame(bool ifWin);
+	void RecordGame(bool ifWin, int numCoin);
+	void ResetRecord();
 	
 	GameRecord();
 	~GameRecord();

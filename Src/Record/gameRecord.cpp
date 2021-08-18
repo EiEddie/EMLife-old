@@ -1,6 +1,8 @@
 #include"hRecord.h"
 
-GameRecord::GameRecord(): ifRecordTime(false), gameDataBase(nullptr), stmt(nullptr) {
+GameRecord::GameRecord():
+		ifRecordTime(false), ifRecordGame(false),
+		gameDataBase(nullptr), stmt(nullptr) {
 	sqlite3_open_v2(
 			"gameData.db", &gameDataBase,
 			SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_NOMUTEX | SQLITE_OPEN_SHAREDCACHE,
@@ -9,17 +11,16 @@ GameRecord::GameRecord(): ifRecordTime(false), gameDataBase(nullptr), stmt(nullp
 	
 	Execute(
 			"CREATE TABLE gameData("
-			"id           INT PRIMARY KEY    NOT NULL,"
-			"timeBegin    INT                NOT NULL,"
-			"time         INT                NOT NULL,"
-			"ifWin        INT                NOT NULL"
+			"id           INT PRIMARY KEY     NOT NULL,"
+			"time         INT                 NOT NULL,"
+			"coin         INT                 NOT NULL"
 			");"
 	);
 	
 	Execute(
 			"CREATE TABLE resultData("
-			"type    TEXT PRIMARY KEY    NOT NULL,"
-			"num     INT                 NOT NULL"
+			"type         TEXT PRIMARY KEY    NOT NULL,"
+			"num          INT                 NOT NULL"
 			");"
 	);
 	Execute("INSERT INTO resultData VALUES ('total', 0);");
@@ -61,7 +62,9 @@ void GameRecord::SetTimeEnd() {
 	}
 }
 
-void GameRecord::RecordGame(bool ifWin) {
+void GameRecord::RecordGame(bool ifWin, int numCoin) {
+	if(ifRecordGame) return;
+	
 	numTotal++;
 	const std::string sentenceBase = "UPDATE resultData SET num=";
 	std::string sentence = sentenceBase + std::to_string(numTotal);
@@ -73,5 +76,19 @@ void GameRecord::RecordGame(bool ifWin) {
 		sentence = sentenceBase + std::to_string(numWin);
 		sentence += " WHERE type='win';";
 		Execute(sentence);
+		
+		std::string sentenceBase1 = "INSERT INTO gameData VALUES (";
+		Execute(
+				sentenceBase1
+				+ std::to_string(numWin) + ", "
+				+ std::to_string(timeEnd-timeBegin) + ", "
+				+ std::to_string(numCoin) + ");"
+		);
 	}
+	
+	ifRecordGame = true;
+}
+
+void GameRecord::ResetRecord() {
+	ifRecordGame = false;
 }

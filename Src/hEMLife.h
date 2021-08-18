@@ -20,5 +20,5 @@ extern "C" {
 
 #include"Map/hMap.h"
 #include"Draw/hDraw.h"
-#include"Game/hGame.h"
 #include"Record/hRecord.h"
+#include"Game/hGame.h"
