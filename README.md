@@ -31,8 +31,7 @@ A Simple Maze Game
 
 - 更改 `Bin/Img/font.png` 文件以更改字体
   > 位图字体 `font.png` 内必须包括所有ASCII可见字符, 即 `\u0020` ***`(Space)`*** 到 `\u007e` ***`~`***.  
-  每个字符大小为16*16, 按ASCII顺序排列, 每十六个字符一行, 共六行, 故 `font.png` 大小 `256px * 96px`.  
-  最后一行最后一个留空.
+  字符按ASCII顺序排列, 每十六个字符一行, 共六行, 最后一行最后一个留空.  
 
 - 更改 `Bin/Img` 文件夹内
   > `wallStr.png`  
