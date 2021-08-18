@@ -112,6 +112,11 @@ struct Font {
 /*显示文字*/
 class GameDrawWord: protected GameDrawSet {
 private:
+	/*字符宽度*/
+	int charaWidth;
+	/*字符高度*/
+	int charaHeight;
+	
 	/*
 	 * 所有字符:
 	 * 94个基本可见ASCII字符(\u0021: '!' 到 \u007e: '~', 不包括Space(空格))

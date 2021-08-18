@@ -3,6 +3,8 @@
 GameDrawWord::GameDrawWord(unsigned int fps, GameFge *gameFge) :
 		GameDrawSet(fps, gameFge) {
 	SDL_Surface *font = IMG_Load("./Img/font.png");
+	charaWidth = font->w/16;
+	charaHeight = font->h/6;
 	
 	//开始符号: '!'
 	char charaNum = '!';
@@ -11,7 +13,7 @@ GameDrawWord::GameDrawWord(unsigned int fps, GameFge *gameFge) :
 	 * 第一行第一个为Space(空格)，略过
 	 * 最后一行最后一个为空，略过
 	 */
-	SDL_Rect charaCod = {16, 0, 16, 16};
+	SDL_Rect charaCod = {16, 0, charaWidth, charaHeight};
 	
 	for(int i = 0; i < 6; i++) {
 		for(int j = 0; j < 16; j++) {
@@ -23,11 +25,11 @@ GameDrawWord::GameDrawWord(unsigned int fps, GameFge *gameFge) :
 							charaNum, charaCropSecond
 					));
 			SDL_FreeSurface(charaCropFirst);
-			charaCod.x += 16;
+			charaCod.x += charaWidth;
 			charaNum++;
 		}
 		charaCod.x = 0;
-		charaCod.y += 16;
+		charaCod.y += charaHeight;
 	}
 	
 	SDL_FreeSurface(font);
@@ -99,13 +101,13 @@ void GameDrawWord::GetCharaSize(SDL_Surface *chara, int * width, int * height) {
 	bool ifWidthFirst = true;
 	bool ifHeightFirst = true;
 	Uint32 *pixel = (Uint32 *)chara->pixels;
-	for(int i=0; i<16; i++) {
-		for(int j=0; j<16; j++) {
-			if(pixel[i+16*j] != 0x00000000) {
+	for(int i=0; i<charaHeight; i++) {
+		for(int j=0; j<charaWidth; j++) {
+			if(pixel[i+charaHeight*j] != 0x00000000) {
 				widthNum = i;
 				if(ifWidthFirst) width[0] = widthNum;
 				ifWidthFirst = false;
-			} if(pixel[j+16*i] != 0x00000000) {
+			} if(pixel[j+charaWidth*i] != 0x00000000) {
 				heightNum = i;
 				if(ifHeightFirst) height[0] = heightNum;
 				ifHeightFirst = false;
@@ -126,7 +128,7 @@ SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface *font, SDL_Rect *cod) {
 	//被裁剪下来的单个字符
 	SDL_Surface *chara = SDL_CreateRGBSurface(
 			SDL_SWSURFACE,
-			16, 16, 32,
+			charaWidth, charaHeight, 32,
 			0xff000000, 0x00ff0000,
 			0x0000ff00, 0x000000ff
 	);
@@ -149,7 +151,7 @@ Font GameDrawWord::CropCharaSecond(SDL_Surface *chara) {
 	//临时存放字符
 	SDL_Surface *charaCrop = nullptr;
 	//字符charaNum在Font图片中的位置
-	SDL_Rect charaCod = {0, 0, 16, 16};
+	SDL_Rect charaCod = {0, 0, charaWidth, charaHeight};
 	
 	GetCharaSize(chara, width, height);
 	charaTex.width = width[1] - width[0] + 1;
@@ -159,7 +161,7 @@ Font GameDrawWord::CropCharaSecond(SDL_Surface *chara) {
 	
 	charaCrop = SDL_CreateRGBSurface(
 			SDL_SWSURFACE,
-			width[1]-width[0]+1, 16, 32,
+			width[1]-width[0]+1, charaHeight, 32,
 			0xff000000, 0x00ff0000,
 			0x0000ff00, 0x000000ff
 	);
