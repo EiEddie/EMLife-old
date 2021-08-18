@@ -155,7 +155,10 @@ SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface *font, SDL_Rect *cod) {
 ## 使用的库
 
 > **[SDL](https://www.libsdl.org)**  
-知名的跨平台多媒体开发库
+知名的跨平台多媒体开发库.
 
 > **[SDL_image](https://www.libsdl.org/projects/SDL_image)**  
-SDL的附属库, 用于导入除 `.bmp`位图格式之外的其他图片格式
+SDL的附属库, 用于导入除 `.bmp`位图格式之外的其他图片格式.
+
+> **[SQLite3](https://sqlite.org)**  
+开源的轻量级嵌入式数据库.
