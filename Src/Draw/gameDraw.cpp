@@ -10,10 +10,10 @@ void WallDrawInf::SetPointInf(int **maze, const Cod& point) {
 int WallDrawInf::GetPointNum(int **maze, const Cod& point) {
 	int pointInf = 0;
 	for(int i=3; i>=0; i--) {
-		Cod pointNew = MovePoint(point, i, 1);
+		Cod temp = point;
 		if(
-				pointNew != point
-				&& maze[pointNew.y][pointNew.x] == 0
+				temp.Move(i, 1)
+				&& maze[temp.y][temp.x] == 0
 				) {
 			pointInf = pointInf | 0b1;
 		}

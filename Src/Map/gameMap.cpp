@@ -1,6 +1,6 @@
 #include"hMap.h"
 
-Cod MovePoint(const Cod& oldPoint, const int dir, int stepLength) {
+bool Cod::Move(const int dir, int stepLength) {
 	/*移动点*/
 	
 	Cod cdMin = {0, 0};
@@ -13,20 +13,18 @@ Cod MovePoint(const Cod& oldPoint, const int dir, int stepLength) {
 			{0 ,  1} //右
 	};
 	Cod newPoint = {
-			oldPoint.y + step[dir][0]*stepLength,
-			oldPoint.x + step[dir][1]*stepLength
+			y + step[dir][0]*stepLength,
+			x + step[dir][1]*stepLength
 	};
-	if(newPoint >= cdMin && newPoint < cdMax) return newPoint;
-	else return oldPoint;
+	if(newPoint >= cdMin && newPoint < cdMax) {
+		x += step[dir][1]*stepLength;
+		y += step[dir][0]*stepLength;
+		return true;
+	} else return false;
 }
 
 
-GameMap::GameMap()/* :
-		mapCoin(100),
-		mapStar(3),
-		mapDemon(3),
-		xLength(47),
-		yLength(29)*/ {
+GameMap::GameMap() {
 	std::srand(time(nullptr));
 	
 	demonPoint = new CodList[mazeInf.demon]();
@@ -64,18 +62,18 @@ bool GameMap::SelectVector(const CodList& vectorName, const Cod& point) {
 }
 
 Cod GameMap::MovePoint(
-		const Cod &oldPoint,
+		Cod point,
 		const int dir,
 		int stepLength
 ) const {
-	Cod cdNew = ::MovePoint(oldPoint, dir, stepLength);
-	if(cdNew.x == 0) cdNew.x++;
-	else if(cdNew.x >= mazeInf.xLength) cdNew.x = mazeInf.xLength-1;
+	point.Move(dir, stepLength);
+	if(point.x == 0) point.x++;
+	else if(point.x >= mazeInf.xLength) point.x = mazeInf.xLength-1;
 	
-	if(cdNew.y == 0) cdNew.y++;
-	else if(cdNew.y >= mazeInf.yLength) cdNew.y = mazeInf.yLength-1;
+	if(point.y == 0) point.y++;
+	else if(point.y >= mazeInf.yLength) point.y = mazeInf.yLength-1;
 	
-	return cdNew;
+	return point;
 }
 
 void GameMap::GetMaze() {

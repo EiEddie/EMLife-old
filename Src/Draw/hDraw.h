@@ -26,7 +26,7 @@ struct WallInf {
 static struct WallDrawInf: public WallInf {
 private:
 	/*获取地图贴图上某点编号*/
-	int GetPointNum(int **maze, const Cod &point);
+	int GetPointNum(int **maze, const Cod& point);
 	
 	std::map<int, WallInf> wallInf = {
 			{0b0001, {2, 0}},

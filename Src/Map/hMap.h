@@ -35,6 +35,9 @@ struct Cod {
 		if(x > cd.x && y > cd.y) return true;
 		else return false;
 	}
+	
+	/*移动点*/
+	bool Move(const int dir, int stepLength=1);
 };
 
 
@@ -67,10 +70,6 @@ static struct MazeInf {
 typedef std::vector<Cod> CodList;
 
 
-/*移动点*/
-Cod MovePoint(const Cod& oldPoint, const int dir, int stepLength);
-
-
 /*生成游戏地图*/
 class GameMap {
 private:
@@ -84,7 +83,7 @@ private:
 	
 	/*移动点*/
 	Cod MovePoint(
-			const Cod &oldPoint,
+			Cod point,
 			const int dir,
 			int stepLength=2
 	) const;
