@@ -46,6 +46,7 @@ private:
 public:
 	void SetTimeBegin();
 	void SetTimeEnd();
+	unsigned int GetGameTime();
 	
 	/*记录一条游戏信息*/
 	void RecordGame(bool ifWin, int numCoin);

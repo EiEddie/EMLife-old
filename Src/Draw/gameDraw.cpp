@@ -31,7 +31,8 @@ GameDraw::GameDraw(unsigned int fps, GameFge *gameFge):
 			0, 0,
 			mazeInf.xLength*24,
 			mazeInf.yLength*24
-		}) {}
+		}),
+		gameTime(0) {}
 
 void GameDraw::FpsManagerBegin() {
 	timeBegin = SDL_GetTicks();
@@ -146,8 +147,24 @@ void GameDraw::ShowEnd(const std::string& str) {
 			2,
 			SCREEN_CENTER, SCREEN_CENTER+18*2
 	);
+	ShowWord(
+			"Coin: "
+			+ std::to_string((int)(100*(float)drawGameFge->fgeCoin/(float)mazeInf.coin))
+			+ "%",
+			2,
+			SCREEN_CENTER, SCREEN_CENTER+18*5
+	);
+	ShowWord(
+			"Time: " + std::to_string(gameTime) + "s",
+			2,
+			SCREEN_CENTER, SCREEN_CENTER+18*7
+	);
 }
 
 void GameDraw::ChangeFge(GameFge *gameFge) {
 	drawGameFge = gameFge;
+}
+
+void GameDraw::SetGameTime(unsigned int time) {
+	gameTime = time/1000;
 }

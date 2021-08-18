@@ -57,10 +57,6 @@ void Game::EventLoop() {
 	
 	while(!ifQuit) {
 		gameDraw->FpsManagerBegin();
-		if(gameFge->ifWin != 0) {
-			gameRecord.SetTimeEnd();
-			gameRecord.RecordGame(gameFge->ifWin == 1, gameFge->fgeCoin);
-		}
 		if(SDL_PollEvent(&drawEvent)) {
 			if(drawEvent.type == SDL_QUIT) {
 				ifQuit = true;
@@ -69,6 +65,13 @@ void Game::EventLoop() {
 			}
 		}
 		gameFge->FgeIfWin();
+		
+		if(gameFge->ifWin != 0) {
+			gameRecord.SetTimeEnd();
+			gameRecord.RecordGame(gameFge->ifWin == 1, gameFge->fgeCoin);
+			gameDraw->SetGameTime(gameRecord.GetGameTime());
+		}
+		
 		gameDraw->Show(ifFlipFge);
 		if(gameDraw->fpsNum%30 == 0) gameFge->DemonMove();
 		gameDraw->FpsManagerEnd();

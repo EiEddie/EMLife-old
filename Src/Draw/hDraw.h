@@ -176,6 +176,9 @@ private:
 	 */
 	SDL_Rect drawScreenRect;
 	
+	/*游戏时长*/
+	unsigned int gameTime;
+	
 	/*
 	 * 绘制地图:
 	 * 绘制迷宫及其内部元素
@@ -235,6 +238,10 @@ public:
 	 * 更改渲染所使用的地图及人物
 	 */
 	void ChangeFge(GameFge *gameFge);
+	/*
+	 * 设置游戏时长
+	 */
+	void SetGameTime(unsigned int time);
 	
 	GameDraw(unsigned int fps, GameFge *gameFge);
 };

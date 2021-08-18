@@ -92,3 +92,7 @@ void GameRecord::RecordGame(bool ifWin, int numCoin) {
 void GameRecord::ResetRecord() {
 	ifRecordGame = false;
 }
+
+unsigned int GameRecord::GetGameTime() {
+	return timeEnd-timeBegin;
+}
