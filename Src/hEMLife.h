@@ -4,6 +4,8 @@
 #include<iostream>
 #include<ctime>
 #include<algorithm>
+
+#include<sqlite3.h>
 extern "C" {
 #ifdef _WIN32
 #include<SDL.h>
@@ -19,3 +21,4 @@ extern "C" {
 #include"Map/hMap.h"
 #include"Draw/hDraw.h"
 #include"Game/hGame.h"
+#include"Record/hRecord.h"

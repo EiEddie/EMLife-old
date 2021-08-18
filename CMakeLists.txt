@@ -8,11 +8,11 @@ project(EMLife)
 #可执行文件输出目录
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Bin)
 
-if(CMAKE_BUILD_TYPE MATCHES "Release")
-	#不显示dos窗口
-	set(CMAKE_CXX_FLAGS "-mwindows")
-	message(STATUS "Dos-Window: Invisible")
-endif()
+#if(CMAKE_BUILD_TYPE MATCHES "Release")
+#	#不显示dos窗口
+#	set(CMAKE_CXX_FLAGS "-mwindows")
+#	message(STATUS "Dos-Window: Invisible")
+#endif()
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
 	#链接库
@@ -33,9 +33,18 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	)
 	#链接库文件
 	link_directories(
-			Lib/SDL2_image-2.0.5/x86_64-w64-mingw32/bin
+			Lib/SDL2_image-2.0.5/x86_64-w64-mingw32/lib
 	)
-endif(CMAKE_SYSTEM_NAME MATCHES "Linux")
+endif()
+#引入头文件
+include_directories(
+		Lib/SQLite3/include
+)
+#链接库文件
+link_directories(
+		Lib/SQLite3/lib
+)
+
 
 
 set(FILE
@@ -53,7 +62,9 @@ set(FILE
 
 		Src/Game/hGame.h
 		Src/Game/game.cpp
-)
+
+		Src/Record/hRecord.h
+		Src/Record/gameRecord.cpp)
 
 if(CMAKE_BUILD_TYPE MATCHES "Release")
 	#图标
@@ -69,5 +80,6 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 			"SDL2main"
 			"SDL2"
 			"SDL2_image"
+			"sqlite3"
 	)
 endif()
