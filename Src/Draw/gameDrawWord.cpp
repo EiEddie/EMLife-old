@@ -138,11 +138,6 @@ SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface* font, SDL_Rect* cod) {
 }
 
 Font GameDrawWord::CropCharaSecond(SDL_Surface* chara) {
-	/*
-	 * 二次裁剪:
-	 * 将字符按字面框从单元中剪裁出来
-	 */
-	
 	//字符宽度信息
 	int width[2] = {0};
 	//字符高度信息
@@ -150,7 +145,7 @@ Font GameDrawWord::CropCharaSecond(SDL_Surface* chara) {
 	//裁剪后字符
 	Font charaTex{};
 	//临时存放字符
-	SDL_Surface* charaCrop = nullptr;
+	SDL_Surface* charaCrop;
 	//字符charaNum在Font图片中的位置
 	SDL_Rect charaCod = {0, 0, charaWidth, charaHeight};
 	

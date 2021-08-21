@@ -44,12 +44,19 @@ private:
 
 
 public:
+	/*设置开始时间*/
 	void SetTimeBegin();
+	/*设置结束时间*/
 	void SetTimeEnd();
+	/*获取本局游戏时间*/
 	unsigned int GetGameTime();
 	
 	/*记录一条游戏信息*/
 	void RecordGame(bool ifWin, int numCoin);
+	/*
+	 * 重置记录:
+	 * 重置ifRecordGame为false
+	 */
 	void ResetRecord();
 	
 	GameRecord();

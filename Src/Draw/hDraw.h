@@ -29,6 +29,10 @@ private:
 	/*获取地图贴图上某点编号*/
 	int GetPointNum(int** maze, const Cod& point);
 	
+	/*
+	 * 墙的绘制信息:
+	 * 根据墙的标识确定绘制时的编号与旋转角度
+	 */
 	std::map<int, WallInf> wallInf = {
 			{ 0b0001, { 2, 0   }},
 			{ 0b0010, { 2, 180 }},
@@ -229,26 +233,28 @@ public:
 	 * 结束
 	 */
 	void FpsManagerEnd() const;
+	
 	/*
 	 * 显示:
 	 * 显示游戏所有元素并刷新窗口
 	 * ifFlipFge: 是否水平翻转人物
 	 */
 	void Show(bool ifFlipFge=false);
+	
 	/*
 	 * 是否开始新一局:
 	 * Y以开始新一局
 	 * N以退出
 	 */
 	bool Ask(SDL_Keycode i);
+	
 	/*
 	 * 更改人物:
 	 * 更改渲染所使用的地图及人物
 	 */
 	void ChangeFge(GameFge* gameFge);
-	/*
-	 * 设置游戏时长
-	 */
+	
+	/*设置游戏时长*/
 	void SetGameTime(unsigned int time);
 	
 	GameDraw(unsigned int fps, GameFge* gameFge);
