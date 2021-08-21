@@ -2,6 +2,7 @@
 
 #ifndef EMLIFE_HDRAW_H
 #define EMLIFE_HDRAW_H
+
 #define SCREEN_CENTER -1073741824
 
 struct WallInf {
@@ -26,29 +27,29 @@ struct WallInf {
 static struct WallDrawInf: public WallInf {
 private:
 	/*获取地图贴图上某点编号*/
-	int GetPointNum(int **maze, const Cod& point);
+	int GetPointNum(int** maze, const Cod& point);
 	
 	std::map<int, WallInf> wallInf = {
-			{0b0001, {2, 0}},
-			{0b0010, {2, 180}},
-			{0b0011, {0, 0}},
-			{0b0100, {2, -90}},
-			{0b0101, {1, 0}},
-			{0b0110, {1, -90}},
-			{0b0111, {4, -90}},
-			{0b1000, {2, 90}},
-			{0b1001, {1, 90}},
-			{0b1010, {1, 180}},
-			{0b1011, {4, 90}},
-			{0b1100, {0, 90}},
-			{0b1101, {4, 0}},
-			{0b1110, {4, 180}},
-			{0b1111, {3, 0}}
+			{ 0b0001, { 2, 0   }},
+			{ 0b0010, { 2, 180 }},
+			{ 0b0011, { 0, 0   }},
+			{ 0b0100, { 2, -90 }},
+			{ 0b0101, { 1, 0   }},
+			{ 0b0110, { 1, -90 }},
+			{ 0b0111, { 4, -90 }},
+			{ 0b1000, { 2, 90  }},
+			{ 0b1001, { 1, 90  }},
+			{ 0b1010, { 1, 180 }},
+			{ 0b1011, { 4, 90  }},
+			{ 0b1100, { 0, 90  }},
+			{ 0b1101, { 4, 0   }},
+			{ 0b1110, { 4, 180 }},
+			{ 0b1111, { 3, 0   }}
 	};
 
 public:
 	/*设置地图贴图上某点周围点信息*/
-	void SetPointInf(int **maze, const Cod &point);
+	void SetPointInf(int** maze, const Cod& point);
 	
 	WallDrawInf(int num=0, double angle=0, SDL_RendererFlip flip=SDL_FLIP_NONE):
 			WallInf(num, angle, flip) {}
@@ -62,11 +63,12 @@ protected:
 	 * 人物:
 	 * 地图数据&游戏动作
 	 */
-	GameFge *drawGameFge = nullptr;
+	GameFge* drawGameFge = nullptr;
 	/*窗口*/
-	SDL_Window *drawWindow = nullptr;
+	SDL_Window* drawWindow = nullptr;
 	/*渲染器*/
-	SDL_Renderer *drawRen = nullptr;
+	SDL_Renderer* drawRen = nullptr;
+
 	/*
 	 * 单帧持续时间:
 	 * 即周期,帧率的倒数(ms)
@@ -88,7 +90,7 @@ protected:
 	std::map<int, SDL_Texture*> drawWallImg;
 
 public:
-	GameDrawSet(unsigned int fps, GameFge *gameFge);
+	GameDrawSet(unsigned int fps, GameFge* gameFge);
 	~GameDrawSet();
 };
 
@@ -96,16 +98,16 @@ public:
 /*存放字体中单个字符数据*/
 struct Font {
 	/*字符材质*/
-	SDL_Texture *chara;
+	SDL_Texture* chara;
 	/*字符宽度*/
 	unsigned int width;
 	/*字符高度*/
 	unsigned int height;
 	
 	Font(SDL_Texture* chara=nullptr, unsigned int width=16, unsigned int height=16):
-	chara(chara),
-	width(width),
-	height(height) {}
+		chara(chara),
+		width(width),
+		height(height) {}
 };
 
 
@@ -129,39 +131,40 @@ private:
 	 * width[1]为该字符字面框右边线在16*16单元格内距左边框距离(px)
 	 * width[1]-width[0]+1即为字符宽度
 	 */
-	void GetCharaSize(SDL_Surface* chara, int * width, int * height);
+	void GetCharaSize(SDL_Surface* chara, int* width, int* height);
 	
 	/*
 	 * 一次裁剪:
 	 * 将字符从font.png中剪裁为16*16的单元
 	 */
-	SDL_Surface *CropCharaFirst(SDL_Surface* font, SDL_Rect *cod);
+	SDL_Surface* CropCharaFirst(SDL_Surface* font, SDL_Rect* cod);
 	
 	/*
 	 * 二次裁剪:
 	 * 将字符按字面框从单元中剪裁出来
 	 */
-	Font CropCharaSecond(SDL_Surface *chara);
+	Font CropCharaSecond(SDL_Surface* chara);
 
 protected:
 	/*
 	 * 在屏幕上显示语句:
 	 * amp为放大倍率
 	 */
-	void ShowWord(const std::string &str, float amp=1, int x=0, int y=0);
+	void ShowWord(const std::string& str, float amp=1, int x=0, int y=0);
+
 	/*
 	 * 获取语句长度(px):
 	 * amp为放大倍率
 	 */
-	unsigned int GetStrLength(const std::string &str, float amp=1);
+	unsigned int GetStrLength(const std::string& str, float amp=1);
 	/*
 	 * 获取语句宽度(px)
 	 * amp为放大倍率
 	 */
-	unsigned int GetStrWidth(const std::string &str, float amp=1);
+	unsigned int GetStrWidth(const std::string& str, float amp=1);
 
 public:
-	GameDrawWord(unsigned int fps, GameFge *gameFge);
+	GameDrawWord(unsigned int fps, GameFge* gameFge);
 	~GameDrawWord();
 };
 
@@ -242,13 +245,13 @@ public:
 	 * 更改人物:
 	 * 更改渲染所使用的地图及人物
 	 */
-	void ChangeFge(GameFge *gameFge);
+	void ChangeFge(GameFge* gameFge);
 	/*
 	 * 设置游戏时长
 	 */
 	void SetGameTime(unsigned int time);
 	
-	GameDraw(unsigned int fps, GameFge *gameFge);
+	GameDraw(unsigned int fps, GameFge* gameFge);
 };
 
 #endif //EMLIFE_HDRAW_H

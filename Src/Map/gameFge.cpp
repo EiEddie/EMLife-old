@@ -1,6 +1,6 @@
 #include"hMap.h"
 
-GameFge::GameFge() :
+GameFge::GameFge():
 		fgeCod({1, 1}),
 		fgeCoin(0),
 		fgeStar(0),
@@ -44,6 +44,7 @@ void GameFge::FgeEat() {
 		case 3:
 			mapMaze[fgeCod.y][fgeCod.x] = 1;
 			fgeStar++;
+			break;
 	}
 }
 

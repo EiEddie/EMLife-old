@@ -4,8 +4,8 @@
 #define EMLIFE_HRECORD_H
 
 #define TOTAL -1
-#define LOSE 0
-#define WIN 1
+#define LOSE   0
+#define WIN    1
 
 class GameRecord {
 private:

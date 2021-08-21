@@ -19,7 +19,7 @@ void Game::UpdateMap() {
 	gameRecord.SetTimeBegin();
 }
 
-bool Game::CheckKeyEvent(const SDL_Keycode &key, bool &ifFlipFge) {
+bool Game::CheckKeyEvent(const SDL_Keycode& key, bool& ifFlipFge) {
 	switch(key) {
 		case SDLK_LEFT:
 		case SDLK_RIGHT:

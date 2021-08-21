@@ -9,15 +9,17 @@ private:
 	GameRecord gameRecord;
 	
 	/*游戏人物*/
-	GameFge *gameFge;
+	GameFge* gameFge;
 	/*显示游戏 刷新屏幕*/
-	GameDraw *gameDraw;
+	GameDraw* gameDraw;
+	
 	/*
 	 * 按键监视:
 	 * true: 继续显示(刷新屏幕)
 	 * false: 关闭窗口
 	 */
-	bool CheckKeyEvent(const SDL_Keycode& key, bool &ifFlipFge);
+	bool CheckKeyEvent(const SDL_Keycode& key, bool& ifFlipFge);
+	
 	/*
 	 * 更新地图:
 	 * 仅用于游戏结束时

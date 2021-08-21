@@ -1,8 +1,8 @@
 #include"hDraw.h"
 
-GameDrawWord::GameDrawWord(unsigned int fps, GameFge *gameFge) :
+GameDrawWord::GameDrawWord(unsigned int fps, GameFge *gameFge):
 		GameDrawSet(fps, gameFge) {
-	SDL_Surface *font = IMG_Load("./Img/font.png");
+	SDL_Surface* font = IMG_Load("./Img/font.png");
 	charaWidth = font->w/16;
 	charaHeight = font->h/6;
 	
@@ -15,10 +15,10 @@ GameDrawWord::GameDrawWord(unsigned int fps, GameFge *gameFge) :
 	 */
 	SDL_Rect charaCod = {16, 0, charaWidth, charaHeight};
 	
-	for(int i = 0; i < 6; i++) {
-		for(int j = 0; j < 16; j++) {
+	for(int i=0; i<6; i++) {
+		for(int j=0; j<16; j++) {
 			if((i == 5 && j == 15)||(i == 0 && j == 0)) continue;
-			SDL_Surface *charaCropFirst = CropCharaFirst(font, &charaCod);
+			SDL_Surface* charaCropFirst = CropCharaFirst(font, &charaCod);
 			Font charaCropSecond = CropCharaSecond(charaCropFirst);
 			drawChara.insert(
 					std::pair<char, Font>(
@@ -44,6 +44,7 @@ GameDrawWord::~GameDrawWord() {
 void GameDrawWord::ShowWord(const std::string &str, float amp, int x, int y) {
 	if(x < 0) x += (int)((mazeInf.xLength*24-GetStrLength(str, amp))/2) - SCREEN_CENTER;
 	if(y < 0) y += (int)((mazeInf.yLength*24-GetStrWidth(str, amp))/2) - SCREEN_CENTER;
+
 	SDL_Rect drawCharaCod = {x, y, 0, (int)(16*amp)};
 	for(char i: str) {
 		if(i <= '~' && i >= '!') {
@@ -72,7 +73,7 @@ void GameDrawWord::ShowWord(const std::string &str, float amp, int x, int y) {
 	}
 }
 
-unsigned int GameDrawWord::GetStrLength(const std::string &str, float amp) {
+unsigned int GameDrawWord::GetStrLength(const std::string& str, float amp) {
 	int length = 0;
 	for(char i: str) {
 		if(i <= '~' && i >= '!') {
@@ -85,7 +86,7 @@ unsigned int GameDrawWord::GetStrLength(const std::string &str, float amp) {
 	return length-(int)(2*amp);
 }
 
-unsigned int GameDrawWord::GetStrWidth(const std::string &str, float amp) {
+unsigned int GameDrawWord::GetStrWidth(const std::string& str, float amp) {
 	int strWidth = (int)(18*amp);
 	for(char i: str) {
 		if(i == '\n') {
@@ -95,12 +96,12 @@ unsigned int GameDrawWord::GetStrWidth(const std::string &str, float amp) {
 	return strWidth;
 }
 
-void GameDrawWord::GetCharaSize(SDL_Surface *chara, int * width, int * height) {
+void GameDrawWord::GetCharaSize(SDL_Surface* chara, int* width, int* height) {
 	int widthNum = 0;
 	int heightNum = 0;
 	bool ifWidthFirst = true;
 	bool ifHeightFirst = true;
-	Uint32 *pixel = (Uint32 *)chara->pixels;
+	Uint32* pixel = (Uint32*)chara->pixels;
 	for(int i=0; i<charaHeight; i++) {
 		for(int j=0; j<charaWidth; j++) {
 			if(pixel[i+charaHeight*j] != 0x00000000) {
@@ -118,7 +119,7 @@ void GameDrawWord::GetCharaSize(SDL_Surface *chara, int * width, int * height) {
 	height[1] = heightNum;
 }
 
-SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface *font, SDL_Rect *cod) {
+SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface* font, SDL_Rect* cod) {
 	/*
 	 * 一次裁剪:
 	 * 将94个基本可见ASCII字符(\u0021: '!' 到 \u007e: '~', 不包括Space(空格))
@@ -126,7 +127,7 @@ SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface *font, SDL_Rect *cod) {
 	 */
 	
 	//被裁剪下来的单个字符
-	SDL_Surface *chara = SDL_CreateRGBSurface(
+	SDL_Surface* chara = SDL_CreateRGBSurface(
 			SDL_SWSURFACE,
 			charaWidth, charaHeight, 32,
 			0xff000000, 0x00ff0000,
@@ -136,7 +137,7 @@ SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface *font, SDL_Rect *cod) {
 	return chara;
 }
 
-Font GameDrawWord::CropCharaSecond(SDL_Surface *chara) {
+Font GameDrawWord::CropCharaSecond(SDL_Surface* chara) {
 	/*
 	 * 二次裁剪:
 	 * 将字符按字面框从单元中剪裁出来
@@ -149,7 +150,7 @@ Font GameDrawWord::CropCharaSecond(SDL_Surface *chara) {
 	//裁剪后字符
 	Font charaTex{};
 	//临时存放字符
-	SDL_Surface *charaCrop = nullptr;
+	SDL_Surface* charaCrop = nullptr;
 	//字符charaNum在Font图片中的位置
 	SDL_Rect charaCod = {0, 0, charaWidth, charaHeight};
 	

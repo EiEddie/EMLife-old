@@ -1,13 +1,13 @@
 #include"hDraw.h"
 
-void WallDrawInf::SetPointInf(int **maze, const Cod& point) {
+void WallDrawInf::SetPointInf(int** maze, const Cod& point) {
 	WallInf temp = wallInf[GetPointNum(maze, point)];
 	this->num = temp.num;
 	this->angle = temp.angle;
 }
 
 
-int WallDrawInf::GetPointNum(int **maze, const Cod& point) {
+int WallDrawInf::GetPointNum(int** maze, const Cod& point) {
 	int pointInf = 0;
 	for(int i=3; i>=0; i--) {
 		Cod temp = point;
@@ -24,7 +24,7 @@ int WallDrawInf::GetPointNum(int **maze, const Cod& point) {
 }
 
 
-GameDraw::GameDraw(unsigned int fps, GameFge *gameFge):
+GameDraw::GameDraw(unsigned int fps, GameFge* gameFge):
 		GameDrawWord(fps, gameFge),
 		fpsNum(0),
 		drawScreenRect({
@@ -161,7 +161,7 @@ void GameDraw::ShowEnd(const std::string& str) {
 	);
 }
 
-void GameDraw::ChangeFge(GameFge *gameFge) {
+void GameDraw::ChangeFge(GameFge* gameFge) {
 	drawGameFge = gameFge;
 }
 

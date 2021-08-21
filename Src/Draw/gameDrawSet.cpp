@@ -1,7 +1,7 @@
 #include"hDraw.h"
 
-GameDrawSet::GameDrawSet(unsigned int fps, GameFge *gameFge) :
-		stepFps(1000 / fps),
+GameDrawSet::GameDrawSet(unsigned int fps, GameFge* gameFge) :
+		stepFps(1000/fps),
 		drawGameFge(gameFge) {
 	SDL_Init(SDL_INIT_VIDEO);
 	IMG_Init(IMG_INIT_PNG);
@@ -10,8 +10,8 @@ GameDrawSet::GameDrawSet(unsigned int fps, GameFge *gameFge) :
 			"EMLife!",
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
-			mazeInf.xLength * 24,
-			mazeInf.yLength * 24,
+			mazeInf.xLength*24,
+			mazeInf.yLength*24,
 			SDL_WINDOW_SHOWN
 	);
 	
@@ -23,33 +23,33 @@ GameDrawSet::GameDrawSet(unsigned int fps, GameFge *gameFge) :
 	SDL_SetRenderDrawBlendMode(drawRen, SDL_BLENDMODE_BLEND);
 	
 	std::string imgPath = "./Img/";
-	SDL_Surface *drawGameTemp;
+	SDL_Surface* drawGameTemp;
 	
 	std::map<int, std::string> drawGameImgName = {
-			{-2, "end"},
-			{-1, "fge"},
-			{2, 	"coin"},
-			{3, 	"star"},
-			{4, 	"demon"}
+			{ -2, "end"  },
+			{ -1, "fge"  },
+			{ 2 , "coin" },
+			{ 3 , "star" },
+			{ 4 , "demon"}
 	};
-	for(int i = -2; i <= 4; i++) {
+	for(int i=-2; i<=4; i++) {
 		if(i == 1 || i == 0) continue;
 		drawGameTemp = IMG_Load((imgPath+drawGameImgName[i]+".png").c_str());
-		drawGameImg.insert(std::pair<int, SDL_Texture *>(
+		drawGameImg.insert(std::pair<int, SDL_Texture*>(
 				i, SDL_CreateTextureFromSurface(drawRen, drawGameTemp)
 		));
 	}
 	
 	std::map<int, std::string> drawWallImgName = {
-			{0, 	"wallStr"},
-			{1, 	"wallCor"},
-			{2, 	"wallEnd"},
-			{3, 	"wallCros"},
-			{4, 	"wallTri"}
+			{ 0, "wallStr" },
+			{ 1, "wallCor" },
+			{ 2, "wallEnd" },
+			{ 3, "wallCros"},
+			{ 4, "wallTri" }
 	};
-	for(int i = 0; i <= 4; i++) {
+	for(int i=0; i<=4; i++) {
 		drawGameTemp = IMG_Load((imgPath+drawWallImgName[i]+".png").c_str());
-		drawWallImg.insert(std::pair<int, SDL_Texture *>(
+		drawWallImg.insert(std::pair<int, SDL_Texture*>(
 				i, SDL_CreateTextureFromSurface(drawRen, drawGameTemp)
 		));
 	}

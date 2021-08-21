@@ -10,28 +10,28 @@ struct Cod {
 	/*横坐标*/
 	int x;
 	
-	bool operator==(const Cod& cd) {
+	bool operator ==(const Cod& cd) {
 		if(cd.x == x && cd.y == y) return true;
 		else return false;
 	}
-	bool operator!=(const Cod& cd) {
+	bool operator !=(const Cod& cd) {
 		return !(*this == cd);
 	}
 	
-	bool operator<=(const Cod& cd) {
+	bool operator <=(const Cod& cd) {
 		if(x <= cd.x && y <= cd.y) return true;
 		else return false;
 	}
-	bool operator>=(const Cod& cd) {
+	bool operator >=(const Cod& cd) {
 		if(x >= cd.x && y >= cd.y) return true;
 		else return false;
 	}
 	
-	bool operator<(const Cod& cd) {
+	bool operator <(const Cod& cd) {
 		if(x < cd.x && y < cd.y) return true;
 		else return false;
 	}
-	bool operator>(const Cod& cd) {
+	bool operator >(const Cod& cd) {
 		if(x > cd.x && y > cd.y) return true;
 		else return false;
 	}
@@ -59,11 +59,11 @@ static struct MazeInf {
 			int xLength, int yLength,
 			int coinNum, int starNum, int demonNum
 	 ):
-	xLength(xLength),
-	yLength(yLength),
-	coin(coinNum),
-	star(starNum),
-	demon(demonNum) {}
+		xLength(xLength),
+		yLength(yLength),
+		coin(coinNum),
+		star(starNum),
+		demon(demonNum) {}
 } mazeInf(47, 29, 100, 3, 3);
 
 
@@ -79,7 +79,7 @@ private:
 	void GetAllRoadPoint();
 	
 	/*查找点*/
-	bool SelectVector(const CodList &vectorName, const Cod &point);
+	bool SelectVector(const CodList& vectorName, const Cod& point);
 	
 	/*移动点*/
 	Cod MovePoint(
@@ -98,20 +98,20 @@ private:
 	void SetCoin();
 	
 	/*添加元素Star*/
-	void SetStar(CodList &pointStar);
+	void SetStar(CodList& pointStar);
 	
 	/*
 	 * 添加元素Demon
 	 * path: 可移动位置
 	 */
-	void SetDemon(int **maze, CodList &path);
+	void SetDemon(int** maze, CodList& path);
 	void SetDemon(const CodList& cdEnd, CodList path);
 	
 	/*
 	 * 填充迷宫:
 	 * 为 ReFillMaze 方法做铺垫
 	 */
-	void FillMaze(int **maze, const Cod &cdBegin, int num = -1);
+	void FillMaze(int** maze, const Cod& cdBegin, int num=-1);
 	
 	/*
 	 * 清理迷宫:
@@ -119,13 +119,13 @@ private:
 	 * num为迷宫内某点的数字
 	 * 当fun返回true时将此点更改为1
 	 */
-	void ClearMaze(int **maze, bool (*fun)(int num));
+	void ClearMaze(int** maze, bool (*fun)(int num));
 	
 	/*
 	 * 二次填充:
 	 * 在一次填充的基础上反向进行以寻路
 	 */
-	void ReFillMaze(int **maze, const Cod &cdBegin, CodList &way);
+	void ReFillMaze(int** maze, const Cod& cdBegin, CodList& way);
 	
 	/*
 	 * 寻找demon行动路径:
@@ -133,13 +133,13 @@ private:
 	 * path: 可移动位置
 	 * num: 步数
 	 */
-	bool GetDemonPath(int **maze, const Cod &cd, CodList &path, int num);
+	bool GetDemonPath(int** maze, const Cod& cd, CodList& path, int num);
 
 public:
 	/*Demon活动点*/
-	CodList *demonPoint;
+	CodList* demonPoint;
 	/*迷宫地图*/
-	int **mapMaze;
+	int** mapMaze;
 	/*迷宫终点*/
 	Cod mapEnd{};
 	
@@ -149,7 +149,7 @@ public:
 
 
 /*创建游戏人物*/
-class GameFge : public GameMap {
+class GameFge: public GameMap {
 private:
 	/*移动人物*/
 	void FgeMove(SDL_Keycode dir);
@@ -166,14 +166,13 @@ public:
 	 * 长度为 mapDemon
 	 * 取值 -3~4, 若为负数则以相反数为准
 	 */
-	int *demonPos;
+	int* demonPos;
 	
 	/*人物位置*/
 	struct Cod fgeCod;
 	
 	/*人物金币数量*/
 	int fgeCoin;
-	
 	/*人物星星数量*/
 	int fgeStar;
 	
