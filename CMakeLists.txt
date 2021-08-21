@@ -3,16 +3,19 @@ cmake_minimum_required(VERSION 3.19)
 #C++编译版本
 set(CMAKE_CXX_STANDARD 11)
 
+
 #项目名称
 project(EMLife)
 #可执行文件输出目录
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Bin)
+
 
 if(CMAKE_BUILD_TYPE MATCHES "Release")
 	#不显示dos窗口
 	set(CMAKE_CXX_FLAGS "-mwindows")
 	message(STATUS "Dos-Window: Invisible")
 endif()
+
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
 	#链接库
@@ -46,7 +49,7 @@ link_directories(
 )
 
 
-
+#设置编译文件
 set(FILE
 		Src/hEMLife.h
 		Src/main.cpp
@@ -73,6 +76,7 @@ endif()
 
 #添加编译文件
 add_executable(EMLife ${FILE})
+
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	#将第三方库链接在一起
