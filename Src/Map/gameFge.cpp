@@ -15,7 +15,7 @@ GameFge::~GameFge() {
 }
 
 void GameFge::FgeMove(SDL_Keycode dir) {
-	/*移动人物*/
+	/** \brief 移动人物 */
 	
 	switch(dir) {
 		case SDLK_UP:
@@ -34,7 +34,7 @@ void GameFge::FgeMove(SDL_Keycode dir) {
 }
 
 void GameFge::FgeEat() {
-	/*获取战利品*/
+	/** \brief 获取战利品 */
 	
 	switch(mapMaze[fgeCod.y][fgeCod.x]) {
 		case 2:
@@ -49,7 +49,7 @@ void GameFge::FgeEat() {
 }
 
 void GameFge::FgeBehave(SDL_Keycode dir) {
-	/*人物行为*/
+	/** \brief 人物行为 */
 	
 	FgeMove(dir);
 	FgeEat();

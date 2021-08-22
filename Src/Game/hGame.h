@@ -5,32 +5,39 @@
 
 class Game {
 private:
-	/*记录游戏数据*/
+	/** \brief 记录游戏数据 */
 	GameRecord gameRecord;
 	
-	/*游戏人物*/
+	/** \brief 游戏人物 */
 	GameFge* gameFge;
-	/*显示游戏 刷新屏幕*/
+	/** \brief 显示游戏 刷新屏幕 */
 	GameDraw* gameDraw;
 	
-	/*
-	 * 按键监视:
-	 * true: 继续显示(刷新屏幕)
-	 * false: 关闭窗口
+	/**
+	 * \brief 按键监视
+	 *
+	 * \param key 按键键码
+	 * \return 是否继续显示
 	 */
-	bool CheckKeyEvent(const SDL_Keycode& key, bool& ifFlipFge);
+	bool CheckKeyEvent(const SDL_Keycode& key);
 	
-	/*
-	 * 更新地图:
-	 * 仅用于游戏结束时
+	/**
+	 * \brief 更新地图
+	 *
+	 *   仅用于游戏结束时
 	 */
 	void UpdateMap();
 
 public:
-	/*事件循环*/
+	/**
+	 * \brief 事件循环
+	 */
 	void EventLoop();
 	
-	Game(const unsigned int fps);
+	/**
+	 * \param fps 帧率
+	 */
+	Game(unsigned int fps);
 	~Game();
 };
 

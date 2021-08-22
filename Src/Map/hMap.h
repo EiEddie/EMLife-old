@@ -3,11 +3,11 @@
 #ifndef EMLIFE_HMAP_H
 #define EMLIFE_HMAP_H
 
-/*位置*/
+/** \brief 位置 */
 struct Cod {
-	/*纵坐标*/
+	/** \brief 纵坐标 */
 	int y;
-	/*横坐标*/
+	/** \brief 横坐标 */
 	int x;
 	
 	bool operator ==(const Cod& cd) {
@@ -36,29 +36,34 @@ struct Cod {
 		else return false;
 	}
 	
-	/*移动点*/
+	/**
+	 * \brief 移动点
+	 *
+	 * \param dir 移动方向
+	 * \param stepLength 移动距离
+	 */
 	bool Move(const int dir, int stepLength=1);
 };
 
 
-/*迷宫信息*/
+/** \brief 迷宫信息 */
 static struct MazeInf {
-	/*迷宫宽度*/
+	/** \brief 迷宫宽度 */
 	const int xLength;
-	/*迷宫长度*/
+	/** \brief 迷宫长度 */
 	const int yLength;
 	
-	/*金币数量*/
+	/** \brief 金币数量 */
 	const int coin;
-	/*星星数量*/
+	/** \brief 星星数量 */
 	const int star;
-	/*恶魔数量*/
+	/** \brief 恶魔数量 */
 	const int demon;
 	
 	MazeInf(
 			int xLength, int yLength,
 			int coinNum, int starNum, int demonNum
-	 ):
+	):
 		xLength(xLength),
 		yLength(yLength),
 		coin(coinNum),
@@ -70,77 +75,114 @@ static struct MazeInf {
 typedef std::vector<Cod> CodList;
 
 
-/*生成游戏地图*/
+/** \brief 生成游戏地图 */
 class GameMap {
 private:
-	/*所有路点*/
+	/** \brief 所有路点 */
 	CodList roadPoint;
-	/*添加所有路点*/
+	/**
+	 * \brief 添加所有路点
+	 */
 	void GetAllRoadPoint();
 	
-	/*查找点*/
+	/**
+	 * \brief 查找点
+	 *
+	 * \param vectorName 待查vector
+	 * \param point 待查点
+	 * \return 点是否在vector内
+	 */
 	bool SelectVector(const CodList& vectorName, const Cod& point);
 	
-	/*移动点*/
+	/**
+	 * \brief 移动点
+	 *
+	 * \param point 被移动点
+	 * \param dir 移动方向
+	 * \param stepLength 移动距离
+	 */
 	Cod MovePoint(
 			Cod point,
 			const int dir,
 			int stepLength=2
 	) const;
 	
-	/*生成迷宫*/
+	/** \brief 生成迷宫 */
 	void GetMaze();
 	
-	/*指定终点*/
+	/** \brief 指定终点 */
 	void SetEnd();
 	
-	/*添加元素Coin*/
+	/** \brief 添加元素Coin */
 	void SetCoin();
 	
-	/*添加元素Star*/
+	/** \brief 添加元素Star */
 	void SetStar(CodList& pointStar);
 	
-	/*
-	 * 添加元素Demon
-	 * path: 可移动位置
+	/**
+	 * \brief 添加元素Demon
+	 *
+	 * \param maze 迷宫
+	 * \param path 可移动位置
 	 */
 	void SetDemon(int** maze, CodList& path);
+	/**
+	 * \brief 添加元素Demon
+	 *
+	 * \param cdEnd 终点列表
+	 * \param path 可移动位置
+	 */
 	void SetDemon(const CodList& cdEnd, CodList path);
 	
-	/*
-	 * 填充迷宫:
-	 * 为 ReFillMaze 方法做铺垫
+	/**
+	 * \brief 填充迷宫
+	 *
+	 *   为 ReFillMaze 方法做铺垫
+	 *
+	 * \param maze 被填充迷宫
+	 * \param cdBegin 填充起点
+	 * \param num 以什么数字填充
 	 */
 	void FillMaze(int** maze, const Cod& cdBegin, int num=-1);
 	
-	/*
-	 * 清理迷宫:
-	 * 去除 FillMaze 方法痕迹
-	 * num为迷宫内某点的数字
-	 * 当fun返回true时将此点更改为1
+	/**
+	 * \brief 清理迷宫
+	 *
+	 *   去除 FillMaze 方法痕迹
+	 *
+	 * \param maze 被清理迷宫
+	 * \param fun num为迷宫内某点的数字
+	 * 返回true时将此点更改为1
 	 */
 	void ClearMaze(int** maze, bool (*fun)(int num));
 	
-	/*
-	 * 二次填充:
-	 * 在一次填充的基础上反向进行以寻路
+	/**
+	 * \brief 二次填充
+	 *
+	 *   在一次填充的基础上反向进行以寻路
+	 *
+	 * \param maze 被填充迷宫
+	 * \param cdBegin 填充起点
+	 * \param way 返回的路径
 	 */
 	void ReFillMaze(int** maze, const Cod& cdBegin, CodList& way);
 	
-	/*
-	 * 寻找demon行动路径:
-	 * cd: 开始位置
-	 * path: 可移动位置
-	 * num: 步数
+	/**
+	 * \brief 寻找demon行动路径
+	 *
+	 * \param maze 迷宫
+	 * \param cd 开始位置
+	 * \param path 可移动位置
+	 * \param num 步数
 	 */
 	bool GetDemonPath(int** maze, const Cod& cd, CodList& path, int num);
 
 public:
-	/*Demon活动点*/
+	/** \brief Demon活动点 */
 	CodList* demonPoint;
-	/*迷宫地图*/
+	/** \brief 迷宫地图 */
 	int** mapMaze;
-	/*迷宫终点*/
+	/** \brief 迷宫终点 */
 	Cod mapEnd{};
 	
 	GameMap();
@@ -148,55 +190,59 @@ public:
 };
 
 
-/*创建游戏人物*/
+/** \brief 创建游戏人物 */
 class GameFge: public GameMap {
 private:
-	/*移动人物*/
+	/** \brief 移动人物 */
 	void FgeMove(SDL_Keycode dir);
 	
-	/*
-	 * 获取战利品:
-	 * Coin&Star
+	/**
+	 * \brief 获取战利品
+	 *
+	 *   Coin&Star
 	 */
 	void FgeEat();
 
 public:
-	/*
-	 * Demon位置:
-	 * 长度为 mapDemon
-	 * 取值 -3~4, 若为负数则以相反数为准
+	/**
+	 * \brief Demon位置
+	 *
+	 *   长度为 mapDemon
+	 *   取值 -3~4, 若为负数则以相反数为准
 	 */
 	int* demonPos;
 	
-	/*人物位置*/
+	/** \brief 人物位置 */
 	struct Cod fgeCod;
 	
-	/*人物金币数量*/
+	/** \brief 人物金币数量 */
 	int fgeCoin;
-	/*人物星星数量*/
+	/** \brief 人物星星数量 */
 	int fgeStar;
 	
-	/*
-	 * 是否获得足够星星:
-	 * 人物星星数量是否等于游戏星星数量
+	/**
+	 * \brief 是否获得足够星星
+	 *
+	 *   人物星星数量是否等于游戏星星数量
 	 */
 	bool ifGetAllStar = false;
 	
-	/*
-	 * 是否获胜:
-	 * -1: 失败(触碰到Demon)
-	 * 0: 游戏中
-	 * 1: 胜利(已获得足够星星并触碰到终点)
+	/**
+	 * \brief 是否获胜
+	 *
+	 *   -1: 失败(触碰到Demon)
+	 *   0: 游戏中
+	 *   1: 胜利(已获得足够星星并触碰到终点)
 	 */
 	int ifWin = 0;
 	
-	/*判断是否获胜*/
+	/** \brief 判断是否获胜 */
 	void FgeIfWin();
 	
-	/*人物行为*/
+	/** \brief 人物行为 */
 	void FgeBehave(SDL_Keycode dir);
 	
-	/*移动怪物*/
+	/** \brief 移动怪物 */
 	void DemonMove();
 	
 	GameFge();

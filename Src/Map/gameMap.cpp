@@ -1,7 +1,7 @@
 #include"hMap.h"
 
 bool Cod::Move(const int dir, int stepLength) {
-	/*移动点*/
+	/** \brief 移动点 */
 	
 	Cod cdMin = {0, 0};
 	Cod cdMax = {mazeInf.yLength, mazeInf.xLength};
@@ -54,7 +54,7 @@ GameMap::~GameMap() {
 }
 
 bool GameMap::SelectVector(const CodList& vectorName, const Cod& point) {
-	/*检测point是否存在于vectorName中*/
+	/** \brief 检测point是否存在于vectorName中 */
 	
 	return std::any_of(vectorName.begin(), vectorName.end(), [point](Cod cd) {
 		return (cd.x == point.x && cd.y == point.y);
@@ -77,7 +77,7 @@ Cod GameMap::MovePoint(
 }
 
 void GameMap::GetMaze() {
-	/*生成迷宫*/
+	/** \brief 生成迷宫 */
 	
 	//初始化迷宫, 将迷宫每个点设置为0且加入起点, 起点恒为(1, 1)
 	CodList wallPoint;

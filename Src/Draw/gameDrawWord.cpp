@@ -8,7 +8,7 @@ GameDrawWord::GameDrawWord(unsigned int fps, GameFge *gameFge):
 	
 	//开始符号: '!'
 	char charaNum = '!';
-	/*
+	/**
 	 * 字符charaNum在Font图片中的位置
 	 * 第一行第一个为Space(空格)，略过
 	 * 最后一行最后一个为空，略过
@@ -48,7 +48,7 @@ void GameDrawWord::ShowWord(const std::string &str, float amp, int x, int y) {
 	SDL_Rect drawCharaCod = {x, y, 0, (int)(16*amp)};
 	for(char i: str) {
 		if(i <= '~' && i >= '!') {
-			/*
+			/**
 			 * 如果是可见字符(\u0021: '!' 到 \u007e: '~', 不包括Space(空格)):
 			 * 后移 该字符宽度+2px
 			 */
@@ -57,14 +57,14 @@ void GameDrawWord::ShowWord(const std::string &str, float amp, int x, int y) {
 			drawCharaCod.x += (int)((float)drawChara[i].width*amp);
 			drawCharaCod.x += (int)(2*amp);
 		} else if(i == '\n') {
-			/*
+			/**
 			 * 如果是换行符(\u000a: '\n'):
 			 * 下移 18px
 			 */
 			drawCharaCod.x = x;
 			drawCharaCod.y += (int)(18*amp);
 		} else if(i == ' ') {
-			/*
+			/**
 			 * 如果是空格(\u0020: ' '):
 			 * 后移 6px
 			 */
@@ -96,7 +96,7 @@ unsigned int GameDrawWord::GetStrWidth(const std::string& str, float amp) {
 	return strWidth;
 }
 
-void GameDrawWord::GetCharaSize(SDL_Surface* chara, int* width, int* height) {
+void GameDrawWord::GetCharaSize(SDL_Surface* chara, int width[2], int height[2]) const {
 	int widthNum = 0;
 	int heightNum = 0;
 	bool ifWidthFirst = true;
@@ -120,7 +120,7 @@ void GameDrawWord::GetCharaSize(SDL_Surface* chara, int* width, int* height) {
 }
 
 SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface* font, SDL_Rect* cod) {
-	/*
+	/**
 	 * 一次裁剪:
 	 * 将94个基本可见ASCII字符(\u0021: '!' 到 \u007e: '~', 不包括Space(空格))
 	 * 从外部加载的Font图片中剪裁为16*16的单元

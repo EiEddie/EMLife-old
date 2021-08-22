@@ -9,53 +9,70 @@
 
 class GameRecord {
 private:
-	/*
-	 * 数据库:
-	 * 记录游戏数据
+	/**
+	 * \brief 数据库
+	 *
+	 *   记录游戏数据
 	 */
 	sqlite3* gameDataBase;
-	/*语句句柄*/
+	/** \brief 语句句柄 */
 	sqlite3_stmt* stmt;
-	/*执行语句*/
-	void Execute(const std::string& sentence);
+	/**
+	 * \brief 执行命令
+	 *
+	 * \param command 命令
+	 */
+	void Execute(const std::string& command);
 	
-	/*游戏开始时间*/
+	/** \brief 游戏开始时间 */
 	Uint32 timeBegin{};
-	/*游戏结束时间*/
+	/** \brief 游戏结束时间 */
 	Uint32 timeEnd{};
-	/*
-	 * 是否记录:
-	 * 游戏结束时间是否已被记录
+	/**
+	 * \brief 是否记录
+	 *
+	 *   游戏结束时间是否已被记录
 	 */
 	bool ifRecordTime;
 	
-	/*获胜数目*/
+	/** \brief 获胜数目 */
 	int numWin;
-	/*总数*/
+	/** \brief 总数 */
 	int numTotal;
-	/*获取胜负数目*/
+	/** \brief 获取胜负数目 */
 	void SetResultNum();
 	
-	/*
-	 * 是否记录:
-	 * 游戏结果是否已被记录
+	/**
+	 * \brief 是否记录
+	 *
+	 *   游戏结果是否已被记录
 	 */
 	bool ifRecordGame;
 
 
 public:
-	/*设置开始时间*/
+	/** \brief 设置开始时间 */
 	void SetTimeBegin();
-	/*设置结束时间*/
+	/** \brief 设置结束时间 */
 	void SetTimeEnd();
-	/*获取本局游戏时间*/
+	/**
+	 * \brief 获取本局游戏时间
+	 *
+	 * \return 游戏时间
+	 */
 	unsigned int GetGameTime();
 	
-	/*记录一条游戏信息*/
+	/**
+	 * \brief 记录一条游戏信息
+	 *
+	 * \param ifWin 是否获胜
+	 * \param numCoin 游戏中取得的金币数量
+	 */
 	void RecordGame(bool ifWin, int numCoin);
-	/*
-	 * 重置记录:
-	 * 重置ifRecordGame为false
+	/**
+	 * \brief 重置记录
+	 *
+	 *   重置ifRecordGame为false
 	 */
 	void ResetRecord();
 	

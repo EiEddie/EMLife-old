@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) 2021 EiEddie.
+ *
+ *     _/_/_/_/  _/  _/_/_/_/        _/        _/  _/
+ *    _/            _/          _/_/_/    _/_/_/        _/_/
+ *   _/_/_/    _/  _/_/_/    _/    _/  _/    _/  _/  _/_/_/_/
+ *  _/        _/  _/        _/    _/  _/    _/  _/  _/
+ * _/_/_/_/  _/  _/_/_/_/    _/_/_/    _/_/_/  _/    _/_/_/
+ *
+ */
+
 #pragma once
 #include<vector>
 #include<map>
@@ -22,22 +33,22 @@ extern "C" {
 
 }
 
-/*
- * 生成地图与人物相关
+/**
+ * \brief 生成地图与人物相关
  */
 #include"Map/hMap.h"
 
-/*
- * 绘制相关
+/**
+ * \brief 绘制相关
  */
 #include"Draw/hDraw.h"
 
-/*
- * 获取与记录游戏信息相关
+/**
+ * \brief 获取与记录游戏信息相关
  */
 #include"Record/hRecord.h"
 
-/*
- * 游戏上层相关
+/**
+ * \brief 游戏上层相关
  */
 #include"Game/hGame.h"

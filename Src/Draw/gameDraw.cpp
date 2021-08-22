@@ -32,7 +32,8 @@ GameDraw::GameDraw(unsigned int fps, GameFge* gameFge):
 			mazeInf.xLength*24,
 			mazeInf.yLength*24
 		}),
-		gameTime(0) {}
+		gameTime(0),
+		ifFlipFge(false) {}
 
 void GameDraw::FpsManagerBegin() {
 	timeBegin = SDL_GetTicks();
@@ -82,7 +83,7 @@ void GameDraw::ShowDemon() {
 	}
 }
 
-void GameDraw::Show(bool ifFlipFge) {
+void GameDraw::Show() {
 	SDL_SetRenderDrawColor(
 			drawRen,
 			0xff, 0xfa,
@@ -107,8 +108,8 @@ void GameDraw::Show(bool ifFlipFge) {
 	SDL_RenderPresent(drawRen);
 }
 
-bool GameDraw::Ask(SDL_Keycode ifQuit) {
-	if(ifQuit == SDLK_y) return true;
+bool GameDraw::Ask(SDL_Keycode key) {
+	if(key == SDLK_y) return true;
 	else return false;
 }
 

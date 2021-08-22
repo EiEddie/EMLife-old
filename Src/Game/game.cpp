@@ -19,14 +19,14 @@ void Game::UpdateMap() {
 	gameRecord.SetTimeBegin();
 }
 
-bool Game::CheckKeyEvent(const SDL_Keycode& key, bool& ifFlipFge) {
+bool Game::CheckKeyEvent(const SDL_Keycode& key) {
 	switch(key) {
 		case SDLK_LEFT:
 		case SDLK_RIGHT:
 		case SDLK_UP:
 		case SDLK_DOWN:
-			if(key == SDLK_LEFT) ifFlipFge = true;
-			else if(key == SDLK_RIGHT) ifFlipFge = false;
+			if(key == SDLK_LEFT) gameDraw->ifFlipFge = true;
+			else if(key == SDLK_RIGHT) gameDraw->ifFlipFge = false;
 			if(gameFge->ifWin == 0) gameFge->FgeBehave(key);
 			//继续显示
 			return true;
@@ -52,8 +52,6 @@ void Game::EventLoop() {
 	bool ifQuit = false;
 	//事件
 	SDL_Event drawEvent;
-	//是否翻转人物
-	bool ifFlipFge = false;
 	
 	while(!ifQuit) {
 		gameDraw->FpsManagerBegin();
@@ -61,7 +59,7 @@ void Game::EventLoop() {
 			if(drawEvent.type == SDL_QUIT) {
 				ifQuit = true;
 			} else if(drawEvent.type == SDL_KEYDOWN) {
-				if(!CheckKeyEvent(drawEvent.key.keysym.sym, ifFlipFge)) return;
+				if(!CheckKeyEvent(drawEvent.key.keysym.sym)) return;
 			}
 		}
 		gameFge->FgeIfWin();
@@ -72,7 +70,7 @@ void Game::EventLoop() {
 			gameDraw->SetGameTime(gameRecord.GetGameTime());
 		}
 		
-		gameDraw->Show(ifFlipFge);
+		gameDraw->Show();
 		if(gameDraw->fpsNum%30 == 0) gameFge->DemonMove();
 		gameDraw->FpsManagerEnd();
 	}

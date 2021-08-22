@@ -33,8 +33,8 @@ GameRecord::~GameRecord() {
 	sqlite3_close_v2(gameDataBase);
 }
 
-void GameRecord::Execute(const std::string& sentence) {
-	int result = sqlite3_prepare_v2(gameDataBase, sentence.c_str(), -1, &stmt, nullptr);
+void GameRecord::Execute(const std::string& command) {
+	int result = sqlite3_prepare_v2(gameDataBase, command.c_str(), -1, &stmt, nullptr);
 	if(result == SQLITE_OK) sqlite3_step(stmt);
 	sqlite3_finalize(stmt);
 }
