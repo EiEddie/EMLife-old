@@ -182,9 +182,9 @@ void GameMap::SetDemon(int** maze, CodList& path) {
 void GameMap::SetDemon(const CodList& cdEnd, CodList path) {
 	//深拷贝mapMaze
 	int** maze = new int* [mazeInf.yLength];
-	for(int i = 0; i < mazeInf.yLength; i++) {
+	for(int i=0; i<mazeInf.yLength; i++) {
 		maze[i] = new int[mazeInf.xLength];
-		for(int j = 0; j < mazeInf.xLength; j++) {
+		for(int j=0; j<mazeInf.xLength; j++) {
 			int temp = mapMaze[i][j];
 			if(temp == 0) maze[i][j] = 0;
 			else maze[i][j] = 1;
@@ -198,7 +198,7 @@ void GameMap::SetDemon(const CodList& cdEnd, CodList path) {
 	for(auto &i: way) {
 		path.erase(std::remove_if(
 				path.begin(), path.end(), [i](Cod point) {
-					return (point.x == i.x && point.y == i.y);
+					return (point == i)||(point.x < 7 && point.y < 7);
 				}), path.end());
 	}
 	SetDemon(maze, path);
