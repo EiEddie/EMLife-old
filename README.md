@@ -27,6 +27,8 @@ A Simple Maze Game
 
 - 要重置游戏记录, 您可以尝试删除 `gameData.db` 文件.
 
+- 按 `R` 以刷新游戏地图.
+
 ## 自定义
 
 - 更改 `Bin/Img/font.png` 文件以更改字体
