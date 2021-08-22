@@ -41,6 +41,10 @@ bool Game::CheckKeyEvent(const SDL_Keycode& key) {
 				//关闭窗口
 				else return false;
 			}
+		case SDLK_r:
+			UpdateMap();
+			//继续显示
+			return true;
 		default:
 			//继续显示
 			return true;
@@ -48,9 +52,9 @@ bool Game::CheckKeyEvent(const SDL_Keycode& key) {
 }
 
 void Game::EventLoop() {
-	//是否退出
+	///\brief 是否退出
 	bool ifQuit = false;
-	//事件
+	///\brief 事件
 	SDL_Event drawEvent;
 	
 	while(!ifQuit) {
