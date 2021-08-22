@@ -6,12 +6,13 @@ GameDrawWord::GameDrawWord(unsigned int fps, GameFge *gameFge):
 	charaWidth = font->w/16;
 	charaHeight = font->h/6;
 	
-	//开始符号: '!'
+	///\brief 开始符号: '!'
 	char charaNum = '!';
 	/**
-	 * 字符charaNum在Font图片中的位置
-	 * 第一行第一个为Space(空格)，略过
-	 * 最后一行最后一个为空，略过
+	 * \brief 字符charaNum在Font图片中的位置
+	 *
+	 *   第一行第一个为Space(空格)，略过
+	 *   最后一行最后一个为空，略过
 	 */
 	SDL_Rect charaCod = {16, 0, charaWidth, charaHeight};
 	
@@ -121,12 +122,13 @@ void GameDrawWord::GetCharaSize(SDL_Surface* chara, int width[2], int height[2])
 
 SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface* font, SDL_Rect* cod) {
 	/**
-	 * 一次裁剪:
-	 * 将94个基本可见ASCII字符(\u0021: '!' 到 \u007e: '~', 不包括Space(空格))
-	 * 从外部加载的Font图片中剪裁为16*16的单元
+	 * \brief 一次裁剪
+	 *
+	 *   将94个基本可见ASCII字符(/u0021: '!' 到 /u007e: '~', 不包括Space(空格))
+	 *   从外部加载的Font图片中剪裁为16*16的单元
 	 */
 	
-	//被裁剪下来的单个字符
+	///\brief 被裁剪下来的单个字符
 	SDL_Surface* chara = SDL_CreateRGBSurface(
 			SDL_SWSURFACE,
 			charaWidth, charaHeight, 32,
@@ -138,15 +140,15 @@ SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface* font, SDL_Rect* cod) {
 }
 
 Font GameDrawWord::CropCharaSecond(SDL_Surface* chara) {
-	//字符宽度信息
+	///\brief 字符宽度信息
 	int width[2] = {0};
-	//字符高度信息
+	///\brief 字符高度信息
 	int height[2] = {0};
-	//裁剪后字符
+	///\brief 裁剪后字符
 	Font charaTex{};
-	//临时存放字符
+	///\brief 临时存放字符
 	SDL_Surface* charaCrop;
-	//字符charaNum在Font图片中的位置
+	///\brief 字符charaNum在Font图片中的位置
 	SDL_Rect charaCod = {0, 0, charaWidth, charaHeight};
 	
 	GetCharaSize(chara, width, height);

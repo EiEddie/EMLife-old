@@ -93,6 +93,6 @@ void GameRecord::ResetRecord() {
 	ifRecordGame = false;
 }
 
-unsigned int GameRecord::GetGameTime() {
+unsigned int GameRecord::GetGameTime() const {
 	return timeEnd-timeBegin;
 }

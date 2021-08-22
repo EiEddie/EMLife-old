@@ -60,7 +60,7 @@ public:
 	 *
 	 * \return 游戏时间
 	 */
-	unsigned int GetGameTime();
+	unsigned int GetGameTime() const;
 	
 	/**
 	 * \brief 记录一条游戏信息
