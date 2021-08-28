@@ -10,7 +10,7 @@ struct WallInf {
 	int num;               /**< 墙点种类
                                 直: 0, 弯: 1
                                 末端: 2, 十字: 3, 三岔: 4
-                            */
+                                */
 	double angle;          /**< 旋转角度 */
 	SDL_RendererFlip flip; /**< 翻转状态 */
 	
