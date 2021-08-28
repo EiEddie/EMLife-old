@@ -5,18 +5,14 @@
 
 #define SCREEN_CENTER -1073741824
 
+/** \brief 墙的信息 */
 struct WallInf {
-	/**
-	 * \brief 墙点种类
-	 *
-	 *   直: 0, 弯: 1
-	 *   末端: 2, 十字: 3, 三岔: 4
-	 */
-	int num;
-	/** \brief 旋转角度 */
-	double angle;
-	/** \brief 翻转状态 */
-	SDL_RendererFlip flip;
+	int num;               /**< 墙点种类
+                                直: 0, 弯: 1
+                                末端: 2, 十字: 3, 三岔: 4
+                            */
+	double angle;          /**< 旋转角度 */
+	SDL_RendererFlip flip; /**< 翻转状态 */
 	
 	WallInf(int num=0, double angle=0, SDL_RendererFlip flip=SDL_FLIP_NONE):
 			num(num),
@@ -75,16 +71,10 @@ public:
 /** \brief 游戏渲染设置 */
 class GameDrawSet {
 protected:
-	/**
-	 * \brief 人物
-	 *
-	 *   地图数据&游戏动作
-	 */
-	GameFge* drawGameFge = nullptr;
-	/** \brief 窗口 */
-	SDL_Window* drawWindow = nullptr;
-	/** \brief 渲染器 */
-	SDL_Renderer* drawRen = nullptr;
+	GameFge* drawGameFge;   /**< 人物 */
+	
+	SDL_Window* drawWindow; /**< 窗口 */
+	SDL_Renderer* drawRen;  /**< 渲染器 */
 
 	/**
 	 * \brief 单帧持续时间
@@ -121,12 +111,10 @@ public:
 
 /** \brief 存放字体中单个字符数据 */
 struct Font {
-	/** \brief 字符材质 */
-	SDL_Texture* chara;
-	/** \brief 字符宽度 */
-	unsigned int width;
-	/** \brief 字符高度 */
-	unsigned int height;
+	SDL_Texture* chara;  /**< 字符材质 */
+	
+	unsigned int width;  /**< 字符宽度 */
+	unsigned int height; /**< 字符高度 */
 	
 	Font(SDL_Texture* chara=nullptr, unsigned int width=16, unsigned int height=16):
 		chara(chara),
@@ -138,10 +126,8 @@ struct Font {
 /** \brief 显示文字 */
 class GameDrawWord: protected GameDrawSet {
 private:
-	/** \brief 字符宽度 */
-	int charaWidth;
-	/** \brief 字符高度 */
-	int charaHeight;
+	int charaWidth;  /**< 字符宽度 */
+	int charaHeight; /**< 字符高度 */
 	
 	/**
 	 * \brief 所有字符
@@ -258,7 +244,9 @@ private:
 	 *
 	 *   令窗口以指定颜色半透明化
 	 *
-	 * \param r, g, b 颜色分量
+	 * \param r 红色颜色分量
+	 * \param g 绿色颜色分量
+	 * \param b 蓝色颜色分量
 	 */
 	void SetScreenDarken(int r, int g, int b);
 	

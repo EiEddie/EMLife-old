@@ -5,10 +5,8 @@
 
 /** \brief 位置 */
 struct Cod {
-	/** \brief 纵坐标 */
-	int y;
-	/** \brief 横坐标 */
-	int x;
+	int y; /**< 纵坐标 */
+	int x; /**< 横坐标 */
 	
 	bool operator ==(const Cod& cd) {
 		if(cd.x == x && cd.y == y) return true;
@@ -48,17 +46,13 @@ struct Cod {
 
 /** \brief 迷宫信息 */
 static struct MazeInf {
-	/** \brief 迷宫宽度 */
-	const int xLength;
-	/** \brief 迷宫长度 */
-	const int yLength;
+	const int xLength; /**< 迷宫宽度 */
+	const int yLength; /**< 迷宫长度 */
 	
-	/** \brief 金币数量 */
-	const int coin;
-	/** \brief 星星数量 */
-	const int star;
-	/** \brief 恶魔数量 */
-	const int demon;
+	const int coin;    /**< 金币数量 */
+	const int star;    /**< 星星数量 */
+	const int demon;   /**< 恶魔数量 */
+	
 	
 	MazeInf(
 			int xLength, int yLength,
@@ -78,8 +72,7 @@ typedef std::vector<Cod> CodList;
 /** \brief 生成游戏地图 */
 class GameMap {
 private:
-	/** \brief 所有路点 */
-	CodList roadPoint;
+	CodList roadPoint; /**< 所有路点 */
 	/**
 	 * \brief 添加所有路点
 	 */
@@ -178,12 +171,10 @@ private:
 	bool GetDemonPath(int** maze, const Cod& cd, CodList& path, int num);
 
 public:
-	/** \brief Demon活动点 */
-	CodList* demonPoint;
-	/** \brief 迷宫地图 */
-	int** mapMaze;
-	/** \brief 迷宫终点 */
-	Cod mapEnd{};
+	CodList* demonPoint; /**< Demon活动点 */
+	
+	int** mapMaze;       /**< 迷宫地图 */
+	Cod mapEnd{};        /**< 迷宫终点 */
 	
 	GameMap();
 	~GameMap();
@@ -212,13 +203,10 @@ public:
 	 */
 	int* demonPos;
 	
-	/** \brief 人物位置 */
-	struct Cod fgeCod;
+	Cod fgeCod; /**< 人物位置 */
 	
-	/** \brief 人物金币数量 */
-	int fgeCoin;
-	/** \brief 人物星星数量 */
-	int fgeStar;
+	int fgeCoin;       /**< 人物金币数量 */
+	int fgeStar;       /**< 人物星星数量 */
 	
 	/**
 	 * \brief 是否获得足够星星
