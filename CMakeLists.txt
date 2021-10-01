@@ -38,15 +38,16 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	link_directories(
 			Lib/SDL2_image-2.0.5/x86_64-w64-mingw32/lib
 	)
+
+	#引入头文件
+	include_directories(
+			Lib/SQLite3/include
+	)
+	#链接库文件
+	link_directories(
+			Lib/SQLite3/lib
+	)
 endif()
-#引入头文件
-include_directories(
-		Lib/SQLite3/include
-)
-#链接库文件
-link_directories(
-		Lib/SQLite3/lib
-)
 
 
 #设置编译文件
