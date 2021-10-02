@@ -6,13 +6,38 @@ set(CMAKE_CXX_STANDARD 11)
 
 #项目名称
 project(EMLife)
+#编译位数
+if(BITS MATCHES "x86" AND CMAKE_SYSTEM_NAME MATCHES "Windows")
+	message(STATUS ${BITS})
+	set(
+			BIN_PATH
+			${CMAKE_CURRENT_SOURCE_DIR}/Bin/i686
+	)
+	set(
+			LIB_PATH
+			./i686-w64-mingw32
+	)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+elseif(BITS MATCHES "x64" AND CMAKE_SYSTEM_NAME MATCHES "Windows")
+	message(STATUS ${BITS})
+	set(
+			BIN_PATH
+			${CMAKE_CURRENT_SOURCE_DIR}/Bin/x86_64
+	)
+	set(
+			LIB_PATH
+			./x86_64-w64-mingw32
+	)
+endif()
 #可执行文件输出目录
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Bin)
+set(EXECUTABLE_OUTPUT_PATH ${BIN_PATH})
 
 
 if(CMAKE_BUILD_TYPE MATCHES "Release")
 	#不显示dos窗口
-	set(CMAKE_CXX_FLAGS "-mwindows")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mwindows")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
 	message(STATUS "Dos-Window: Invisible")
 endif()
 
@@ -23,29 +48,29 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
 elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	#引入头文件
 	include_directories(
-			Lib/SDL2-2.0.14/x86_64-w64-mingw32/include/SDL2
+			Lib/SDL2-2.0.14/${LIB_PATH}/include/SDL2
 	)
 	#链接库文件
 	link_directories(
-			Lib/SDL2-2.0.14/x86_64-w64-mingw32/lib
+			Lib/SDL2-2.0.14/${LIB_PATH}/lib
 	)
 
 	#引入头文件
 	include_directories(
-			Lib/SDL2_image-2.0.5/x86_64-w64-mingw32/include/SDL2
+			Lib/SDL2_image-2.0.5/${LIB_PATH}/include/SDL2
 	)
 	#链接库文件
 	link_directories(
-			Lib/SDL2_image-2.0.5/x86_64-w64-mingw32/lib
+			Lib/SDL2_image-2.0.5/${LIB_PATH}/lib
 	)
 
 	#引入头文件
 	include_directories(
-			Lib/SQLite3/include
+			Lib/SQLite3/${LIB_PATH}/include
 	)
 	#链接库文件
 	link_directories(
-			Lib/SQLite3/lib
+			Lib/SQLite3/${LIB_PATH}/lib
 	)
 endif()
 
@@ -68,12 +93,13 @@ set(FILE
 		Src/Game/game.cpp
 
 		Src/Record/hRecord.h
-		Src/Record/gameRecord.cpp)
+		Src/Record/gameRecord.cpp
+)
 
-if(CMAKE_BUILD_TYPE MATCHES "Release")
-	#图标
-	list(APPEND FILE Src/Icon/icon.o)
-endif()
+#if(CMAKE_BUILD_TYPE MATCHES "Release")
+#	#图标
+#	list(APPEND FILE Src/Icon/icon.o)
+#endif()
 
 #添加编译文件
 add_executable(EMLife ${FILE})
