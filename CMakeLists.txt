@@ -96,10 +96,14 @@ set(FILE
 		Src/Record/gameRecord.cpp
 )
 
-#if(CMAKE_BUILD_TYPE MATCHES "Release")
-#	#图标
-#	list(APPEND FILE Src/Icon/icon.o)
-#endif()
+if(CMAKE_BUILD_TYPE MATCHES "Release")
+	#图标
+	if(BITS MATCHES "x86")
+		list(APPEND FILE "Src/Icon/icon86x.o")
+	elseif(BITS MATCHES "x64")
+		list(APPEND FILE "Src/Icon/icon64x.o")
+	endif()
+endif()
 
 #添加编译文件
 add_executable(EMLife ${FILE})
