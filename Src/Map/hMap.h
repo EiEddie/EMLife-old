@@ -1,5 +1,4 @@
 #include"../hEMLife.h"
-
 #ifndef EMLIFE_HMAP_H
 #define EMLIFE_HMAP_H
 
@@ -46,12 +45,12 @@ struct Cod {
 
 /** \brief 迷宫信息 */
 static struct MazeInf {
-	const int xLength; /**< 迷宫宽度 */
-	const int yLength; /**< 迷宫长度 */
+	int xLength; /**< 迷宫宽度 */
+	int yLength; /**< 迷宫长度 */
 	
-	const int coin;    /**< 金币数量 */
-	const int star;    /**< 星星数量 */
-	const int demon;   /**< 恶魔数量 */
+	int coin;    /**< 金币数量 */
+	int star;    /**< 星星数量 */
+	int demon;   /**< 恶魔数量 */
 	
 	
 	MazeInf(

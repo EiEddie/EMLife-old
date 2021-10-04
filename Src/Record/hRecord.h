@@ -1,5 +1,4 @@
 #include"../hEMLife.h"
-
 #ifndef EMLIFE_HRECORD_H
 #define EMLIFE_HRECORD_H
 
@@ -7,6 +6,7 @@
 #define LOSE   0
 #define WIN    1
 
+/**\brief 记录游戏成绩 */
 class GameRecord {
 private:
 	/**
@@ -78,6 +78,47 @@ public:
 	
 	GameRecord();
 	~GameRecord();
+};
+
+
+/**\brief 读取游戏设置信息 */
+class GameInput {
+private:
+	/**
+	 * \brief 游戏设置
+	 */
+	MazeInf* mazeInf;
+	
+	/**
+	 * \brief json树
+	 */
+	Json::Value root;
+	Json::String errs;
+	/**
+	 * \brief 解析器
+	 */
+	Json::CharReaderBuilder readBuilder;
+	/**
+	 * \brief 智能指针
+	 */
+	std::unique_ptr<Json::CharReader>* jsonRead;
+	
+	/**
+	 * \brief 读取配置文件
+	 *
+	 * \param path 配置文件地址
+	 * \return json设置信息
+	 */
+	std::string GetSetting(const std::string& path);
+	
+public:
+	/**
+	 * \brief 写入配置信息至程序
+	 */
+	void SetMazeInf();
+	
+	GameInput(const std::string& path);
+	~GameInput();
 };
 
 #endif //EMLIFE_HRECORD_H

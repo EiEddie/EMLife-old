@@ -15,8 +15,10 @@
 #include<iostream>
 #include<ctime>
 #include<algorithm>
+#include<fstream>
 
 #include<sqlite3.h>
+#include<json/json.h>
 extern "C" {
 
 #ifdef _WIN32

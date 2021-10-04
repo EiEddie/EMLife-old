@@ -72,6 +72,16 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	link_directories(
 			Lib/SQLite3/${LIB_PATH}/lib
 	)
+
+	#引入头文件
+	include_directories(
+			Lib/jsoncpp-1.9.4/${LIB_PATH}/include
+	)
+	#链接库文件
+	link_directories(
+			Lib/jsoncpp-1.9.4/${LIB_PATH}/lib
+	)
+
 endif()
 
 
@@ -94,6 +104,7 @@ set(FILE
 
 		Src/Record/hRecord.h
 		Src/Record/gameRecord.cpp
+		Src/Record/gameInput.cpp
 )
 
 if(CMAKE_BUILD_TYPE MATCHES "Release")
@@ -116,5 +127,6 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 			"SDL2"
 			"SDL2_image"
 			"sqlite3"
+			"jsoncpp.dll"
 	)
 endif()

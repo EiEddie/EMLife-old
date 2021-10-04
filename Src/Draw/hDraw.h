@@ -1,5 +1,4 @@
 #include"../hEMLife.h"
-
 #ifndef EMLIFE_HDRAW_H
 #define EMLIFE_HDRAW_H
 
