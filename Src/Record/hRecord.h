@@ -87,29 +87,19 @@ private:
 	/**
 	 * \brief 游戏设置
 	 */
-	MazeInf* mazeInf;
+	MazeInf* inf;
 	
 	/**
 	 * \brief json树
 	 */
 	Json::Value root;
-	Json::String errs;
-	/**
-	 * \brief 解析器
-	 */
-	Json::CharReaderBuilder readBuilder;
-	/**
-	 * \brief 智能指针
-	 */
-	std::unique_ptr<Json::CharReader>* jsonRead;
 	
 	/**
-	 * \brief 读取配置文件
+	 * \brief 设置json树
 	 *
 	 * \param path 配置文件地址
-	 * \return json设置信息
 	 */
-	std::string GetSetting(const std::string& path);
+	void SetRoot(const std::string& path);
 	
 public:
 	/**
