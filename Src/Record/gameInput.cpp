@@ -1,5 +1,7 @@
 #include"hRecord.h"
 
+MazeInf mazeInf(47, 29, 100, 3, 3);
+
 GameInput::GameInput(const std::string& path) {
 	SetRoot(path);
 	inf = new MazeInf(

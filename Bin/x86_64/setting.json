@@ -1,0 +1,11 @@
+{
+	"maze": {
+		"length": 47,
+		"width": 29
+	},
+	"game": {
+		"star": 3,
+		"coin": 100,
+		"demon": 3
+	}
+}

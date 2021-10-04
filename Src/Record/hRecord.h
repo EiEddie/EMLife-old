@@ -6,6 +6,30 @@
 #define LOSE   0
 #define WIN    1
 
+/** \brief 迷宫信息 */
+struct MazeInf {
+	int xLength; /**< 迷宫宽度 */
+	int yLength; /**< 迷宫长度 */
+	
+	int coin;    /**< 金币数量 */
+	int star;    /**< 星星数量 */
+	int demon;   /**< 恶魔数量 */
+	
+	
+	MazeInf(
+			int xLength, int yLength,
+			int coinNum, int starNum, int demonNum
+	):
+			xLength(xLength),
+			yLength(yLength),
+			coin(coinNum),
+			star(starNum),
+			demon(demonNum) {}
+};
+
+extern MazeInf mazeInf;
+
+
 /**\brief 记录游戏成绩 */
 class GameRecord {
 private:
