@@ -6,58 +6,30 @@ A Simple Maze Game
 ## 游戏说明
 
 - 使用方向键 `Up` `Down` `Left` `Right` 控制人物
-  ![Fge](Bin/Img/fge.png)
+  ![Fge](Bin/i686/Img/fge.png)
   移动.
 
 - 在尽可能短的时间内完成游戏!
 
 - 尽可能多的收集 `Coin`
-  ![Coin](Bin/Img/coin.png).
+  ![Coin](Bin/i686/Img/coin.png).
 
 - 要想获胜, 您必须先获得地图上所有的 `Star`
-  ![Star](Bin/Img/star.png).
+  ![Star](Bin/i686/Img/star.png).
 
 - 当地图上显示终点
-  ![End](Bin/Img/end.png)
+  ![End](Bin/i686/Img/end.png)
   时, 触碰它以获胜.
 
 - 当心坏蛋! `demon`
-  ![Demon](Bin/Img/demon.png)
+  ![Demon](Bin/i686/Img/demon.png)
   会使您输掉游戏.
 
-- 要重置游戏记录, 您可以尝试删除 `gameData.db` 文件.
+- 要重置游戏记录, 您可以尝试删除 `gamedata.db` 文件.
 
 - 按 `R` 以刷新游戏地图.
 
-## 自定义
-
-- 更改 `Bin/Img/font.png` 文件以更改字体
-  > 位图字体 `font.png` 内必须包括所有ASCII可见字符, 即 `\u0020` ***`(Space)`*** 到 `\u007e` ***`~`***.  
-  字符按ASCII顺序排列, 每十六个字符一行, 共六行, 最后一行最后一个留空.  
-
-- 更改 `Bin/Img` 文件夹内
-  > `wallStr.png`  
-  `wallEnd.png`  
-  `wallCor.png`  
-  `wallTri.png`  
-  `wallCros.png`  
-  `fge.png`  
-  `end.png`  
-  `coin.png`  
-  `star.png`  
-  `demon.png`
-
-  以分别更改下列图标
-  > 围墙(直) ![Wall](Bin/Img/wallStr.png)  
-  围墙(弯) ![Wall](Bin/Img/wallCor.png)  
-  围墙(末端) ![Wall](Bin/Img/wallEnd.png)  
-  围墙(三岔) ![Wall](Bin/Img/wallTri.png)  
-  围墙(十字) ![Wall](Bin/Img/wallCros.png)  
-  人物 ![Fge](Bin/Img/fge.png)  
-  终点 ![End](Bin/Img/end.png)  
-  `coin` ![Coin](Bin/Img/coin.png)  
-  `star` ![Star](Bin/Img/star.png)  
-  `demon` ![Demon](Bin/Img/demon.png)
+- 更改 `setting.json` 内配置以更改游戏设置.
 
 _________
 
@@ -70,9 +42,9 @@ _________
 ![Maze](Legend/maze.png)
 
 白色为路点 `road`, 人物
-![Fge](Bin/Img/fge.png)
+![Fge](Bin/i686/Img/fge.png)
 可以移动; 灰色为墙点 `wall`, 人物
-![Fge](Bin/Img/fge.png)
+![Fge](Bin/i686/Img/fge.png)
 不可移动至其上.
 
 0. **初始化**  
@@ -160,7 +132,10 @@ SDL_Surface *GameDrawWord::CropCharaFirst(SDL_Surface *font, SDL_Rect *cod) {
 知名的跨平台多媒体开发库.
 
 > **[SDL_image](https://www.libsdl.org/projects/SDL_image)**  
-SDL的附属库, 用于导入除 `.bmp`位图格式之外的其他图片格式.
+SDL的附属库, 用于导入除 `.bmp` 位图格式之外的其他图片格式.
 
 > **[SQLite3](https://sqlite.org)**  
 开源的轻量级嵌入式数据库.
+
+> **[jsoncpp](https://github.com/open-source-parsers/jsoncpp)**  
+操作 `.json` 文件, 包括与字符串之间的序列化和反序列化.
