@@ -3,10 +3,10 @@ cmake_minimum_required(VERSION 3.19)
 set(CMAKE_CXX_STANDARD 20)
 project(EMLife)
 
-if(BITS MATCHES "x86")
+if(BITS STREQUAL "x86")
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
-elseif(BITS MATCHES "x64")
+elseif(BITS STREQUAL "x64")
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m64")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
 endif()
@@ -32,15 +32,31 @@ find_package(unofficial-sqlite3 CONFIG REQUIRED)
 include_directories("${PROJECT_SOURCE_DIR}/include")
 file(GLOB_RECURSE SRC_FILE "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
+if(WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "release")
+	add_custom_command(
+		OUTPUT icon
+		PRE_BUILD
+		COMMAND cmd /c ${PROJECT_SOURCE_DIR}/res/icon/icon.bat
+	)
+
+	if(BITS STREQUAL "x86")
+		list(APPEND SRC_FILE "${PROJECT_SOURCE_DIR}/res/icon/build/icon-i386.o")
+		message(STATUS "Add icon \"icon-i386\"")
+	elseif(BITS STREQUAL "x64")
+		list(APPEND SRC_FILE "${PROJECT_SOURCE_DIR}/res/icon/build/icon-x86_64.o")
+		message(STATUS "Add icon \"icon-x86_64\"")
+	endif()
+endif()
+
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_FILE})
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2::SDL2-static)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE SDL2::SDL2_image)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE jsoncpp_object jsoncpp_static JsonCpp::JsonCpp)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE unofficial::sqlite3::sqlite3)
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE SDL2::SDL2_image)
 
 
 execute_process(
-		COMMAND ${CMAKE_COMMAND} -E
-		copy_directory "${PROJECT_SOURCE_DIR}/res/assets" "${EXECUTABLE_OUTPUT_PATH}/assets"
+	COMMAND ${CMAKE_COMMAND} -E
+	copy_directory "${PROJECT_SOURCE_DIR}/res/assets" "${EXECUTABLE_OUTPUT_PATH}/assets"
 )

@@ -18,3 +18,5 @@ test/[Bb]in/
 test/[Bb]uild/
 
 res/img-dev
+
+res/icon/build
