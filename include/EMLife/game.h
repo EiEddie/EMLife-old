@@ -1,4 +1,7 @@
-#include"../hEMLife.h"
+#pragma once
+
+#include <EMLife/EMLife.h>
+
 #ifndef EMLIFE_HGAME_H
 #define EMLIFE_HGAME_H
 

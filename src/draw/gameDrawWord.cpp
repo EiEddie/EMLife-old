@@ -1,12 +1,12 @@
-#include"hDraw.h"
+#include <EMLife/EMLife.h>
 
 GameDrawWord::GameDrawWord(unsigned int fps, GameFge *gameFge):
 		GameDrawSet(fps, gameFge) {
-	SDL_Surface* font = IMG_Load("./Img/font.png");
+	SDL_Surface* font = IMG_Load("./assets/img/font.png");
 	charaWidth = font->w/16;
 	charaHeight = font->h/6;
 	
-	///\brief 开始符号: '!'
+	/// \brief 开始符号: '!'
 	char charaNum = '!';
 	/**
 	 * \brief 字符charaNum在Font图片中的位置

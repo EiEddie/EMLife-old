@@ -1,4 +1,7 @@
-#include"../hEMLife.h"
+#pragma once
+
+#include <EMLife/EMLife.h>
+
 #ifndef EMLIFE_HRECORD_H
 #define EMLIFE_HRECORD_H
 

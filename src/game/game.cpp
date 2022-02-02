@@ -1,4 +1,4 @@
-#include"hGame.h"
+#include <EMLife/EMLife.h>
 
 Game::Game(const unsigned int fps) {
 	gameFge = new GameFge();

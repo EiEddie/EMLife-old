@@ -1,0 +1,20 @@
+# Clion
+.idea/
+# Visual Studio
+.vs/
+# VS Code
+.vscode/
+
+# Local build folder
+[Bb]uild/
+
+# Release folder
+dist/
+
+# Test binary file
+test/[Bb]in/
+
+# Test build folder
+test/[Bb]uild/
+
+res/img-dev

@@ -1,4 +1,4 @@
-#include"hRecord.h"
+#include <EMLife/EMLife.h>
 
 GameRecord::GameRecord():
 		ifRecordTime(false), ifRecordGame(false),

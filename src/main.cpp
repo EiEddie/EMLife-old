@@ -1,8 +1,8 @@
-#include"hEMLife.h"
+#include <EMLife/EMLife.h>
 #undef main
 
 int main() {
-	GameInput input("setting.json");
+	GameInput input("assets/setting.json");
 	input.SetMazeInf();
 	
 	Game game(60);

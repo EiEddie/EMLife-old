@@ -1,4 +1,4 @@
-#include"hDraw.h"
+#include <EMLife/EMLife.h>
 
 void WallDrawInf::SetPointInf(int** maze, const Cod& point) {
 	WallInf temp = wallInf[GetPointNum(maze, point)];

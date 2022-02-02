@@ -1,4 +1,4 @@
-#include"hDraw.h"
+#include <EMLife/EMLife.h>
 
 GameDrawSet::GameDrawSet(unsigned int fps, GameFge* gameFge) :
 		stepFps(1000/fps),
@@ -22,7 +22,7 @@ GameDrawSet::GameDrawSet(unsigned int fps, GameFge* gameFge) :
 	);
 	SDL_SetRenderDrawBlendMode(drawRen, SDL_BLENDMODE_BLEND);
 	
-	std::string imgPath = "./Img/";
+	std::string imgPath = "./assets/img/";
 	SDL_Surface* drawGameTemp;
 	
 	std::map<int, std::string> drawGameImgName = {

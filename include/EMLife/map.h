@@ -1,4 +1,7 @@
-#include"../hEMLife.h"
+#pragma once
+
+#include <EMLife/EMLife.h>
+
 #ifndef EMLIFE_HMAP_H
 #define EMLIFE_HMAP_H
 
@@ -7,28 +10,28 @@ struct Cod {
 	int y; /**< 纵坐标 */
 	int x; /**< 横坐标 */
 	
-	bool operator ==(const Cod& cd) {
+	bool operator ==(const Cod& cd) const {
 		if(cd.x == x && cd.y == y) return true;
 		else return false;
 	}
-	bool operator !=(const Cod& cd) {
+	bool operator !=(const Cod& cd) const {
 		return !(*this == cd);
 	}
 	
-	bool operator <=(const Cod& cd) {
+	bool operator <=(const Cod& cd) const {
 		if(x <= cd.x && y <= cd.y) return true;
 		else return false;
 	}
-	bool operator >=(const Cod& cd) {
+	bool operator >=(const Cod& cd) const {
 		if(x >= cd.x && y >= cd.y) return true;
 		else return false;
 	}
 	
-	bool operator <(const Cod& cd) {
+	bool operator <(const Cod& cd) const {
 		if(x < cd.x && y < cd.y) return true;
 		else return false;
 	}
-	bool operator >(const Cod& cd) {
+	bool operator >(const Cod& cd) const {
 		if(x > cd.x && y > cd.y) return true;
 		else return false;
 	}
@@ -39,7 +42,7 @@ struct Cod {
 	 * \param dir 移动方向
 	 * \param stepLength 移动距离
 	 */
-	bool Move(const int dir, int stepLength=1);
+	bool Move(int dir, int stepLength=1);
 };
 
 
@@ -73,7 +76,7 @@ private:
 	 */
 	Cod MovePoint(
 			Cod point,
-			const int dir,
+			int dir,
 			int stepLength=2
 	) const;
 	

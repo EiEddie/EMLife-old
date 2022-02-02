@@ -10,47 +10,36 @@
  */
 
 #pragma once
-#include<vector>
-#include<map>
-#include<iostream>
-#include<ctime>
-#include<algorithm>
-#include<fstream>
+#include <vector>
+#include <map>
+#include <iostream>
+#include <ctime>
+#include <algorithm>
+#include <fstream>
 
-#include<sqlite3.h>
-#include<json/json.h>
+#include <sqlite3.h>
+#include <json/json.h>
 extern "C" {
-
-#ifdef _WIN32
-
-#include<SDL.h>
-#include<SDL_image.h>
-
-#elif __linux__
-
-#include<SDL2/SDl.h>
-#include<SDL2/SDL_image.h>
-
-#endif
-
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 }
 
 /**
  * \brief 生成地图与人物相关
  */
-#include"Map/hMap.h"
+#include "map.h"
 
 /**
  * \brief 绘制相关
  */
-#include"Draw/hDraw.h"
+#include "draw.h"
 
 /**
  * \brief 获取与记录游戏信息相关
  */
-#include"Record/hRecord.h"
+#include "record.h"
 
 /**
  * \brief 游戏上层相关
  */
-#include"Game/hGame.h"
+#include "game.h"

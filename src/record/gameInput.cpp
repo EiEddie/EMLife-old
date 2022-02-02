@@ -1,4 +1,4 @@
-#include"hRecord.h"
+#include <EMLife/EMLife.h>
 
 MazeInf mazeInf(47, 29, 100, 3, 3);
 

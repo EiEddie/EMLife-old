@@ -1,4 +1,4 @@
-#include"hMap.h"
+#include <EMLife/EMLife.h>
 
 bool Cod::Move(const int dir, int stepLength) {
 	/** \brief 移动点 */

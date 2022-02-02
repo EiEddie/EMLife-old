@@ -1,4 +1,4 @@
-#include"hMap.h"
+#include <EMLife/EMLife.h>
 
 GameFge::GameFge():
 		fgeCod({1, 1}),

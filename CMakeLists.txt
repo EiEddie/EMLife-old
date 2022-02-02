@@ -1,132 +1,46 @@
-#CMake版本
 cmake_minimum_required(VERSION 3.19)
-#C++编译版本
-set(CMAKE_CXX_STANDARD 11)
 
-
-#项目名称
+set(CMAKE_CXX_STANDARD 20)
 project(EMLife)
-#编译位数
-if(BITS MATCHES "x86" AND CMAKE_SYSTEM_NAME MATCHES "Windows")
-	message(STATUS ${BITS})
-	set(
-			BIN_PATH
-			${CMAKE_CURRENT_SOURCE_DIR}/Bin/i686
-	)
-	set(
-			LIB_PATH
-			./i686-w64-mingw32
-	)
+
+if(BITS MATCHES "x86")
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
-elseif(BITS MATCHES "x64" AND CMAKE_SYSTEM_NAME MATCHES "Windows")
-	message(STATUS ${BITS})
-	set(
-			BIN_PATH
-			${CMAKE_CURRENT_SOURCE_DIR}/Bin/x86_64
-	)
-	set(
-			LIB_PATH
-			./x86_64-w64-mingw32
-	)
+elseif(BITS MATCHES "x64")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m64")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
 endif()
-#可执行文件输出目录
-set(EXECUTABLE_OUTPUT_PATH ${BIN_PATH})
+
+set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/dist")
 
 
-if(CMAKE_BUILD_TYPE MATCHES "Release")
+if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "release")
 	#不显示dos窗口
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mwindows")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
-	message(STATUS "Dos-Window: Invisible")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "debug")
+	add_definitions(-DDEBUG)
+	message(STATUS "Add macro \"DEBUG\"")
 endif()
 
 
-if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-	#链接库
-	link_libraries(SDL2)
-elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
-	#引入头文件
-	include_directories(
-			Lib/SDL2-2.0.14/${LIB_PATH}/include/SDL2
-	)
-	#链接库文件
-	link_directories(
-			Lib/SDL2-2.0.14/${LIB_PATH}/lib
-	)
+find_package(SDL2 CONFIG REQUIRED)
+find_package(sdl2-image CONFIG REQUIRED)
+find_package(JsonCpp CONFIG REQUIRED)
+find_package(unofficial-sqlite3 CONFIG REQUIRED)
 
-	#引入头文件
-	include_directories(
-			Lib/SDL2_image-2.0.5/${LIB_PATH}/include/SDL2
-	)
-	#链接库文件
-	link_directories(
-			Lib/SDL2_image-2.0.5/${LIB_PATH}/lib
-	)
+include_directories("${PROJECT_SOURCE_DIR}/include")
+file(GLOB_RECURSE SRC_FILE "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
-	#引入头文件
-	include_directories(
-			Lib/SQLite3/${LIB_PATH}/include
-	)
-	#链接库文件
-	link_directories(
-			Lib/SQLite3/${LIB_PATH}/lib
-	)
+add_executable(${CMAKE_PROJECT_NAME} ${SRC_FILE})
 
-	#引入头文件
-	include_directories(
-			Lib/jsoncpp-1.9.4/${LIB_PATH}/include
-	)
-	#链接库文件
-	link_directories(
-			Lib/jsoncpp-1.9.4/${LIB_PATH}/lib
-	)
-
-endif()
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2::SDL2-static)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE jsoncpp_object jsoncpp_static JsonCpp::JsonCpp)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE unofficial::sqlite3::sqlite3)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE SDL2::SDL2_image)
 
 
-#设置编译文件
-set(FILE
-		Src/hEMLife.h
-		Src/main.cpp
-
-		Src/Map/hMap.h
-		Src/Map/gameFge.cpp
-		Src/Map/gameMap.cpp
-
-		Src/Draw/hDraw.h
-		Src/Draw/gameDrawSet.cpp
-		Src/Draw/gameDrawWord.cpp
-		Src/Draw/gameDraw.cpp
-
-		Src/Game/hGame.h
-		Src/Game/game.cpp
-
-		Src/Record/hRecord.h
-		Src/Record/gameRecord.cpp
-		Src/Record/gameInput.cpp
+execute_process(
+		COMMAND ${CMAKE_COMMAND} -E
+		copy_directory "${PROJECT_SOURCE_DIR}/res/assets" "${EXECUTABLE_OUTPUT_PATH}/assets"
 )
-
-if(CMAKE_BUILD_TYPE MATCHES "Release")
-	#图标
-	if(BITS MATCHES "x86")
-		list(APPEND FILE "Src/Icon/icon86x.o")
-	elseif(BITS MATCHES "x64")
-		list(APPEND FILE "Src/Icon/icon64x.o")
-	endif()
-endif()
-
-#添加编译文件
-add_executable(EMLife ${FILE})
-
-
-if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-	#将第三方库链接在一起
-	target_link_libraries(EMLife
-			"SDL2main"
-			"SDL2"
-			"SDL2_image"
-			"sqlite3"
-			"jsoncpp.dll"
-	)
-endif()
