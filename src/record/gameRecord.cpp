@@ -4,7 +4,7 @@ GameRecord::GameRecord():
 		ifRecordTime(false), ifRecordGame(false),
 		gameDataBase(nullptr), stmt(nullptr) {
 	sqlite3_open_v2(
-			"gamedata.db", &gameDataBase,
+			"assets/gamedata.db", &gameDataBase,
 			SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_NOMUTEX | SQLITE_OPEN_SHAREDCACHE,
 			nullptr
 	);

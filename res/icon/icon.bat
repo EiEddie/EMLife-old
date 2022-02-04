@@ -2,7 +2,9 @@
 
 cd /d %~dp0
 
-del build
+if exist build (
+	rd /s /Q build
+)
 mkdir build
 
 windres -i icon.rc -o "./build/icon-x86_64.o" -F pe-x86-64

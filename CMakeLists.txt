@@ -33,12 +33,6 @@ include_directories("${PROJECT_SOURCE_DIR}/include")
 file(GLOB_RECURSE SRC_FILE "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 if(WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "release")
-	add_custom_command(
-		OUTPUT icon
-		PRE_BUILD
-		COMMAND cmd /c ${PROJECT_SOURCE_DIR}/res/icon/icon.bat
-	)
-
 	if(BITS STREQUAL "x86")
 		list(APPEND SRC_FILE "${PROJECT_SOURCE_DIR}/res/icon/build/icon-i386.o")
 		message(STATUS "Add icon \"icon-i386\"")
